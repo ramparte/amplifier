@@ -34,6 +34,8 @@ default: ## Show essential commands
 	@echo "  make smoke-test     Run quick smoke tests (< 2 minutes)"
 	@echo "  make worktree NAME   Create git worktree with .data copy"
 	@echo "  make worktree-list   List all git worktrees"
+	@echo "  make worktree-stash NAME  Hide worktree (keeps directory)"
+	@echo "  make worktree-adopt BRANCH  Create worktree from remote"
 	@echo "  make worktree-rm NAME  Remove worktree and delete branch"
 	@echo ""
 	@echo "AI Context:"
@@ -91,8 +93,12 @@ help: ## Show ALL available commands
 	@echo "  make smoke-test      Run quick smoke tests (< 2 minutes)"
 	@echo "  make worktree NAME   Create git worktree with .data copy"
 	@echo "  make worktree-list   List all git worktrees"
+	@echo "  make worktree-stash NAME  Hide worktree (keeps directory)"
+	@echo "  make worktree-adopt BRANCH  Create worktree from remote"
 	@echo "  make worktree-rm NAME  Remove worktree and delete branch"
 	@echo "  make worktree-rm-force NAME  Force remove (with changes)"
+	@echo "  make worktree-unstash NAME  Restore hidden worktree"
+	@echo "  make worktree-list-stashed  List all hidden worktrees"
 	@echo ""
 	@echo "SYNTHESIS:"
 	@echo "  make synthesize query=\"...\" files=\"...\"  Run synthesis"
@@ -178,7 +184,8 @@ worktree: ## Create a git worktree with .data copy. Usage: make worktree feature
 		echo "Error: Please provide a branch name. Usage: make worktree feature-name"; \
 		exit 1; \
 	fi
-	@python tools/create_worktree.py "$(filter-out $@,$(MAKECMDGOALS))"
+	@python tools/create_worktree.py $(filter-out $@,$(MAKECMDGOALS))
+
 
 worktree-rm: ## Remove a git worktree and delete branch. Usage: make worktree-rm feature-name
 	@if [ -z "$(filter-out $@,$(MAKECMDGOALS))" ]; then \
@@ -197,11 +204,35 @@ worktree-rm-force: ## Force remove a git worktree (even with changes). Usage: ma
 worktree-list: ## List all git worktrees
 	@git worktree list
 
+worktree-stash: ## Hide a worktree from git (keeps directory). Usage: make worktree-stash feature-name
+	@if [ -z "$(filter-out $@,$(MAKECMDGOALS))" ]; then \
+		echo "Error: Please provide a worktree name. Usage: make worktree-stash feature-name"; \
+		exit 1; \
+	fi
+	@python tools/worktree_manager.py stash-by-name "$(filter-out $@,$(MAKECMDGOALS))"
+
+worktree-unstash: ## Restore a hidden worktree. Usage: make worktree-unstash feature-name
+	@if [ -z "$(filter-out $@,$(MAKECMDGOALS))" ]; then \
+		echo "Error: Please provide a worktree name. Usage: make worktree-unstash feature-name"; \
+		exit 1; \
+	fi
+	@python tools/worktree_manager.py unstash-by-name "$(filter-out $@,$(MAKECMDGOALS))"
+
+worktree-adopt: ## Create worktree from remote branch. Usage: make worktree-adopt branch-name
+	@if [ -z "$(filter-out $@,$(MAKECMDGOALS))" ]; then \
+		echo "Error: Please provide a branch name. Usage: make worktree-adopt branch-name"; \
+		exit 1; \
+	fi
+	@python tools/worktree_manager.py adopt "$(filter-out $@,$(MAKECMDGOALS))"
+
+worktree-list-stashed: ## List all hidden worktrees
+	@python tools/worktree_manager.py list-stashed
+
 # Catch-all target to handle branch names for worktree functionality
 # and show error for invalid commands
 %:
 	@# If this is part of a worktree command, accept any branch name
-	@if echo "$(MAKECMDGOALS)" | grep -qE '^(worktree|worktree-rm|worktree-rm-force)\b'; then \
+	@if echo "$(MAKECMDGOALS)" | grep -qE '^(worktree|worktree-rm|worktree-rm-force|worktree-stash|worktree-unstash|worktree-adopt)\b'; then \
 		: ; \
 	else \
 		echo "Error: Unknown command '$@'. Run 'make help' to see available commands."; \
@@ -287,6 +318,37 @@ knowledge-query: ## Query the knowledge base. Usage: make knowledge-query Q="you
 # Legacy command aliases (for backward compatibility)
 knowledge-mine: knowledge-sync  ## DEPRECATED: Use knowledge-sync instead
 knowledge-extract: knowledge-sync  ## DEPRECATED: Use knowledge-sync instead
+
+# Transcript Management
+transcript-list: ## List available conversation transcripts. Usage: make transcript-list [LAST=10]
+	@last="$${LAST:-10}"; \
+	python tools/transcript_manager.py list --last $$last
+
+transcript-load: ## Load a specific transcript. Usage: make transcript-load SESSION=id
+	@if [ -z "$(SESSION)" ]; then \
+		echo "Error: Please provide a session ID. Usage: make transcript-load SESSION=abc123"; \
+		exit 1; \
+	fi
+	@python tools/transcript_manager.py load $(SESSION)
+
+transcript-search: ## Search transcripts for a term. Usage: make transcript-search TERM="your search"
+	@if [ -z "$(TERM)" ]; then \
+		echo "Error: Please provide a search term. Usage: make transcript-search TERM=\"API\""; \
+		exit 1; \
+	fi
+	@python tools/transcript_manager.py search "$(TERM)"
+
+transcript-restore: ## Restore entire conversation lineage. Usage: make transcript-restore
+	@python tools/transcript_manager.py restore
+
+transcript-export: ## Export transcript to file. Usage: make transcript-export SESSION=id [FORMAT=text]
+	@if [ -z "$(SESSION)" ]; then \
+		echo "Error: Please provide a session ID. Usage: make transcript-export SESSION=abc123"; \
+		exit 1; \
+	fi
+	@format="$${FORMAT:-text}"; \
+	python tools/transcript_manager.py export --session-id $(SESSION) --format $$format
+
 
 # Knowledge Graph Commands
 ## Graph Core Commands
@@ -421,4 +483,3 @@ workspace-info: ## Show workspace information
 	@echo ""
 	$(call list_projects)
 	@echo ""
-

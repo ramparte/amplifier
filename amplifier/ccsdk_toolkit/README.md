@@ -2,6 +2,28 @@
 
 A comprehensive Python toolkit for building CLI tools and applications with the Claude Code SDK. Simplifies creating "mini-instances" of Claude Code for focused microtasks.
 
+## Quick Start: Building a New Tool
+
+**Start with the quickstart template:**
+
+```bash
+# Copy template to create your tool
+cp amplifier/ccsdk_toolkit/templates/tool_template.py ai_working/your_tool.py
+
+# Template includes ALL defensive patterns:
+# ✓ Recursive file discovery (**/*.ext)
+# ✓ Input validation and error handling
+# ✓ Progress visibility and logging
+# ✓ Resume capability
+# ✓ Defensive LLM parsing
+# ✓ Cloud sync aware I/O
+
+Remove or modify sections as needed.
+
+```
+
+The template includes patterns proven through learnings from real failures. See `templates/README.md` for details.
+
 ## Features
 
 - **🚀 Simple Async Wrapper** - Clean async/await patterns with automatic retry logic
@@ -27,6 +49,8 @@ uv add claude-code-sdk
 ```
 
 ## Quick Start
+
+**New Tool?** Start with the production-ready template: `amplifier/ccsdk_toolkit/templates/tool_template.py` ([see guide](templates/README.md))
 
 ### Basic Usage
 
@@ -200,19 +224,20 @@ A multi-stage pipeline tool that demonstrates the "code for structure, AI for in
 
 ```bash
 # Synthesize ideas from markdown documentation
-python -m amplifier.ccsdk_toolkit.tools.idea_synthesis ai_context/
+python -m amplifier.ccsdk_toolkit.examples.idea_synthesis ai_context/
 
 # Process with limits and custom output
-python -m amplifier.ccsdk_toolkit.tools.idea_synthesis docs/ --limit 5 --output results/
+python -m amplifier.ccsdk_toolkit.examples.idea_synthesis docs/ --limit 5 --output results/
 
 # Resume interrupted synthesis
-python -m amplifier.ccsdk_toolkit.tools.idea_synthesis docs/ --resume session-id
+python -m amplifier.ccsdk_toolkit.examples.idea_synthesis docs/ --resume session-id
 
 # Export as JSON for programmatic use
-python -m amplifier.ccsdk_toolkit.tools.idea_synthesis docs/ --json-output
+python -m amplifier.ccsdk_toolkit.examples.idea_synthesis docs/ --json-output
 ```
 
 **Features:**
+
 - 4-stage pipeline: Read → Summarize → Synthesize → Expand
 - Incremental saves after each item processed
 - Full resume capability at any stage
@@ -231,30 +256,31 @@ which claude  # Should return a path
 cd /path/to/amplifier-ccsdk-sdk
 
 # Analyze a single file
-python amplifier/ccsdk_toolkit/tools/code_complexity_analyzer.py main.py
+python amplifier/ccsdk_toolkit/examples/code_complexity_analyzer.py main.py
 
 # Analyze directory recursively
-python amplifier/ccsdk_toolkit/tools/code_complexity_analyzer.py src/ --recursive --pattern "*.py"
+python amplifier/ccsdk_toolkit/examples/code_complexity_analyzer.py src/ --recursive --pattern "*.py"
 
 # Output as JSON
-python amplifier/ccsdk_toolkit/tools/code_complexity_analyzer.py src/ --json --output results.json
+python amplifier/ccsdk_toolkit/examples/code_complexity_analyzer.py src/ --json --output results.json
 
 # Resume previous session
-python amplifier/ccsdk_toolkit/tools/code_complexity_analyzer.py src/ --resume session-id
+python amplifier/ccsdk_toolkit/examples/code_complexity_analyzer.py src/ --resume session-id
 
 # Example analyzing the toolkit itself
-python amplifier/ccsdk_toolkit/tools/code_complexity_analyzer.py amplifier/ccsdk_toolkit/core/__init__.py
+python amplifier/ccsdk_toolkit/examples/code_complexity_analyzer.py amplifier/ccsdk_toolkit/core/__init__.py
 
 # Process large codebases in manageable chunks
-python amplifier/ccsdk_toolkit/tools/code_complexity_analyzer.py src/ --recursive --pattern "*.py" --limit 5
+python amplifier/ccsdk_toolkit/examples/code_complexity_analyzer.py src/ --recursive --pattern "*.py" --limit 5
 
 # Process next batch of files using resume
-python amplifier/ccsdk_toolkit/tools/code_complexity_analyzer.py src/ --recursive --pattern "*.py" --limit 5 --resume session-id
+python amplifier/ccsdk_toolkit/examples/code_complexity_analyzer.py src/ --recursive --pattern "*.py" --limit 5 --resume session-id
 ```
 
 **Note:** The CLI tool can be run directly thanks to automatic sys.path adjustment when run as a script. If importing it as a module, ensure the project root is in your Python path.
 
 **Batch Processing with --limit:** The `--limit` flag allows processing large codebases in manageable chunks. When combined with `--resume`, it intelligently processes the NEXT N files, skipping any that were already analyzed. This is perfect for:
+
 - Testing on a small sample before processing everything
 - Breaking up large analysis jobs into smaller sessions
 - Managing API rate limits or timeouts
@@ -390,10 +416,11 @@ amplifier/ccsdk_toolkit/
 ├── sessions/       # Session persistence (state brick)
 ├── logger/         # Structured logging (monitoring brick)
 ├── cli/            # CLI tool builder (generation brick)
-└── tools/          # Example CLI tools (implementation examples)
+└── examples/       # Example CLI tools (implementation examples)
 ```
 
 Each module is:
+
 - **Self-contained** - Can be used independently
 - **Well-defined interfaces** - Clear contracts between modules
 - **Regeneratable** - Can be rebuilt without affecting others
@@ -507,6 +534,7 @@ make test   # Run tests
 ## Support
 
 For issues or questions:
+
 - GitHub Issues: [Project Issues]
 - Documentation: See `/ai_context/claude_code/` for SDK details
 
