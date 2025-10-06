@@ -2,10 +2,10 @@
 """
 Test complete website generation: analyze → configure → generate content → create templates → render HTML + CSS
 """
+
 import json
-from pathlib import Path
 import sys
-import shutil
+from pathlib import Path
 
 # Add src to path
 sys.path.append(str(Path(__file__).parent / "src"))
@@ -77,7 +77,7 @@ def test_complete_website_generation():
         print("\n6. 📄 Generating HTML pages...")
 
         for page_config in config.pages:
-            page_name = page_config['name']
+            page_name = page_config["name"]
             print(f"   Generating {page_name}.html...")
 
             # Generate HTML for this page
@@ -85,7 +85,7 @@ def test_complete_website_generation():
 
             # Save HTML file
             html_path = output_dir / f"{page_name}.html"
-            with open(html_path, 'w', encoding='utf-8') as f:
+            with open(html_path, "w", encoding="utf-8") as f:
                 f.write(html_content)
 
             print(f"   ✓ {page_name}.html ({len(html_content):,} characters)")
@@ -94,7 +94,7 @@ def test_complete_website_generation():
         print("\n7. 📁 Creating additional assets...")
 
         # Create basic JavaScript file
-        js_content = '''// Basic website JavaScript
+        js_content = """// Basic website JavaScript
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Amplifier website loaded');
 
@@ -178,15 +178,15 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-});'''
+});"""
 
         js_path = output_dir / "script.js"
-        with open(js_path, 'w', encoding='utf-8') as f:
+        with open(js_path, "w", encoding="utf-8") as f:
             f.write(js_content)
         print(f"   ✓ script.js ({len(js_content):,} characters)")
 
         # Create a simple README for the generated website
-        readme_content = f'''# Generated Amplifier Website
+        readme_content = f"""# Generated Amplifier Website
 
 This website was automatically generated using the Website Generator tool.
 
@@ -200,8 +200,8 @@ This website was automatically generated using the Website Generator tool.
 
 ## Site Information
 
-- **Project**: {config.site['name']}
-- **Theme**: {config.site['theme']}
+- **Project**: {config.site["name"]}
+- **Theme**: {config.site["theme"]}
 - **Paradigm Type**: {analysis.paradigm_type.value}
 - **Agents**: {len(analysis.agents)}
 - **Commands**: {len(analysis.commands)}
@@ -213,7 +213,7 @@ This website was automatically generated using the Website Generator tool.
 - **Progressive Setup**: ✓ {len(content.progressive_setup.tiers)} tiers
 - **Agent Showcase**: ✓ {content.agent_showcase.total_count} agents in {len(content.agent_showcase.agent_categories)} categories
 - **Responsive Design**: ✓ Mobile, tablet, desktop breakpoints
-- **Animations**: ✓ {config.design_system['animation_level']} level animations
+- **Animations**: ✓ {config.design_system["animation_level"]} level animations
 
 ## View the Website
 
@@ -223,13 +223,13 @@ This website was automatically generated using the Website Generator tool.
    python -m http.server 8000
    ```
 
-Generated on {content.hero_section.get('title', 'Unknown Date')}
-'''
+Generated on {content.hero_section.get("title", "Unknown Date")}
+"""
 
         readme_path = output_dir / "README.md"
-        with open(readme_path, 'w', encoding='utf-8') as f:
+        with open(readme_path, "w", encoding="utf-8") as f:
             f.write(readme_content)
-        print(f"   ✓ README.md")
+        print("   ✓ README.md")
 
         # Step 8: Generate summary report
         print("\n8. 📋 Generating summary report...")
@@ -238,42 +238,42 @@ Generated on {content.hero_section.get('title', 'Unknown Date')}
             "generation_info": {
                 "timestamp": "2025-01-24",
                 "repository_analyzed": repo_path,
-                "config_used": str(amplifier_config_path)
+                "config_used": str(amplifier_config_path),
             },
             "analysis_results": {
                 "paradigm_type": analysis.paradigm_type.value,
                 "agents_found": len(analysis.agents),
                 "commands_found": len(analysis.commands),
                 "complexity_score": analysis.complexity_score,
-                "paradigm_indicators": analysis.paradigm_indicators
+                "paradigm_indicators": analysis.paradigm_indicators,
             },
             "content_generated": {
                 "has_revolution_section": content.revolution_section is not None,
                 "setup_tiers": len(content.progressive_setup.tiers),
                 "featured_agents": len(content.agent_showcase.featured_agents),
                 "agent_categories": list(content.agent_showcase.agent_categories.keys()),
-                "total_agents": content.agent_showcase.total_count
+                "total_agents": content.agent_showcase.total_count,
             },
             "files_generated": {
                 "html_pages": len(config.pages),
                 "css_file": "amplifier-styles.css",
                 "js_file": "script.js",
                 "templates_created": True,
-                "readme_included": True
-            }
+                "readme_included": True,
+            },
         }
 
         report_path = output_dir / "generation_report.json"
-        with open(report_path, 'w', encoding='utf-8') as f:
+        with open(report_path, "w", encoding="utf-8") as f:
             json.dump(summary_report, f, indent=2, ensure_ascii=False)
 
-        print(f"   ✓ generation_report.json")
+        print("   ✓ generation_report.json")
 
         # Final summary
-        print(f"\n✅ Complete website generation successful!")
+        print("\n✅ Complete website generation successful!")
         print("=" * 60)
         print(f"📁 Output directory: {output_dir}")
-        print(f"🌐 Website files generated:")
+        print("🌐 Website files generated:")
 
         for file_path in output_dir.rglob("*"):
             if file_path.is_file():
@@ -281,17 +281,23 @@ Generated on {content.hero_section.get('title', 'Unknown Date')}
                 size = file_path.stat().st_size
                 print(f"   • {rel_path} ({size:,} bytes)")
 
-        print(f"\n🚀 To view the website:")
+        print("\n🚀 To view the website:")
         print(f"   1. cd {output_dir}")
-        print(f"   2. python -m http.server 8000")
-        print(f"   3. Open http://localhost:8000")
+        print("   2. python -m http.server 8000")
+        print("   3. Open http://localhost:8000")
 
-        print(f"\n🎯 Key Features Generated:")
+        print("\n🎯 Key Features Generated:")
         if content.revolution_section:
-            print(f"   • Revolution section with {len(content.revolution_section.multiplier_effect['metrics'])} capability multipliers")
-            print(f"   • Role transformation: {content.revolution_section.role_transformation['old_role']['title']} → {content.revolution_section.role_transformation['new_role']['title']}")
+            print(
+                f"   • Revolution section with {len(content.revolution_section.multiplier_effect['metrics'])} capability multipliers"
+            )
+            print(
+                f"   • Role transformation: {content.revolution_section.role_transformation['old_role']['title']} → {content.revolution_section.role_transformation['new_role']['title']}"
+            )
         print(f"   • Progressive setup with {len(content.progressive_setup.tiers)} tiers")
-        print(f"   • {content.agent_showcase.total_count} agents organized into {len(content.agent_showcase.agent_categories)} categories")
+        print(
+            f"   • {content.agent_showcase.total_count} agents organized into {len(content.agent_showcase.agent_categories)} categories"
+        )
         print(f"   • Responsive design with {len(config.responsive.get('breakpoints', {}))} breakpoints")
         print(f"   • {config.design_system['animation_level']} level animations")
 
@@ -300,6 +306,7 @@ Generated on {content.hero_section.get('title', 'Unknown Date')}
     except Exception as e:
         print(f"❌ Website generation failed: {e}")
         import traceback
+
         traceback.print_exc()
         return False
 
