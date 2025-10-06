@@ -4,8 +4,9 @@ from contextlib import suppress
 from pathlib import Path
 
 from pptx import Presentation as PptxPresentation
-
-from presenter.models import Presentation, Slide, SlideType
+from presenter.models import Presentation
+from presenter.models import Slide
+from presenter.models import SlideType
 
 
 class PowerPointExporter:

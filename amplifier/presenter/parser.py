@@ -5,8 +5,9 @@ from contextlib import suppress
 from typing import Any
 
 import yaml
-
-from presenter.models import NodeType, OutlineNode, ParsedOutline
+from presenter.models import NodeType
+from presenter.models import OutlineNode
+from presenter.models import ParsedOutline
 
 
 class OutlineParser:
@@ -14,12 +15,12 @@ class OutlineParser:
 
     def __init__(self):
         """Initialize the parser."""
-        self.heading_pattern = re.compile(r'^(#{1,6})\s+(.+)$')
-        self.bullet_pattern = re.compile(r'^(\s*)[*\-+]\s+(.+)$')
-        self.code_block_pattern = re.compile(r'^```(\w*)\s*$')
-        self.frontmatter_pattern = re.compile(r'^---\s*$')
-        self.alt_h1_pattern = re.compile(r'^=+\s*$')
-        self.alt_h2_pattern = re.compile(r'^-+\s*$')
+        self.heading_pattern = re.compile(r"^(#{1,6})\s+(.+)$")
+        self.bullet_pattern = re.compile(r"^(\s*)[*\-+]\s+(.+)$")
+        self.code_block_pattern = re.compile(r"^```(\w*)\s*$")
+        self.frontmatter_pattern = re.compile(r"^---\s*$")
+        self.alt_h1_pattern = re.compile(r"^=+\s*$")
+        self.alt_h2_pattern = re.compile(r"^-+\s*$")
 
     def parse(self, input_text: str) -> ParsedOutline:
         """Parse text input into structured outline.
@@ -36,21 +37,21 @@ class OutlineParser:
         if not input_text or not input_text.strip():
             raise ValueError("Empty input")
 
-        lines = input_text.strip().split('\n')
+        lines = input_text.strip().split("\n")
         metadata: dict[str, Any] = {}
         start_idx = 0
 
         # Check for frontmatter
-        if lines[0].strip() == '---':
+        if lines[0].strip() == "---":
             frontmatter_end = self._find_frontmatter_end(lines[1:])
             if frontmatter_end > 0:
-                frontmatter_text = '\n'.join(lines[1:frontmatter_end + 1])
+                frontmatter_text = "\n".join(lines[1 : frontmatter_end + 1])
                 with suppress(yaml.YAMLError):
                     parsed = yaml.safe_load(frontmatter_text) or {}
                     # Convert dates back to strings to maintain consistency
                     metadata = {}
                     for key, value in parsed.items():
-                        if hasattr(value, 'isoformat'):
+                        if hasattr(value, "isoformat"):
                             metadata[key] = value.isoformat()
                         else:
                             metadata[key] = value
@@ -59,11 +60,7 @@ class OutlineParser:
         # Parse the main content
         title, nodes = self._parse_content(lines[start_idx:])
 
-        return ParsedOutline(
-            title=title,
-            nodes=nodes,
-            metadata=metadata
-        )
+        return ParsedOutline(title=title, nodes=nodes, metadata=metadata)
 
     def validate(self, outline: ParsedOutline) -> bool:
         """Validate an outline structure.
@@ -88,7 +85,7 @@ class OutlineParser:
     def _find_frontmatter_end(self, lines: list[str]) -> int:
         """Find the end of frontmatter section."""
         for i, line in enumerate(lines):
-            if line.strip() == '---':
+            if line.strip() == "---":
                 return i
         return -1
 
@@ -116,9 +113,9 @@ class OutlineParser:
                     # End of code block
                     code_node = OutlineNode(
                         level=len(current_stack),
-                        text='\n'.join(code_lines),
+                        text="\n".join(code_lines),
                         node_type=NodeType.CODE,
-                        metadata={'language': code_language} if code_language else {}
+                        metadata={"language": code_language} if code_language else {},
                     )
                     self._add_node_to_structure(code_node, current_stack, nodes)
                     in_code_block = False
@@ -138,21 +135,13 @@ class OutlineParser:
                     if title is None:
                         title = line.strip()
                     else:
-                        node = OutlineNode(
-                            level=0,
-                            text=line.strip(),
-                            node_type=NodeType.HEADING
-                        )
+                        node = OutlineNode(level=0, text=line.strip(), node_type=NodeType.HEADING)
                         nodes.append(node)
                         current_stack = [node]
                     i += 2
                     continue
-                elif self.alt_h2_pattern.match(next_line):
-                    node = OutlineNode(
-                        level=1,
-                        text=line.strip(),
-                        node_type=NodeType.HEADING
-                    )
+                if self.alt_h2_pattern.match(next_line):
+                    node = OutlineNode(level=1, text=line.strip(), node_type=NodeType.HEADING)
                     self._add_node_to_structure(node, current_stack, nodes)
                     i += 2
                     continue
@@ -166,11 +155,7 @@ class OutlineParser:
                 if level == 0 and title is None:
                     title = text
                 else:
-                    node = OutlineNode(
-                        level=level if title else level - 1,
-                        text=text,
-                        node_type=NodeType.HEADING
-                    )
+                    node = OutlineNode(level=level if title else level - 1, text=text, node_type=NodeType.HEADING)
                     self._add_heading_to_structure(node, current_stack, nodes)
 
                 i += 1
@@ -194,23 +179,16 @@ class OutlineParser:
                             next_indent = len(next_bullet.group(1))
                             if next_indent > indent:
                                 sub_text = next_bullet.group(2).strip()
-                                sub_bullets.append(OutlineNode(
-                                    level=level + 1,
-                                    text=sub_text,
-                                    node_type=NodeType.BULLET
-                                ))
+                                sub_bullets.append(
+                                    OutlineNode(level=level + 1, text=sub_text, node_type=NodeType.BULLET)
+                                )
                                 j += 1
                             else:
                                 break
                         else:
                             break
 
-                node = OutlineNode(
-                    level=level,
-                    text=text,
-                    node_type=NodeType.BULLET,
-                    children=sub_bullets
-                )
+                node = OutlineNode(level=level, text=text, node_type=NodeType.BULLET, children=sub_bullets)
 
                 # Adjust position based on sub-bullets processed
                 if sub_bullets:
@@ -229,10 +207,12 @@ class OutlineParser:
                 while j < len(lines):
                     next_line = lines[j]
                     # Stop if we hit a structured element
-                    if (self.heading_pattern.match(next_line) or
-                        self.bullet_pattern.match(next_line) or
-                        self.code_block_pattern.match(next_line) or
-                        not next_line.strip()):
+                    if (
+                        self.heading_pattern.match(next_line)
+                        or self.bullet_pattern.match(next_line)
+                        or self.code_block_pattern.match(next_line)
+                        or not next_line.strip()
+                    ):
                         break
                     # Check for alt headers
                     if j + 1 < len(lines):
@@ -243,11 +223,7 @@ class OutlineParser:
                     j += 1
 
                 # Create single node with all collected lines
-                node = OutlineNode(
-                    level=len(current_stack),
-                    text='\n'.join(text_lines),
-                    node_type=NodeType.TEXT
-                )
+                node = OutlineNode(level=len(current_stack), text="\n".join(text_lines), node_type=NodeType.TEXT)
                 self._add_node_to_structure(node, current_stack, nodes)
                 i = j
                 continue
@@ -257,10 +233,7 @@ class OutlineParser:
         return title, nodes
 
     def _add_heading_to_structure(
-        self,
-        node: OutlineNode,
-        current_stack: list[OutlineNode],
-        root_nodes: list[OutlineNode]
+        self, node: OutlineNode, current_stack: list[OutlineNode], root_nodes: list[OutlineNode]
     ):
         """Add a heading node to the structure, maintaining hierarchy."""
         # If this is a top-level heading (level 0)
@@ -286,10 +259,7 @@ class OutlineParser:
         current_stack.append(node)
 
     def _add_node_to_structure(
-        self,
-        node: OutlineNode,
-        current_stack: list[OutlineNode],
-        root_nodes: list[OutlineNode]
+        self, node: OutlineNode, current_stack: list[OutlineNode], root_nodes: list[OutlineNode]
     ):
         """Add a non-heading node to the structure."""
         if current_stack:

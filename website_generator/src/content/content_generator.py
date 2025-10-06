@@ -2,51 +2,59 @@
 Content generator for website creation.
 Generates content based on repository analysis and configuration.
 """
-from typing import Dict, List, Any, Optional
-from dataclasses import dataclass
-from pathlib import Path
 
 # Import our components
 import sys
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Any
+
 sys.path.append(str(Path(__file__).parent.parent))
-from analyzer.repo_analyzer import RepoAnalysis, ParadigmType, AgentInfo, CommandInfo
+from analyzer.repo_analyzer import AgentInfo
+from analyzer.repo_analyzer import CommandInfo
+from analyzer.repo_analyzer import ParadigmType
+from analyzer.repo_analyzer import RepoAnalysis
 from config_loader import SiteConfig
 
 
 @dataclass
 class RevolutionContent:
     """Content for revolutionary paradigm section"""
+
     title: str
     subtitle: str
     problem_statement: str
-    paradigm_comparison: Dict[str, Any]
-    multiplier_effect: Dict[str, Any]
-    role_transformation: Dict[str, Any]
+    paradigm_comparison: dict[str, Any]
+    multiplier_effect: dict[str, Any]
+    role_transformation: dict[str, Any]
 
 
 @dataclass
 class ProgressiveSetup:
     """Progressive setup tier content"""
-    tiers: List[Dict[str, Any]]
+
+    tiers: list[dict[str, Any]]
 
 
 @dataclass
 class AgentShowcase:
     """Agent showcase content"""
-    featured_agents: List[Dict[str, Any]]
-    agent_categories: Dict[str, List[Dict[str, Any]]]
+
+    featured_agents: list[dict[str, Any]]
+    agent_categories: dict[str, list[dict[str, Any]]]
     total_count: int
 
 
 @dataclass
 class GeneratedContent:
     """Complete generated content for a website"""
-    revolution_section: Optional[RevolutionContent]
+
+    revolution_section: RevolutionContent | None
     progressive_setup: ProgressiveSetup
     agent_showcase: AgentShowcase
-    hero_section: Dict[str, Any]
-    overview_section: Dict[str, Any]
-    examples_section: Dict[str, Any]
+    hero_section: dict[str, Any]
+    overview_section: dict[str, Any]
+    examples_section: dict[str, Any]
 
 
 class ContentGenerator:
@@ -77,7 +85,7 @@ class ContentGenerator:
             agent_showcase=agent_showcase,
             hero_section=hero_section,
             overview_section=overview_section,
-            examples_section=examples_section
+            examples_section=examples_section,
         )
 
     def _generate_revolution_section(self, analysis: RepoAnalysis) -> RevolutionContent:
@@ -102,7 +110,7 @@ class ContentGenerator:
             problem_statement=problem_statement,
             paradigm_comparison=paradigm_comparison,
             multiplier_effect=multiplier_effect,
-            role_transformation=role_transformation
+            role_transformation=role_transformation,
         )
 
     def _generate_problem_statement(self, analysis: RepoAnalysis) -> str:
@@ -124,7 +132,7 @@ class ContentGenerator:
         {analysis.project_info.name.title()} revolutionizes this process through {solution_desc}, transforming
         how we approach software development entirely."""
 
-    def _generate_paradigm_comparison(self, analysis: RepoAnalysis) -> Dict[str, Any]:
+    def _generate_paradigm_comparison(self, analysis: RepoAnalysis) -> dict[str, Any]:
         """Generate before/after paradigm comparison"""
         agent_count = len(analysis.agents)
 
@@ -134,40 +142,42 @@ class ContentGenerator:
                     "name": "Development Speed",
                     "before": "Hours per feature",
                     "after": "Minutes per feature",
-                    "improvement": "10-50x faster"
+                    "improvement": "10-50x faster",
                 },
                 {
                     "name": "Code Quality",
                     "before": "Manual reviews",
                     "after": "AI-powered analysis",
-                    "improvement": "Consistent excellence"
+                    "improvement": "Consistent excellence",
                 },
                 {
                     "name": "Architecture",
                     "before": "Ad-hoc decisions",
                     "after": "Specialized expertise",
-                    "improvement": "Professional patterns"
+                    "improvement": "Professional patterns",
                 },
                 {
                     "name": "Debugging",
                     "before": "Manual investigation",
                     "after": "Systematic analysis",
-                    "improvement": "Root cause focus"
-                }
+                    "improvement": "Root cause focus",
+                },
             ]
         }
 
         if agent_count >= 20:
-            comparison["categories"].append({
-                "name": "Specialization",
-                "before": "Generalist approach",
-                "after": f"{agent_count}+ expert agents",
-                "improvement": "Domain expertise"
-            })
+            comparison["categories"].append(
+                {
+                    "name": "Specialization",
+                    "before": "Generalist approach",
+                    "after": f"{agent_count}+ expert agents",
+                    "improvement": "Domain expertise",
+                }
+            )
 
         return comparison
 
-    def _generate_multiplier_effect(self, analysis: RepoAnalysis) -> Dict[str, Any]:
+    def _generate_multiplier_effect(self, analysis: RepoAnalysis) -> dict[str, Any]:
         """Generate capability multiplication metrics"""
         agent_count = len(analysis.agents)
         complexity = analysis.complexity_score
@@ -176,13 +186,13 @@ class ContentGenerator:
         if agent_count >= 20 and complexity >= 80:
             # High complexity, many agents (like Amplifier)
             ideas_multiplier = 25  # 50 → 1250
-            time_reduction = 12    # 12 hours → 1 hour
+            time_reduction = 12  # 12 hours → 1 hour
         elif agent_count >= 10:
             ideas_multiplier = 10  # 50 → 500
-            time_reduction = 6     # 6 hours → 1 hour
+            time_reduction = 6  # 6 hours → 1 hour
         else:
-            ideas_multiplier = 5   # 50 → 250
-            time_reduction = 3     # 3 hours → 1 hour
+            ideas_multiplier = 5  # 50 → 250
+            time_reduction = 3  # 3 hours → 1 hour
 
         return {
             "metrics": [
@@ -191,7 +201,7 @@ class ContentGenerator:
                     "old_value": 50,
                     "new_value": 50 * ideas_multiplier,
                     "unit": "per month",
-                    "multiplier": ideas_multiplier
+                    "multiplier": ideas_multiplier,
                 },
                 {
                     "name": "Implementation Time",
@@ -199,19 +209,13 @@ class ContentGenerator:
                     "new_value": 1,
                     "unit": "hours",
                     "multiplier": time_reduction,
-                    "inverse": True
+                    "inverse": True,
                 },
-                {
-                    "name": "Code Quality",
-                    "old_value": 70,
-                    "new_value": 95,
-                    "unit": "% excellent",
-                    "multiplier": 1.36
-                }
+                {"name": "Code Quality", "old_value": 70, "new_value": 95, "unit": "% excellent", "multiplier": 1.36},
             ]
         }
 
-    def _generate_role_transformation(self, analysis: RepoAnalysis) -> Dict[str, Any]:
+    def _generate_role_transformation(self, analysis: RepoAnalysis) -> dict[str, Any]:
         """Generate role transformation narrative"""
         agent_count = len(analysis.agents)
 
@@ -226,8 +230,8 @@ class ContentGenerator:
                         "Debug through trial and error",
                         "Work on single tasks sequentially",
                         "Rely on personal knowledge only",
-                        "Spend hours on repetitive work"
-                    ]
+                        "Spend hours on repetitive work",
+                    ],
                 },
                 "new_role": {
                     "title": "AI-Amplified Architect",
@@ -236,12 +240,12 @@ class ContentGenerator:
                         "Deploy specialized expert agents",
                         "Coordinate parallel development streams",
                         "Access distributed expertise instantly",
-                        "Focus on creative problem-solving"
-                    ]
+                        "Focus on creative problem-solving",
+                    ],
                 },
-                "transformation_message": "You don't become obsolete—you become orchestrator of an expert team."
+                "transformation_message": "You don't become obsolete—you become orchestrator of an expert team.",
             }
-        elif agent_count >= 5:
+        if agent_count >= 5:
             return {
                 "transformation_type": "enhancement",
                 "old_role": {
@@ -249,36 +253,29 @@ class ContentGenerator:
                     "characteristics": [
                         "Handle all aspects personally",
                         "Limited by individual expertise",
-                        "Sequential task completion"
-                    ]
+                        "Sequential task completion",
+                    ],
                 },
                 "new_role": {
                     "title": "Augmented Developer",
                     "characteristics": [
                         "Leverage AI specialists for complex tasks",
                         "Access expert knowledge on demand",
-                        "Parallel task execution"
-                    ]
-                }
-            }
-        else:
-            return {
-                "transformation_type": "assistance",
-                "old_role": {
-                    "title": "Manual Developer",
-                    "characteristics": [
-                        "All work done manually",
-                        "Time-consuming processes"
-                    ]
+                        "Parallel task execution",
+                    ],
                 },
-                "new_role": {
-                    "title": "AI-Assisted Developer",
-                    "characteristics": [
-                        "AI handles routine tasks",
-                        "Accelerated development cycle"
-                    ]
-                }
             }
+        return {
+            "transformation_type": "assistance",
+            "old_role": {
+                "title": "Manual Developer",
+                "characteristics": ["All work done manually", "Time-consuming processes"],
+            },
+            "new_role": {
+                "title": "AI-Assisted Developer",
+                "characteristics": ["AI handles routine tasks", "Accelerated development cycle"],
+            },
+        }
 
     def _generate_progressive_setup(self, analysis: RepoAnalysis) -> ProgressiveSetup:
         """Generate progressive setup tiers"""
@@ -293,15 +290,11 @@ class ContentGenerator:
             "duration": "1 minute",
             "description": "Experience the power immediately",
             "focus": f"Your first {project_name} agent",
-            "steps": [
-                f"Install {project_name}",
-                "Run your first agent command",
-                "See immediate results"
-            ]
+            "steps": [f"Install {project_name}", "Run your first agent command", "See immediate results"],
         }
 
         if agent_count >= 5:
-            quick_taste["demo_command"] = f"Use zen-architect to design my authentication system"
+            quick_taste["demo_command"] = "Use zen-architect to design my authentication system"
             quick_taste["expected_result"] = "Complete system architecture generated in seconds"
         else:
             quick_taste["demo_command"] = f"Run {project_name} --help"
@@ -315,11 +308,7 @@ class ContentGenerator:
             "duration": "5 minutes",
             "description": "Core features and workflows",
             "focus": f"Essential {project_name} workflow",
-            "steps": [
-                "Configure core settings",
-                "Learn key commands",
-                "Complete first real task"
-            ]
+            "steps": ["Configure core settings", "Learn key commands", "Complete first real task"],
         }
 
         if agent_count >= 10:
@@ -336,11 +325,7 @@ class ContentGenerator:
                 "duration": "15+ minutes",
                 "description": "Full ecosystem mastery",
                 "focus": f"Complete {project_name} mastery",
-                "steps": [
-                    "Advanced configuration",
-                    "Custom integrations",
-                    "Expert workflows"
-                ]
+                "steps": ["Advanced configuration", "Custom integrations", "Expert workflows"],
             }
 
             if agent_count >= 20:
@@ -348,20 +333,16 @@ class ContentGenerator:
                     f"All {agent_count}+ specialized agents",
                     "Parallel workflow orchestration",
                     "Custom agent creation",
-                    "Advanced automation patterns"
+                    "Advanced automation patterns",
                 ]
             elif agent_count >= 10:
                 power_user["mastery_features"] = [
                     "Advanced agent combinations",
                     "Complex workflow patterns",
-                    "Integration customization"
+                    "Integration customization",
                 ]
             else:
-                power_user["mastery_features"] = [
-                    "Advanced features",
-                    "Customization options",
-                    "Expert patterns"
-                ]
+                power_user["mastery_features"] = ["Advanced features", "Customization options", "Expert patterns"]
 
             tiers.append(power_user)
 
@@ -374,7 +355,7 @@ class ContentGenerator:
 
         # Select featured agents (first 6 or most important)
         featured_agents = []
-        for i, agent in enumerate(agents[:6]):
+        for agent in agents[:6]:
             featured_agents.append(self._create_rich_agent_content(agent))
 
         # Categorize all agents with rich content
@@ -384,7 +365,7 @@ class ContentGenerator:
             "Quality": [],
             "Analysis": [],
             "Automation": [],
-            "Other": []
+            "Other": [],
         }
 
         for agent in agents:
@@ -395,13 +376,9 @@ class ContentGenerator:
         # Remove empty categories
         categories = {k: v for k, v in categories.items() if v}
 
-        return AgentShowcase(
-            featured_agents=featured_agents,
-            agent_categories=categories,
-            total_count=total_count
-        )
+        return AgentShowcase(featured_agents=featured_agents, agent_categories=categories, total_count=total_count)
 
-    def _create_rich_agent_content(self, agent: AgentInfo) -> Dict[str, Any]:
+    def _create_rich_agent_content(self, agent: AgentInfo) -> dict[str, Any]:
         """Create rich, detailed content for an agent like the instructor site"""
         agent_name = agent.name
         category = self._categorize_agent(agent_name)
@@ -428,7 +405,7 @@ class ContentGenerator:
             "example_usage": example_usage,
             "example_output": example_output,
             "use_cases": use_cases,
-            "file_path": agent.file_path
+            "file_path": agent.file_path,
         }
 
     def _generate_detailed_agent_description(self, agent: AgentInfo) -> str:
@@ -442,42 +419,40 @@ class ContentGenerator:
             ANALYZE for problem decomposition, ARCHITECT for system design, and REVIEW for code quality assessment.
             Creates clear specifications that guide implementation, focusing on essential patterns over unnecessary abstractions."""
 
-        elif name == "bug-hunter":
+        if name == "bug-hunter":
             return """Specialized debugging expert focused on systematically finding and fixing bugs. Uses hypothesis-driven debugging
             to efficiently locate root causes and implement minimal fixes. Follows a methodical approach that prevents future issues
             while maintaining code simplicity and reliability."""
 
-        elif name == "security-guardian":
+        if name == "security-guardian":
             return """Comprehensive security analysis expert that performs vulnerability assessments and security audits.
             Checks for common vulnerabilities (OWASP Top 10), detects hardcoded secrets, validates input/output security,
             and ensures data protection measures are in place before production deployments."""
 
-        elif name == "test-coverage":
+        if name == "test-coverage":
             return """Expert at analyzing test coverage and identifying gaps to suggest comprehensive test cases.
             Ensures thorough testing without over-testing, following the testing pyramid principle.
             Identifies edge cases and creates strategic test suites that maximize quality assurance."""
 
-        elif name == "performance-optimizer":
+        if name == "performance-optimizer":
             return """Analyzes and improves code and system performance through data-driven optimization.
             Profiles applications to identify bottlenecks, optimizes algorithms, improves database queries,
             and addresses performance concerns with a measure-first approach."""
 
-        elif name == "modular-builder":
+        if name == "modular-builder":
             return """Primary implementation agent that builds code from zen-architect specifications.
             Creates self-contained, regeneratable modules following the 'bricks and studs' philosophy.
             Transforms architectural designs into working code with proper separation of concerns."""
 
-        elif "analysis" in name or "synthesis" in name:
-            return f"""Advanced analysis agent specialized in {name.replace('-', ' ').replace('_', ' ')}.
+        if "analysis" in name or "synthesis" in name:
+            return f"""Advanced analysis agent specialized in {name.replace("-", " ").replace("_", " ")}.
             Processes complex information to extract insights and patterns. Uses multi-mode analysis
             to provide deep understanding and actionable recommendations for development decisions."""
 
-        else:
-            # Fallback to enhanced version of existing description
-            if existing_desc and len(existing_desc) > 50:
-                return existing_desc
-            else:
-                return f"""Specialized agent focused on {name.replace('-', ' ').replace('_', ' ')} tasks.
+        # Fallback to enhanced version of existing description
+        if existing_desc and len(existing_desc) > 50:
+            return existing_desc
+        return f"""Specialized agent focused on {name.replace("-", " ").replace("_", " ")} tasks.
                 Provides expert-level capabilities and follows best practices to ensure high-quality outcomes.
                 Integrates seamlessly with other agents in the development ecosystem."""
 
@@ -493,7 +468,7 @@ class ContentGenerator:
             "performance-optimizer": "Use performance-optimizer to speed up our database queries in the user dashboard",
             "modular-builder": "Use modular-builder to implement the notification system from zen-architect's specification",
             "integration-specialist": "Use integration-specialist to connect our system with the new payment API",
-            "content-researcher": "Use content-researcher to find relevant patterns for implementing OAuth authentication"
+            "content-researcher": "Use content-researcher to find relevant patterns for implementing OAuth authentication",
         }
 
         return examples.get(name, f"Use {name} to handle {name.replace('-', ' ')} tasks efficiently")
@@ -508,12 +483,12 @@ class ContentGenerator:
             "security-guardian": "→ Returns: Security assessment report, vulnerability findings, remediation recommendations",
             "test-coverage": "→ Returns: Coverage analysis, identified gaps, comprehensive test case suggestions",
             "performance-optimizer": "→ Returns: Performance bottleneck analysis, optimization recommendations, implementation plan",
-            "modular-builder": "→ Returns: Working implementation with tests, documentation, and integration instructions"
+            "modular-builder": "→ Returns: Working implementation with tests, documentation, and integration instructions",
         }
 
         return outputs.get(name, f"→ Returns: Comprehensive {name.replace('-', ' ')} analysis and recommendations")
 
-    def _generate_agent_key_capabilities(self, agent: AgentInfo) -> List[str]:
+    def _generate_agent_key_capabilities(self, agent: AgentInfo) -> list[str]:
         """Generate key capabilities for an agent"""
         name = agent.name
 
@@ -529,7 +504,7 @@ class ContentGenerator:
                 "Clean contract specifications",
                 "Complexity elimination strategies",
                 "80/20 principle application",
-                "Philosophy compliance review"
+                "Philosophy compliance review",
             ],
             "bug-hunter": [
                 "Hypothesis-driven debugging methodology",
@@ -537,7 +512,7 @@ class ContentGenerator:
                 "Systematic error reproduction",
                 "Minimal fix implementation",
                 "Prevention strategy development",
-                "Code quality improvement"
+                "Code quality improvement",
             ],
             "security-guardian": [
                 "OWASP Top 10 vulnerability scanning",
@@ -545,7 +520,7 @@ class ContentGenerator:
                 "Input/output validation checks",
                 "Authentication system review",
                 "Data protection compliance",
-                "Production security audits"
+                "Production security audits",
             ],
             "test-coverage": [
                 "Coverage gap identification",
@@ -553,20 +528,23 @@ class ContentGenerator:
                 "Edge case discovery",
                 "Testing pyramid optimization",
                 "Quality assurance planning",
-                "Test maintenance guidelines"
-            ]
+                "Test maintenance guidelines",
+            ],
         }
 
-        return capabilities_map.get(name, [
-            f"Expert {name.replace('-', ' ')} analysis",
-            "Best practice implementation",
-            "Quality assurance focus",
-            "Integration with development workflow",
-            "Comprehensive documentation",
-            "Scalable solution design"
-        ])
+        return capabilities_map.get(
+            name,
+            [
+                f"Expert {name.replace('-', ' ')} analysis",
+                "Best practice implementation",
+                "Quality assurance focus",
+                "Integration with development workflow",
+                "Comprehensive documentation",
+                "Scalable solution design",
+            ],
+        )
 
-    def _generate_agent_use_cases(self, agent: AgentInfo) -> List[str]:
+    def _generate_agent_use_cases(self, agent: AgentInfo) -> list[str]:
         """Generate use cases for an agent"""
         name = agent.name
 
@@ -575,65 +553,67 @@ class ContentGenerator:
                 "Designing new feature architectures",
                 "Refactoring complex legacy systems",
                 "Creating modular component specifications",
-                "Establishing coding standards and patterns"
+                "Establishing coding standards and patterns",
             ],
             "bug-hunter": [
                 "Investigating production issues",
                 "Debugging intermittent failures",
                 "Analyzing test failures",
-                "Resolving performance problems"
+                "Resolving performance problems",
             ],
             "security-guardian": [
                 "Pre-deployment security reviews",
                 "API security assessments",
                 "Authentication system audits",
-                "Data privacy compliance checks"
-            ]
+                "Data privacy compliance checks",
+            ],
         }
 
-        return use_cases_map.get(name, [
-            f"Complex {name.replace('-', ' ')} challenges",
-            "Quality improvement initiatives",
-            "Best practice implementation",
-            "Team knowledge enhancement"
-        ])
+        return use_cases_map.get(
+            name,
+            [
+                f"Complex {name.replace('-', ' ')} challenges",
+                "Quality improvement initiatives",
+                "Best practice implementation",
+                "Team knowledge enhancement",
+            ],
+        )
 
     def _categorize_agent(self, agent_name: str) -> str:
         """Categorize agent based on name patterns"""
         name_lower = agent_name.lower()
 
-        if any(keyword in name_lower for keyword in ['architect', 'design', 'modular', 'builder']):
+        if any(keyword in name_lower for keyword in ["architect", "design", "modular", "builder"]):
             return "Architecture"
-        elif any(keyword in name_lower for keyword in ['bug', 'debug', 'test', 'security', 'performance']):
+        if any(keyword in name_lower for keyword in ["bug", "debug", "test", "security", "performance"]):
             return "Quality"
-        elif any(keyword in name_lower for keyword in ['analysis', 'synthesis', 'extract', 'insight']):
+        if any(keyword in name_lower for keyword in ["analysis", "synthesis", "extract", "insight"]):
             return "Analysis"
-        elif any(keyword in name_lower for keyword in ['automation', 'cleanup', 'integration']):
+        if any(keyword in name_lower for keyword in ["automation", "cleanup", "integration"]):
             return "Automation"
-        elif any(keyword in name_lower for keyword in ['contract', 'api', 'database']):
+        if any(keyword in name_lower for keyword in ["contract", "api", "database"]):
             return "Development"
-        else:
-            return "Other"
+        return "Other"
 
-    def _generate_hero_section(self, analysis: RepoAnalysis) -> Dict[str, Any]:
+    def _generate_hero_section(self, analysis: RepoAnalysis) -> dict[str, Any]:
         """Generate hero section content"""
         project_name = analysis.project_info.name.title()
         description = analysis.project_info.description or f"Supercharge your development with {project_name}"
 
         return {
             "title": project_name,
-            "tagline": self.config.site.get('tagline', f"Next-Generation Development Tool"),
+            "tagline": self.config.site.get("tagline", "Next-Generation Development Tool"),
             "description": description,
             "cta_primary": "Get Started",
             "cta_secondary": "View Examples",
             "features_preview": [
                 f"{len(analysis.agents)} Specialized Agents",
                 f"Complexity Score: {analysis.complexity_score}",
-                f"{analysis.paradigm_type.value.title()} Impact"
-            ]
+                f"{analysis.paradigm_type.value.title()} Impact",
+            ],
         }
 
-    def _generate_overview_section(self, analysis: RepoAnalysis) -> Dict[str, Any]:
+    def _generate_overview_section(self, analysis: RepoAnalysis) -> dict[str, Any]:
         """Generate overview section content"""
         return {
             "title": "Overview",
@@ -642,32 +622,28 @@ class ContentGenerator:
                 {
                     "title": "Specialized Agents",
                     "description": f"{len(analysis.agents)} expert agents handle different aspects of development",
-                    "icon": "agents"
+                    "icon": "agents",
                 },
                 {
                     "title": "Parallel Processing",
                     "description": "Execute multiple development tasks simultaneously",
-                    "icon": "parallel"
+                    "icon": "parallel",
                 },
                 {
                     "title": "Quality Assurance",
                     "description": "Built-in quality checks and best practices enforcement",
-                    "icon": "quality"
-                }
-            ]
+                    "icon": "quality",
+                },
+            ],
         }
 
-    def _generate_examples_section(self, analysis: RepoAnalysis) -> Dict[str, Any]:
+    def _generate_examples_section(self, analysis: RepoAnalysis) -> dict[str, Any]:
         """Generate examples section content"""
         # Extract example commands from the analysis
         example_commands = []
         for cmd in analysis.commands[:5]:  # Top 5 commands
             if cmd.usage:
-                example_commands.append({
-                    "name": cmd.name,
-                    "command": cmd.usage,
-                    "description": cmd.description
-                })
+                example_commands.append({"name": cmd.name, "command": cmd.usage, "description": cmd.description})
 
         return {
             "title": "Examples",
@@ -680,10 +656,10 @@ class ContentGenerator:
                         "Design with zen-architect",
                         "Build with modular-builder",
                         "Test with test-coverage",
-                        "Review with security-guardian"
-                    ]
+                        "Review with security-guardian",
+                    ],
                 }
-            ]
+            ],
         }
 
 
@@ -691,19 +667,34 @@ def test_content_generation():
     """Test content generation with Amplifier analysis"""
     # This would normally load from the actual analysis
     # For testing, we'll create a mock analysis
-    from analyzer.repo_analyzer import ProjectInfo, RepoAnalysis, ParadigmType, AgentInfo
+    from analyzer.repo_analyzer import AgentInfo
+    from analyzer.repo_analyzer import ParadigmType
+    from analyzer.repo_analyzer import ProjectInfo
+    from analyzer.repo_analyzer import RepoAnalysis
 
     # Mock analysis for testing
     project_info = ProjectInfo(
         name="amplifier",
         description="A complete development environment that supercharges AI coding assistants",
-        language="Python"
+        language="Python",
     )
 
     mock_agents = [
-        AgentInfo("zen-architect", "Designs systems with ruthless simplicity", ["architecture", "design"], ".claude/agents/zen-architect.md"),
-        AgentInfo("bug-hunter", "Systematic debugging expert", ["debugging", "analysis"], ".claude/agents/bug-hunter.md"),
-        AgentInfo("security-guardian", "Security analysis and best practices", ["security", "audit"], ".claude/agents/security-guardian.md"),
+        AgentInfo(
+            "zen-architect",
+            "Designs systems with ruthless simplicity",
+            ["architecture", "design"],
+            ".claude/agents/zen-architect.md",
+        ),
+        AgentInfo(
+            "bug-hunter", "Systematic debugging expert", ["debugging", "analysis"], ".claude/agents/bug-hunter.md"
+        ),
+        AgentInfo(
+            "security-guardian",
+            "Security analysis and best practices",
+            ["security", "audit"],
+            ".claude/agents/security-guardian.md",
+        ),
     ]
 
     mock_commands = [
@@ -718,11 +709,12 @@ def test_content_generation():
         commands=mock_commands,
         workflows=[],
         complexity_score=100,
-        paradigm_indicators={'ai_amplification': 3, 'specialized_agents': 3}
+        paradigm_indicators={"ai_amplification": 3, "specialized_agents": 3},
     )
 
     # Load config
     from config_loader import ConfigLoader
+
     loader = ConfigLoader()
     config = loader.load_full_config()
 

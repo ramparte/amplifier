@@ -1,8 +1,9 @@
 """Tests for the outline parser module."""
 
 import pytest
-
-from presenter.models import NodeType, OutlineNode, ParsedOutline
+from presenter.models import NodeType
+from presenter.models import OutlineNode
+from presenter.models import ParsedOutline
 
 
 class TestParser:
@@ -149,21 +150,21 @@ Content for section 2"""
         parser = OutlineParser()
 
         # Valid outline
-        valid = ParsedOutline(
-            title="Test",
-            nodes=[OutlineNode(level=1, text="Section", node_type=NodeType.HEADING)]
-        )
+        valid = ParsedOutline(title="Test", nodes=[OutlineNode(level=1, text="Section", node_type=NodeType.HEADING)])
         assert parser.validate(valid) is True
 
         # Invalid outline (empty nodes)
         invalid = ParsedOutline(title="Test", nodes=[])
         assert parser.validate(invalid) is False
 
-    @pytest.mark.parametrize("input_text,expected_title", [
-        ("# Title\nContent", "Title"),
-        ("## No H1 Title\nContent", None),
-        ("Title without hash\n===\nContent", "Title without hash"),
-    ])
+    @pytest.mark.parametrize(
+        "input_text,expected_title",
+        [
+            ("# Title\nContent", "Title"),
+            ("## No H1 Title\nContent", None),
+            ("Title without hash\n===\nContent", "Title without hash"),
+        ],
+    )
     def test_title_extraction(self, input_text, expected_title):
         """Test various title extraction scenarios."""
         from presenter.parser import OutlineParser

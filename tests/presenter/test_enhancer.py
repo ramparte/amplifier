@@ -2,19 +2,18 @@
 
 import asyncio
 import json
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock
+from unittest.mock import MagicMock
+from unittest.mock import patch
 
 import pytest
-
 from presenter.enhancer import OutlineEnhancer
-from presenter.models import (
-    EnrichedOutline,
-    NodeType,
-    OutlineNode,
-    ParsedOutline,
-    SlideSuggestion,
-    SlideType,
-)
+from presenter.models import EnrichedOutline
+from presenter.models import NodeType
+from presenter.models import OutlineNode
+from presenter.models import ParsedOutline
+from presenter.models import SlideSuggestion
+from presenter.models import SlideType
 
 
 @pytest.fixture
@@ -69,12 +68,18 @@ class TestOutlineEnhancer:
         """Test basic enhancement with mocked API responses."""
         # Mock the Anthropic client
         mock_response = MagicMock()
-        mock_response.content = [MagicMock(text=json.dumps([
-            {"text": "Digital Transformation", "type": "technology", "importance": 0.9},
-            {"text": "Performance Metrics", "type": "metric", "importance": 0.7},
-        ]))]
+        mock_response.content = [
+            MagicMock(
+                text=json.dumps(
+                    [
+                        {"text": "Digital Transformation", "type": "technology", "importance": 0.9},
+                        {"text": "Performance Metrics", "type": "metric", "importance": 0.7},
+                    ]
+                )
+            )
+        ]
 
-        with patch.object(enhancer.client.messages, 'create', new_callable=AsyncMock) as mock_create:
+        with patch.object(enhancer.client.messages, "create", new_callable=AsyncMock) as mock_create:
             mock_create.return_value = mock_response
 
             result = await enhancer.enhance(sample_outline)
@@ -89,7 +94,7 @@ class TestOutlineEnhancer:
     async def test_enhance_api_failure_graceful_recovery(self, enhancer, sample_outline):
         """Test that enhancement handles API failures gracefully."""
         # Mock API to raise an exception
-        with patch.object(enhancer.client.messages, 'create', new_callable=AsyncMock) as mock_create:
+        with patch.object(enhancer.client.messages, "create", new_callable=AsyncMock) as mock_create:
             mock_create.side_effect = Exception("API connection failed")
 
             # Should not raise, but return minimal enrichment
@@ -110,6 +115,7 @@ class TestOutlineEnhancer:
 
         # Run synchronously since this method is not async
         import asyncio
+
         suggestion = asyncio.run(enhancer._analyze_node_for_slide_type(node))
 
         assert suggestion.slide_type == SlideType.COMPARISON
@@ -124,6 +130,7 @@ class TestOutlineEnhancer:
         )
 
         import asyncio
+
         suggestion = asyncio.run(enhancer._analyze_node_for_slide_type(node))
 
         assert suggestion.slide_type == SlideType.TIMELINE
@@ -138,6 +145,7 @@ class TestOutlineEnhancer:
         )
 
         import asyncio
+
         suggestion = asyncio.run(enhancer._analyze_node_for_slide_type(node))
 
         assert suggestion.slide_type == SlideType.CONCLUSION
@@ -153,9 +161,9 @@ class TestOutlineEnhancer:
 
     def test_parse_json_response_markdown_wrapped(self, enhancer):
         """Test parsing JSON wrapped in markdown code blocks."""
-        wrapped_json = '''```json
+        wrapped_json = """```json
 [{"text": "ML", "type": "tech", "importance": 0.9}]
-```'''
+```"""
         result = enhancer._parse_json_response(wrapped_json)
 
         assert isinstance(result, list)
@@ -183,7 +191,7 @@ class TestOutlineEnhancer:
         """Test concept extraction with empty outline."""
         empty_outline = ParsedOutline(nodes=[])
 
-        with patch.object(enhancer.client.messages, 'create', new_callable=AsyncMock):
+        with patch.object(enhancer.client.messages, "create", new_callable=AsyncMock):
             concepts = await enhancer._extract_concepts(empty_outline)
 
             assert concepts == []
@@ -207,10 +215,7 @@ class TestOutlineEnhancer:
         """Test recommendations for an overly long outline."""
         long_outline = ParsedOutline(
             title="Comprehensive Review",
-            nodes=[
-                OutlineNode(level=1, text=f"Section {i}", node_type=NodeType.HEADING)
-                for i in range(15)
-            ],
+            nodes=[OutlineNode(level=1, text=f"Section {i}", node_type=NodeType.HEADING) for i in range(15)],
         )
 
         recommendations = await enhancer._generate_recommendations(long_outline)
@@ -239,7 +244,7 @@ class TestOutlineEnhancer:
         enhancer_no_key = OutlineEnhancer(api_key=None)
 
         # Mock to avoid actual API call
-        with patch.object(enhancer_no_key.client.messages, 'create', new_callable=AsyncMock) as mock_create:
+        with patch.object(enhancer_no_key.client.messages, "create", new_callable=AsyncMock) as mock_create:
             mock_create.side_effect = Exception("No API key")
 
             result = await enhancer_no_key.enhance(sample_outline)
@@ -278,10 +283,11 @@ class TestOutlineEnhancer:
             await asyncio.sleep(0.1)
             return []
 
-        with patch.object(enhancer, '_suggest_slide_types', new=slow_suggest), \
-             patch.object(enhancer, '_extract_concepts', new=slow_extract), \
-             patch.object(enhancer, '_generate_recommendations', new=slow_recommend):
-
+        with (
+            patch.object(enhancer, "_suggest_slide_types", new=slow_suggest),
+            patch.object(enhancer, "_extract_concepts", new=slow_extract),
+            patch.object(enhancer, "_generate_recommendations", new=slow_recommend),
+        ):
             start = time.time()
             await enhancer.enhance(sample_outline)
             elapsed = time.time() - start

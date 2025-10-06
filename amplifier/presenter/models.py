@@ -4,11 +4,13 @@ from datetime import datetime
 from enum import Enum
 from typing import Any
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
+from pydantic import Field
 
 
 class NodeType(str, Enum):
     """Types of nodes in an outline."""
+
     HEADING = "heading"
     BULLET = "bullet"
     TEXT = "text"
@@ -19,6 +21,7 @@ class NodeType(str, Enum):
 
 class SlideType(str, Enum):
     """Types of slides."""
+
     TITLE = "title"
     BULLET = "bullet"
     COMPARISON = "comparison"
@@ -32,6 +35,7 @@ class SlideType(str, Enum):
 
 class TransitionType(str, Enum):
     """Types of slide transitions."""
+
     FADE = "fade"
     SLIDE = "slide"
     ZOOM = "zoom"
@@ -40,6 +44,7 @@ class TransitionType(str, Enum):
 
 class OutlineNode(BaseModel):
     """A node in a hierarchical outline."""
+
     level: int = Field(ge=0, description="Nesting level (0 = root)")
     text: str = Field(description="Content text")
     node_type: NodeType = Field(default=NodeType.TEXT)
@@ -49,6 +54,7 @@ class OutlineNode(BaseModel):
 
 class ParsedOutline(BaseModel):
     """A parsed outline with hierarchical structure."""
+
     title: str | None = Field(default=None, description="Main title")
     nodes: list[OutlineNode] = Field(default_factory=list)
     metadata: dict[str, Any] = Field(default_factory=dict, description="Front matter or metadata")
@@ -57,6 +63,7 @@ class ParsedOutline(BaseModel):
 
 class Concept(BaseModel):
     """A key concept extracted from text."""
+
     text: str = Field(description="Concept text")
     type: str | None = Field(default=None, description="Concept type (e.g., 'technology', 'metric')")
     icon: str | None = Field(default=None, description="Suggested icon name")
@@ -66,6 +73,7 @@ class Concept(BaseModel):
 
 class SlideSuggestion(BaseModel):
     """LLM suggestion for a slide."""
+
     slide_type: SlideType = Field(description="Suggested slide type")
     visual_suggestion: str | None = Field(default=None, description="Suggested visual element")
     layout: str | None = Field(default=None, description="Suggested layout")
@@ -75,6 +83,7 @@ class SlideSuggestion(BaseModel):
 
 class EnrichedOutline(BaseModel):
     """An outline enriched with LLM analysis."""
+
     outline: ParsedOutline = Field(description="Original parsed outline")
     suggestions: dict[str, SlideSuggestion] = Field(default_factory=dict)
     concepts: list[Concept] = Field(default_factory=list)
@@ -83,6 +92,7 @@ class EnrichedOutline(BaseModel):
 
 class SlideContent(BaseModel):
     """Content for a slide."""
+
     main: list[Any] = Field(default_factory=list, description="Main content items")
     notes: str | None = Field(default=None, description="Speaker notes")
     bullets: list[str] | None = Field(default=None, description="Bullet points")
@@ -91,6 +101,7 @@ class SlideContent(BaseModel):
 
 class Asset(BaseModel):
     """An asset (image, icon, chart) for a slide."""
+
     id: str = Field(description="Unique asset ID")
     type: str = Field(description="Asset type (image, icon, chart)")
     path: str | None = Field(default=None, description="File path")
@@ -102,6 +113,7 @@ class Asset(BaseModel):
 
 class SlideStyle(BaseModel):
     """Styling information for a slide."""
+
     theme: str | None = Field(default=None, description="Theme ID")
     layout: str | None = Field(default=None, description="Layout ID")
     background: str | None = Field(default=None, description="Background color or gradient")
@@ -110,6 +122,7 @@ class SlideStyle(BaseModel):
 
 class SlideTransitions(BaseModel):
     """Transition settings for a slide."""
+
     entrance: TransitionType = Field(default=TransitionType.FADE)
     exit: TransitionType = Field(default=TransitionType.FADE)
     duration: float = Field(default=0.5, ge=0, description="Duration in seconds")
@@ -117,6 +130,7 @@ class SlideTransitions(BaseModel):
 
 class Slide(BaseModel):
     """A single presentation slide."""
+
     id: str = Field(description="Unique slide ID")
     version: str = Field(default="1.0")
     type: SlideType = Field(default=SlideType.BULLET)
@@ -132,6 +146,7 @@ class Slide(BaseModel):
 
 class PresentationSettings(BaseModel):
     """Settings for a presentation."""
+
     aspect_ratio: str = Field(default="16:9", description="Aspect ratio")
     slide_numbers: bool = Field(default=True, description="Show slide numbers")
     footer: str | None = Field(default=None, description="Footer text")
@@ -141,6 +156,7 @@ class PresentationSettings(BaseModel):
 
 class Presentation(BaseModel):
     """A complete presentation."""
+
     id: str = Field(description="Unique presentation ID")
     version: str = Field(default="1.0")
     title: str = Field(description="Presentation title")

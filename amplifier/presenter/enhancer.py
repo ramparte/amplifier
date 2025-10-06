@@ -5,16 +5,13 @@ import json
 from typing import Any
 
 from anthropic import AsyncAnthropic
-
-from presenter.models import (
-    Concept,
-    EnrichedOutline,
-    NodeType,
-    OutlineNode,
-    ParsedOutline,
-    SlideSuggestion,
-    SlideType,
-)
+from presenter.models import Concept
+from presenter.models import EnrichedOutline
+from presenter.models import NodeType
+from presenter.models import OutlineNode
+from presenter.models import ParsedOutline
+from presenter.models import SlideSuggestion
+from presenter.models import SlideType
 
 
 class OutlineEnhancer:
@@ -153,7 +150,7 @@ Return as JSON array with objects containing: text, type, importance"""
             content = "[]"
             if response.content and len(response.content) > 0:
                 first_block = response.content[0]
-                if hasattr(first_block, 'text'):
+                if hasattr(first_block, "text"):
                     content = first_block.text
             concepts_data = self._parse_json_response(content)
 

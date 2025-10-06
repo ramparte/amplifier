@@ -5,13 +5,14 @@ import sys
 from pathlib import Path
 
 import click
-from rich.console import Console
-from rich.progress import Progress, SpinnerColumn, TextColumn
-
 from presenter.enhancer import OutlineEnhancer
 from presenter.exporter import PowerPointExporter
 from presenter.generator import SlideGenerator
 from presenter.parser import OutlineParser
+from rich.console import Console
+from rich.progress import Progress
+from rich.progress import SpinnerColumn
+from rich.progress import TextColumn
 
 console = Console()
 
@@ -129,9 +130,7 @@ async def process_outline(
             )
 
             if not skip_enhance and not api_key:
-                console.print(
-                    "[yellow]Warning:[/yellow] Skipping AI enhancement (no API key provided)"
-                )
+                console.print("[yellow]Warning:[/yellow] Skipping AI enhancement (no API key provided)")
 
         # Generate slides
         task = progress.add_task("Generating slides...", total=None)

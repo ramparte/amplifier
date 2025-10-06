@@ -3,16 +3,14 @@
 import uuid
 from typing import Any
 
-from presenter.models import (
-    EnrichedOutline,
-    NodeType,
-    OutlineNode,
-    Presentation,
-    PresentationSettings,
-    Slide,
-    SlideContent,
-    SlideType,
-)
+from presenter.models import EnrichedOutline
+from presenter.models import NodeType
+from presenter.models import OutlineNode
+from presenter.models import Presentation
+from presenter.models import PresentationSettings
+from presenter.models import Slide
+from presenter.models import SlideContent
+from presenter.models import SlideType
 
 
 class SlideGenerator:
