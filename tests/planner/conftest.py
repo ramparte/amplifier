@@ -423,7 +423,7 @@ class TestAssertions:
         assert not unsatisfied, f"Task {task['id']} has unsatisfied dependencies: {unsatisfied}"
 
     @staticmethod
-    def assert_git_commit_created(git_mock: MagicMock, message_pattern: str = None):
+    def assert_git_commit_created(git_mock: MagicMock, message_pattern: str | None = None):
         """Assert that git commit was created with optional message pattern"""
         assert git_mock.commit.called, "Expected git commit to be called"
 

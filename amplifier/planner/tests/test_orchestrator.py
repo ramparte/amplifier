@@ -84,6 +84,8 @@ async def test_orchestrate_with_dependencies():
     task2_result = results.task_results["task2"]
     task3_result = results.task_results["task3"]
 
+    assert task1_result.completed_at is not None
+    assert task2_result.completed_at is not None
     assert task1_result.completed_at < task2_result.started_at
     assert task2_result.completed_at < task3_result.started_at
 
@@ -120,6 +122,8 @@ async def test_orchestrate_complex_dependencies():
     task3_result = results.task_results["task3"]
     task4_result = results.task_results["task4"]
 
+    assert task2_result.completed_at is not None
+    assert task3_result.completed_at is not None
     assert task2_result.completed_at < task4_result.started_at
     assert task3_result.completed_at < task4_result.started_at
 

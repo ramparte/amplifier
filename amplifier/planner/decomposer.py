@@ -83,7 +83,7 @@ def _get_decomposer_agent():
     if _decomposer_agent is None:
         _decomposer_agent = Agent(
             "claude-3-5-sonnet-20241022",
-            result_type=TaskDecomposition,
+            output_type=TaskDecomposition,
             system_prompt=(
                 "You are a task decomposition expert. Break down high-level goals into "
                 "specific, actionable tasks. Each task should be concrete and achievable. "
@@ -129,7 +129,7 @@ async def decompose_goal(goal: str, context: ProjectContext) -> list[Task]:
         # Get the agent and call LLM for decomposition
         agent = _get_decomposer_agent()
         result = await agent.run(prompt)
-        decomposition = result.data
+        decomposition = result.output
 
         # Validate minimum tasks requirement
         if len(decomposition.tasks) < context.min_tasks:
@@ -141,7 +141,7 @@ async def decompose_goal(goal: str, context: ProjectContext) -> list[Task]:
                 f"{prompt}\n\nIMPORTANT: Generate at least {context.min_tasks} distinct, actionable tasks."
             )
             result = await agent.run(enhanced_prompt)
-            decomposition = result.data
+            decomposition = result.output
 
             if len(decomposition.tasks) < context.min_tasks:
                 raise ValueError(f"Could not generate minimum {context.min_tasks} tasks from goal")

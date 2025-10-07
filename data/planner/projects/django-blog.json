@@ -1,8 +1,8 @@
 {
   "id": "django-blog",
   "name": "Django Blog",
-  "created_at": "2025-10-07T10:54:34.767842",
-  "updated_at": "2025-10-07T10:54:34.767858",
+  "created_at": "2025-10-07T14:20:30.034634",
+  "updated_at": "2025-10-07T14:20:30.034665",
   "tasks": {
     "setup": {
       "id": "setup",
@@ -12,8 +12,8 @@
       "parent_id": null,
       "depends_on": [],
       "assigned_to": null,
-      "created_at": "2025-10-07T10:54:34.767846",
-      "updated_at": "2025-10-07T10:54:34.767847"
+      "created_at": "2025-10-07T14:20:30.034642",
+      "updated_at": "2025-10-07T14:20:30.034643"
     },
     "models": {
       "id": "models",
@@ -25,8 +25,8 @@
         "setup"
       ],
       "assigned_to": null,
-      "created_at": "2025-10-07T10:54:34.767848",
-      "updated_at": "2025-10-07T10:54:34.767848"
+      "created_at": "2025-10-07T14:20:30.034645",
+      "updated_at": "2025-10-07T14:20:30.034646"
     },
     "admin": {
       "id": "admin",
@@ -38,8 +38,8 @@
         "models"
       ],
       "assigned_to": null,
-      "created_at": "2025-10-07T10:54:34.767849",
-      "updated_at": "2025-10-07T10:54:34.767849"
+      "created_at": "2025-10-07T14:20:30.034647",
+      "updated_at": "2025-10-07T14:20:30.034648"
     },
     "views": {
       "id": "views",
@@ -51,8 +51,8 @@
         "models"
       ],
       "assigned_to": null,
-      "created_at": "2025-10-07T10:54:34.767850",
-      "updated_at": "2025-10-07T10:54:34.767850"
+      "created_at": "2025-10-07T14:20:30.034649",
+      "updated_at": "2025-10-07T14:20:30.034650"
     },
     "templates": {
       "id": "templates",
@@ -64,8 +64,8 @@
         "views"
       ],
       "assigned_to": null,
-      "created_at": "2025-10-07T10:54:34.767851",
-      "updated_at": "2025-10-07T10:54:34.767851"
+      "created_at": "2025-10-07T14:20:30.034651",
+      "updated_at": "2025-10-07T14:20:30.034651"
     },
     "urls": {
       "id": "urls",
@@ -77,8 +77,8 @@
         "views"
       ],
       "assigned_to": null,
-      "created_at": "2025-10-07T10:54:34.767852",
-      "updated_at": "2025-10-07T10:54:34.767852"
+      "created_at": "2025-10-07T14:20:30.034653",
+      "updated_at": "2025-10-07T14:20:30.034653"
     },
     "tests": {
       "id": "tests",
@@ -91,8 +91,8 @@
         "views"
       ],
       "assigned_to": null,
-      "created_at": "2025-10-07T10:54:34.767853",
-      "updated_at": "2025-10-07T10:54:34.767853"
+      "created_at": "2025-10-07T14:20:30.034654",
+      "updated_at": "2025-10-07T14:20:30.034654"
     },
     "deploy": {
       "id": "deploy",
@@ -106,8 +106,8 @@
         "tests"
       ],
       "assigned_to": null,
-      "created_at": "2025-10-07T10:54:34.767854",
-      "updated_at": "2025-10-07T10:54:34.767854"
+      "created_at": "2025-10-07T14:20:30.034656",
+      "updated_at": "2025-10-07T14:20:30.034656"
     }
   }
 }
