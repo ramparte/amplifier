@@ -42,11 +42,10 @@ class ProjectContext:
 
         # Load planner project if planning is enabled
         if context.has_planning:
-            try:
+            import contextlib
+
+            with contextlib.suppress(FileNotFoundError):
                 context.planner_project = load_project(context.project_id)
-            except FileNotFoundError:
-                # Planning enabled but no project file yet
-                pass
 
         return context
 

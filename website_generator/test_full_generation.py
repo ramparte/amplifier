@@ -2,9 +2,10 @@
 """
 Test full content generation pipeline with real Amplifier data.
 """
+
 import json
-from pathlib import Path
 import sys
+from pathlib import Path
 
 # Add src to path
 sys.path.append(str(Path(__file__).parent / "src"))
@@ -56,32 +57,36 @@ def test_full_pipeline():
     print("-" * 30)
 
     if content.revolution_section:
-        print(f"🎯 Revolution Section:")
+        print("🎯 Revolution Section:")
         print(f"   Title: {content.revolution_section.title}")
         print(f"   Subtitle: {content.revolution_section.subtitle}")
         print(f"   Problem: {content.revolution_section.problem_statement[:100]}...")
 
         # Show multiplier effects
-        print(f"\n📊 Capability Multipliers:")
-        for metric in content.revolution_section.multiplier_effect['metrics']:
-            if metric.get('inverse'):
-                print(f"   • {metric['name']}: {metric['old_value']} → {metric['new_value']} {metric['unit']} ({metric['multiplier']}x faster)")
+        print("\n📊 Capability Multipliers:")
+        for metric in content.revolution_section.multiplier_effect["metrics"]:
+            if metric.get("inverse"):
+                print(
+                    f"   • {metric['name']}: {metric['old_value']} → {metric['new_value']} {metric['unit']} ({metric['multiplier']}x faster)"
+                )
             else:
-                print(f"   • {metric['name']}: {metric['old_value']} → {metric['new_value']} {metric['unit']} ({metric['multiplier']}x)")
+                print(
+                    f"   • {metric['name']}: {metric['old_value']} → {metric['new_value']} {metric['unit']} ({metric['multiplier']}x)"
+                )
 
-    print(f"\n🏗️ Progressive Setup:")
+    print("\n🏗️ Progressive Setup:")
     for i, tier in enumerate(content.progressive_setup.tiers, 1):
         print(f"   {i}. {tier['name']} ({tier['duration']})")
         print(f"      Focus: {tier['focus']}")
-        if 'demo_command' in tier:
+        if "demo_command" in tier:
             print(f"      Demo: {tier['demo_command']}")
 
-    print(f"\n🤖 Agent Showcase:")
+    print("\n🤖 Agent Showcase:")
     print(f"   Total agents: {content.agent_showcase.total_count}")
     for category, agents in content.agent_showcase.agent_categories.items():
         print(f"   {category}: {len(agents)} agents")
 
-    print(f"\n🎨 Hero Section:")
+    print("\n🎨 Hero Section:")
     hero = content.hero_section
     print(f"   Title: {hero['title']}")
     print(f"   Tagline: {hero['tagline']}")
@@ -104,29 +109,29 @@ def test_full_pipeline():
             "problem_statement": content.revolution_section.problem_statement,
             "paradigm_comparison": content.revolution_section.paradigm_comparison,
             "multiplier_effect": content.revolution_section.multiplier_effect,
-            "role_transformation": content.revolution_section.role_transformation
-        } if content.revolution_section else None,
-        "progressive_setup": {
-            "tiers": content.progressive_setup.tiers
-        },
+            "role_transformation": content.revolution_section.role_transformation,
+        }
+        if content.revolution_section
+        else None,
+        "progressive_setup": {"tiers": content.progressive_setup.tiers},
         "agent_showcase": {
             "featured_agents": content.agent_showcase.featured_agents,
             "agent_categories": content.agent_showcase.agent_categories,
-            "total_count": content.agent_showcase.total_count
+            "total_count": content.agent_showcase.total_count,
         },
         "hero_section": content.hero_section,
         "overview_section": content.overview_section,
-        "examples_section": content.examples_section
+        "examples_section": content.examples_section,
     }
 
-    with open(content_output, 'w', encoding='utf-8') as f:
+    with open(content_output, "w", encoding="utf-8") as f:
         json.dump(content_dict, f, indent=2, ensure_ascii=False)
 
     print(f"   ✓ Analysis saved to: {analysis_output}")
     print(f"   ✓ Content saved to: {content_output}")
 
-    print(f"\n✅ Full pipeline test completed successfully!")
-    print(f"📁 Check the output/ directory for detailed results")
+    print("\n✅ Full pipeline test completed successfully!")
+    print("📁 Check the output/ directory for detailed results")
 
     return True
 
@@ -137,4 +142,5 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"❌ Pipeline test failed: {e}")
         import traceback
+
         traceback.print_exc()

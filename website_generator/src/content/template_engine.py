@@ -2,22 +2,27 @@
 Template engine for converting generated content into HTML.
 Uses Jinja2 for template processing with custom filters and functions.
 """
-import os
-import json
-from pathlib import Path
-from typing import Dict, Any, List, Optional
+
 from datetime import datetime
+from pathlib import Path
+from typing import Any
 
 try:
-    from jinja2 import Environment, FileSystemLoader, select_autoescape
+    from jinja2 import Environment
+    from jinja2 import FileSystemLoader
+    from jinja2 import select_autoescape
 except ImportError:
     print("Installing Jinja2...")
     import subprocess
+
     subprocess.run(["pip", "install", "jinja2"], check=True)
-    from jinja2 import Environment, FileSystemLoader, select_autoescape
+    from jinja2 import Environment
+    from jinja2 import FileSystemLoader
+    from jinja2 import select_autoescape
 
 # Import our components
 import sys
+
 sys.path.append(str(Path(__file__).parent.parent))
 from config_loader import SiteConfig
 from content.content_generator import GeneratedContent
@@ -38,9 +43,9 @@ class TemplateEngine:
         # Initialize Jinja2 environment
         self.env = Environment(
             loader=FileSystemLoader(str(self.templates_dir)),
-            autoescape=select_autoescape(['html', 'xml']),
+            autoescape=select_autoescape(["html", "xml"]),
             trim_blocks=True,
-            lstrip_blocks=True
+            lstrip_blocks=True,
         )
 
         # Add custom filters and functions
@@ -50,20 +55,20 @@ class TemplateEngine:
         """Add custom Jinja2 filters and functions"""
 
         # Custom filters
-        self.env.filters['format_number'] = self._format_number
-        self.env.filters['truncate_words'] = self._truncate_words
-        self.env.filters['slug'] = self._slugify
-        self.env.filters['agent_badge'] = self._agent_badge
+        self.env.filters["format_number"] = self._format_number
+        self.env.filters["truncate_words"] = self._truncate_words
+        self.env.filters["slug"] = self._slugify
+        self.env.filters["agent_badge"] = self._agent_badge
 
         # Global functions
-        self.env.globals['now'] = datetime.now
-        self.env.globals['config'] = self.config
-        self.env.globals['get_color'] = self._get_color
-        self.env.globals['get_icon'] = self._get_icon
+        self.env.globals["now"] = datetime.now
+        self.env.globals["config"] = self.config
+        self.env.globals["get_color"] = self._get_color
+        self.env.globals["get_icon"] = self._get_icon
 
     def _format_number(self, value: int) -> str:
         """Format numbers with commas"""
-        if isinstance(value, (int, float)):
+        if isinstance(value, int | float):
             return f"{value:,}"
         return str(value)
 
@@ -79,45 +84,45 @@ class TemplateEngine:
     def _slugify(self, text: str) -> str:
         """Convert text to URL-friendly slug"""
         import re
-        slug = re.sub(r'[^\w\s-]', '', text.lower())
-        slug = re.sub(r'[-\s]+', '-', slug)
-        return slug.strip('-')
+
+        slug = re.sub(r"[^\w\s-]", "", text.lower())
+        slug = re.sub(r"[-\s]+", "-", slug)
+        return slug.strip("-")
 
     def _agent_badge(self, agent_name: str) -> str:
         """Get CSS class for agent badge based on category"""
         name_lower = agent_name.lower()
 
-        if any(keyword in name_lower for keyword in ['architect', 'design', 'modular']):
-            return 'badge-architecture'
-        elif any(keyword in name_lower for keyword in ['bug', 'debug', 'test', 'security']):
-            return 'badge-quality'
-        elif any(keyword in name_lower for keyword in ['analysis', 'synthesis', 'extract']):
-            return 'badge-analysis'
-        elif any(keyword in name_lower for keyword in ['automation', 'cleanup']):
-            return 'badge-automation'
-        else:
-            return 'badge-development'
+        if any(keyword in name_lower for keyword in ["architect", "design", "modular"]):
+            return "badge-architecture"
+        if any(keyword in name_lower for keyword in ["bug", "debug", "test", "security"]):
+            return "badge-quality"
+        if any(keyword in name_lower for keyword in ["analysis", "synthesis", "extract"]):
+            return "badge-analysis"
+        if any(keyword in name_lower for keyword in ["automation", "cleanup"]):
+            return "badge-automation"
+        return "badge-development"
 
     def _get_color(self, color_name: str) -> str:
         """Get color value from design system"""
-        colors = self.config.design_system.get('colors', {})
-        return colors.get(color_name, '#2563eb')  # Default blue
+        colors = self.config.design_system.get("colors", {})
+        return colors.get(color_name, "#2563eb")  # Default blue
 
     def _get_icon(self, icon_name: str) -> str:
         """Get icon class/SVG for given icon name"""
         # Simple icon mapping - could be enhanced with actual icon library
         icon_map = {
-            'agents': '🤖',
-            'parallel': '⚡',
-            'quality': '✅',
-            'architecture': '🏗️',
-            'security': '🔒',
-            'testing': '🧪',
-            'analysis': '📊',
-            'automation': '⚙️',
-            'development': '💻'
+            "agents": "🤖",
+            "parallel": "⚡",
+            "quality": "✅",
+            "architecture": "🏗️",
+            "security": "🔒",
+            "testing": "🧪",
+            "analysis": "📊",
+            "automation": "⚙️",
+            "development": "💻",
         }
-        return icon_map.get(icon_name, '📄')
+        return icon_map.get(icon_name, "📄")
 
     def render_page(self, page_name: str, content: GeneratedContent, **kwargs) -> str:
         """Render a complete page"""
@@ -131,15 +136,15 @@ class TemplateEngine:
 
         # Prepare template context
         context = {
-            'content': content,
-            'page_name': page_name,
-            'css_filename': self.css_filename,
-            'site': self.config.site,
-            'design_system': self.config.design_system,
-            'interactions': self.config.interactions,
-            'navigation': self.config.navigation,
-            'seo': self.config.seo,
-            **kwargs
+            "content": content,
+            "page_name": page_name,
+            "css_filename": self.css_filename,
+            "site": self.config.site,
+            "design_system": self.config.design_system,
+            "interactions": self.config.interactions,
+            "navigation": self.config.navigation,
+            "seo": self.config.seo,
+            **kwargs,
         }
 
         return template.render(**context)
@@ -155,35 +160,35 @@ class TemplateEngine:
             return self._render_fallback_section(section_name, section_content)
 
         context = {
-            'section': section_content,
-            'config': self.config,
-            'site': self.config.site,
-            'design_system': self.config.design_system,
-            'interactions': self.config.interactions,
-            'navigation': self.config.navigation,
-            **kwargs
+            "section": section_content,
+            "config": self.config,
+            "site": self.config.site,
+            "design_system": self.config.design_system,
+            "interactions": self.config.interactions,
+            "navigation": self.config.navigation,
+            **kwargs,
         }
 
         return template.render(**context)
 
     def _render_fallback_section(self, section_name: str, content: Any) -> str:
         """Render fallback HTML for section when template is missing"""
-        if isinstance(content, dict) and 'title' in content:
+        if isinstance(content, dict) and "title" in content:
             return f"""
             <section class="section {section_name}-section">
                 <div class="container">
-                    <h2 class="section-title">{content['title']}</h2>
+                    <h2 class="section-title">{content["title"]}</h2>
                     <p>Content for {section_name} section would go here.</p>
                 </div>
             </section>
             """
         return f'<div class="section-placeholder">Section: {section_name}</div>'
 
-    def generate_full_page(self, page_config: Dict[str, Any], content: GeneratedContent) -> str:
+    def generate_full_page(self, page_config: dict[str, Any], content: GeneratedContent) -> str:
         """Generate a complete HTML page with all sections"""
-        page_name = page_config['name']
-        page_title = page_config.get('title', page_name.title())
-        sections = page_config.get('sections', [])
+        page_name = page_config["name"]
+        page_title = page_config.get("title", page_name.title())
+        sections = page_config.get("sections", [])
 
         # Render all sections
         rendered_sections = []
@@ -195,36 +200,36 @@ class TemplateEngine:
 
         # Create page context
         page_context = {
-            'page_title': page_title,
-            'current_page': page_name,  # Renamed to avoid collision
-            'sections_html': '\n'.join(rendered_sections),
-            'meta_description': self._generate_meta_description(content)
+            "page_title": page_title,
+            "current_page": page_name,  # Renamed to avoid collision
+            "sections_html": "\n".join(rendered_sections),
+            "meta_description": self._generate_meta_description(content),
         }
 
         # Render complete page
-        return self.render_page('index', content, **page_context)
+        return self.render_page("index", content, **page_context)
 
-    def _get_section_content(self, section_name: str, content: GeneratedContent) -> Optional[Any]:
+    def _get_section_content(self, section_name: str, content: GeneratedContent) -> Any | None:
         """Get content for a specific section"""
         section_map = {
-            'revolution': content.revolution_section,
-            'hero': content.hero_section,
-            'overview': content.overview_section,
-            'features': content.overview_section,
-            'agent_showcase': content.agent_showcase,
-            'agents': content.agent_showcase,
-            'agent_gallery': content.agent_showcase,
-            'agent_categories': content.agent_showcase,
-            'workflow_examples': content.agent_showcase,
-            'custom_agents': content.agent_showcase,
-            'progressive_setup': content.progressive_setup,
-            'progressive_tiers': content.progressive_setup,
-            'quick_setup': content.progressive_setup,
-            'installation': content.progressive_setup,
-            'first_agent': content.progressive_setup,
-            'troubleshooting': content.progressive_setup,
-            'examples': content.examples_section,
-            'cta': {'title': 'Get Started', 'description': 'Ready to transform your development?'}
+            "revolution": content.revolution_section,
+            "hero": content.hero_section,
+            "overview": content.overview_section,
+            "features": content.overview_section,
+            "agent_showcase": content.agent_showcase,
+            "agents": content.agent_showcase,
+            "agent_gallery": content.agent_showcase,
+            "agent_categories": content.agent_showcase,
+            "workflow_examples": content.agent_showcase,
+            "custom_agents": content.agent_showcase,
+            "progressive_setup": content.progressive_setup,
+            "progressive_tiers": content.progressive_setup,
+            "quick_setup": content.progressive_setup,
+            "installation": content.progressive_setup,
+            "first_agent": content.progressive_setup,
+            "troubleshooting": content.progressive_setup,
+            "examples": content.examples_section,
+            "cta": {"title": "Get Started", "description": "Ready to transform your development?"},
         }
 
         return section_map.get(section_name)
@@ -232,11 +237,10 @@ class TemplateEngine:
     def _generate_meta_description(self, content: GeneratedContent) -> str:
         """Generate meta description from content"""
         if content.hero_section:
-            return content.hero_section.get('description', '')
-        elif content.revolution_section:
-            return content.revolution_section.problem_statement[:160] + '...'
-        else:
-            return f"{self.config.site['name']} - {self.config.site.get('tagline', '')}"
+            return content.hero_section.get("description", "")
+        if content.revolution_section:
+            return content.revolution_section.problem_statement[:160] + "..."
+        return f"{self.config.site['name']} - {self.config.site.get('tagline', '')}"
 
     def create_base_templates(self):
         """Create basic HTML templates if they don't exist"""
@@ -248,51 +252,51 @@ class TemplateEngine:
         base_template = self.templates_dir / "base_template.html"
         if not base_template.exists():
             base_html = self._get_base_template_html()
-            with open(base_template, 'w', encoding='utf-8') as f:
+            with open(base_template, "w", encoding="utf-8") as f:
                 f.write(base_html)
 
         # Page templates - create for all configured pages
         page_template_html = self._get_index_template_html()
         for page_config in self.config.pages:
-            page_name = page_config['name']
+            page_name = page_config["name"]
             page_template = self.templates_dir / f"{page_name}.html"
             if not page_template.exists():
-                with open(page_template, 'w', encoding='utf-8') as f:
+                with open(page_template, "w", encoding="utf-8") as f:
                     f.write(page_template_html)
 
         # Section templates
         section_templates = {
-            'revolution.html': self._get_revolution_section_html(),
-            'hero.html': self._get_hero_section_html(),
-            'agent_showcase.html': self._get_agent_showcase_html(),
-            'agents.html': self._get_agent_showcase_html(),  # Alias
-            'agent_gallery.html': self._get_agent_showcase_html(),  # Agents page sections
-            'agent_categories.html': self._get_agent_showcase_html(),
-            'workflow_examples.html': self._get_agent_showcase_html(),
-            'custom_agents.html': self._get_agent_showcase_html(),
-            'progressive_setup.html': self._get_progressive_setup_html(),
-            'setup.html': self._get_progressive_setup_html(),  # Alias
-            'progressive_tiers.html': self._get_progressive_setup_html(),  # Setup page sections
-            'installation.html': self._get_progressive_setup_html(),
-            'first_agent.html': self._get_progressive_setup_html(),
-            'troubleshooting.html': self._get_progressive_setup_html(),
-            'overview.html': self._get_overview_section_html(),  # Missing sections
-            'quick_setup.html': self._get_progressive_setup_html(),
-            'examples.html': self._get_examples_section_html(),
-            'cta.html': self._get_cta_section_html()
+            "revolution.html": self._get_revolution_section_html(),
+            "hero.html": self._get_hero_section_html(),
+            "agent_showcase.html": self._get_agent_showcase_html(),
+            "agents.html": self._get_agent_showcase_html(),  # Alias
+            "agent_gallery.html": self._get_agent_showcase_html(),  # Agents page sections
+            "agent_categories.html": self._get_agent_showcase_html(),
+            "workflow_examples.html": self._get_agent_showcase_html(),
+            "custom_agents.html": self._get_agent_showcase_html(),
+            "progressive_setup.html": self._get_progressive_setup_html(),
+            "setup.html": self._get_progressive_setup_html(),  # Alias
+            "progressive_tiers.html": self._get_progressive_setup_html(),  # Setup page sections
+            "installation.html": self._get_progressive_setup_html(),
+            "first_agent.html": self._get_progressive_setup_html(),
+            "troubleshooting.html": self._get_progressive_setup_html(),
+            "overview.html": self._get_overview_section_html(),  # Missing sections
+            "quick_setup.html": self._get_progressive_setup_html(),
+            "examples.html": self._get_examples_section_html(),
+            "cta.html": self._get_cta_section_html(),
         }
 
         for template_name, template_html in section_templates.items():
             template_file = sections_dir / template_name
             if not template_file.exists():
-                with open(template_file, 'w', encoding='utf-8') as f:
+                with open(template_file, "w", encoding="utf-8") as f:
                     f.write(template_html)
 
         print(f"✓ Created base templates in {self.templates_dir}")
 
     def _get_base_template_html(self) -> str:
         """Get base HTML template"""
-        return '''<!DOCTYPE html>
+        return """<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -353,19 +357,19 @@ class TemplateEngine:
     <!-- JavaScript -->
     <script src="script.js"></script>
 </body>
-</html>'''
+</html>"""
 
     def _get_index_template_html(self) -> str:
         """Get index page template (extends base)"""
-        return '''{% extends "base_template.html" %}
+        return """{% extends "base_template.html" %}
 
 {% block content %}
 {{ sections_html | safe }}
-{% endblock %}'''
+{% endblock %}"""
 
     def _get_revolution_section_html(self) -> str:
         """Get revolution section template"""
-        return '''<section class="revolution-section" id="revolution">
+        return """<section class="revolution-section" id="revolution">
     <div class="container">
         <div class="revolution-content">
             <h2 class="revolution-title">{{ section.title }}</h2>
@@ -445,11 +449,11 @@ class TemplateEngine:
             {% endif %}
         </div>
     </div>
-</section>'''
+</section>"""
 
     def _get_hero_section_html(self) -> str:
         """Get hero section template"""
-        return '''<section class="hero-section" id="hero">
+        return """<section class="hero-section" id="hero">
     <div class="container">
         <div class="hero-content">
             <h1 class="hero-title">{{ section.title }}</h1>
@@ -470,11 +474,11 @@ class TemplateEngine:
             </div>
         </div>
     </div>
-</section>'''
+</section>"""
 
     def _get_agent_showcase_html(self) -> str:
         """Get agent showcase section template"""
-        return '''<section class="agents-section" id="agents">
+        return """<section class="agents-section" id="agents">
     <div class="container">
         <h2 class="section-title">
             {% if section.total_count > 20 %}
@@ -566,11 +570,11 @@ class TemplateEngine:
         </div>
         {% endif %}
     </div>
-</section>'''
+</section>"""
 
     def _get_progressive_setup_html(self) -> str:
         """Get progressive setup section template"""
-        return '''<section class="setup-section" id="setup">
+        return """<section class="setup-section" id="setup">
     <div class="container">
         <h2 class="section-title">Progressive Setup</h2>
         <p class="section-description">Choose your learning path based on available time</p>
@@ -619,11 +623,11 @@ class TemplateEngine:
             {% endfor %}
         </div>
     </div>
-</section>'''
+</section>"""
 
     def _get_overview_section_html(self) -> str:
         """Get overview section template"""
-        return '''<section class="overview-section" id="overview">
+        return """<section class="overview-section" id="overview">
     <div class="container">
         <h2 class="section-title">System Overview</h2>
         <p class="section-description">{{ section.description | default("Understanding how Amplifier transforms development") }}</p>
@@ -646,11 +650,11 @@ class TemplateEngine:
             </div>
         </div>
     </div>
-</section>'''
+</section>"""
 
     def _get_examples_section_html(self) -> str:
         """Get examples section template"""
-        return '''<section class="examples-section" id="examples">
+        return """<section class="examples-section" id="examples">
     <div class="container">
         <h2 class="section-title">Real-World Examples</h2>
         <p class="section-description">See Amplifier in action with practical workflows</p>
@@ -681,11 +685,11 @@ class TemplateEngine:
             </div>
         </div>
     </div>
-</section>'''
+</section>"""
 
     def _get_cta_section_html(self) -> str:
         """Get call-to-action section template"""
-        return '''<section class="cta-section" id="get-started">
+        return """<section class="cta-section" id="get-started">
     <div class="container">
         <div class="cta-content">
             <h2 class="cta-title">{{ section.title | default("Ready to Transform Your Development?") }}</h2>
@@ -699,7 +703,7 @@ class TemplateEngine:
             <p class="cta-note">Free and open source • No signup required • 5 minute setup</p>
         </div>
     </div>
-</section>'''
+</section>"""
 
 
 def test_template_engine():
@@ -709,6 +713,7 @@ def test_template_engine():
 
     # Load configuration
     from config_loader import ConfigLoader
+
     loader = ConfigLoader()
     config = loader.load_full_config()
 
@@ -720,54 +725,70 @@ def test_template_engine():
     engine.create_base_templates()
 
     # Create mock content for testing
-    from content.content_generator import RevolutionContent, ProgressiveSetup, AgentShowcase, GeneratedContent
+    from content.content_generator import AgentShowcase
+    from content.content_generator import GeneratedContent
+    from content.content_generator import ProgressiveSetup
+    from content.content_generator import RevolutionContent
 
     mock_revolution = RevolutionContent(
         title="The Development Revolution",
         subtitle="Why Amplifier Changes Everything",
         problem_statement="Traditional development is slow and complex.",
-        paradigm_comparison={'categories': [
-            {'name': 'Speed', 'before': 'Hours', 'after': 'Minutes', 'improvement': '10x faster'}
-        ]},
-        multiplier_effect={'metrics': [
-            {'name': 'Ideas', 'old_value': 50, 'new_value': 1250, 'unit': 'per month', 'multiplier': 25}
-        ]},
+        paradigm_comparison={
+            "categories": [{"name": "Speed", "before": "Hours", "after": "Minutes", "improvement": "10x faster"}]
+        },
+        multiplier_effect={
+            "metrics": [{"name": "Ideas", "old_value": 50, "new_value": 1250, "unit": "per month", "multiplier": 25}]
+        },
         role_transformation={
-            'old_role': {'title': 'Traditional Developer', 'characteristics': ['Code manually']},
-            'new_role': {'title': 'AI Architect', 'characteristics': ['Orchestrate agents']}
-        }
+            "old_role": {"title": "Traditional Developer", "characteristics": ["Code manually"]},
+            "new_role": {"title": "AI Architect", "characteristics": ["Orchestrate agents"]},
+        },
     )
 
-    mock_setup = ProgressiveSetup(tiers=[
-        {'name': 'Quick Taste', 'duration': '1 minute', 'description': 'Try it now', 'focus': 'First agent'}
-    ])
+    mock_setup = ProgressiveSetup(
+        tiers=[{"name": "Quick Taste", "duration": "1 minute", "description": "Try it now", "focus": "First agent"}]
+    )
 
     mock_showcase = AgentShowcase(
-        featured_agents=[{'name': 'zen-architect', 'description': 'System design', 'capabilities': ['architecture'], 'category': 'Architecture'}],
-        agent_categories={'Architecture': [{'name': 'zen-architect', 'description': 'System design', 'capabilities_count': 5}]},
-        total_count=23
+        featured_agents=[
+            {
+                "name": "zen-architect",
+                "description": "System design",
+                "capabilities": ["architecture"],
+                "category": "Architecture",
+            }
+        ],
+        agent_categories={
+            "Architecture": [{"name": "zen-architect", "description": "System design", "capabilities_count": 5}]
+        },
+        total_count=23,
     )
 
     mock_content = GeneratedContent(
         revolution_section=mock_revolution,
         progressive_setup=mock_setup,
         agent_showcase=mock_showcase,
-        hero_section={'title': 'Amplifier', 'tagline': 'Supercharged Development', 'description': 'Transform your workflow'},
-        overview_section={'title': 'Overview', 'key_points': []},
-        examples_section={'title': 'Examples', 'examples': []}
+        hero_section={
+            "title": "Amplifier",
+            "tagline": "Supercharged Development",
+            "description": "Transform your workflow",
+        },
+        overview_section={"title": "Overview", "key_points": []},
+        examples_section={"title": "Examples", "examples": []},
     )
 
     # Test section rendering
     print("Testing section rendering...")
-    revolution_html = engine.render_section('revolution', mock_revolution)
+    revolution_html = engine.render_section("revolution", mock_revolution)
     print(f"✓ Revolution section: {len(revolution_html)} characters")
 
-    hero_html = engine.render_section('hero', mock_content.hero_section)
+    hero_html = engine.render_section("hero", mock_content.hero_section)
     print(f"✓ Hero section: {len(hero_html)} characters")
 
     # Test full page generation
     print("Testing full page generation...")
-    page_config = {'name': 'index', 'title': 'Home', 'sections': ['hero', 'revolution', 'agents', 'setup']}
+    page_config = {"name": "index", "title": "Home", "sections": ["hero", "revolution", "agents", "setup"]}
     full_html = engine.generate_full_page(page_config, mock_content)
     print(f"✓ Full page: {len(full_html)} characters")
 
@@ -775,7 +796,7 @@ def test_template_engine():
     output_dir = Path(__file__).parent.parent.parent / "output"
     output_dir.mkdir(exist_ok=True)
 
-    with open(output_dir / "test_page.html", 'w', encoding='utf-8') as f:
+    with open(output_dir / "test_page.html", "w", encoding="utf-8") as f:
         f.write(full_html)
 
     print(f"✓ Test page saved to: {output_dir / 'test_page.html'}")

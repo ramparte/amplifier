@@ -46,6 +46,7 @@ default: ## Show essential commands
 	@echo "  make project-plan    Plan project tasks with AI decomposition"
 	@echo "  make project-status  Show project status and progress"
 	@echo "  make project-execute Execute tasks with multi-agent coordination"
+	@echo "  make smart-decomposer Smart multi-agent task decomposition"
 	@echo ""
 	@echo "Blog Writing:"
 	@echo "  make blog-write      Create a blog post from your ideas"
@@ -557,6 +558,16 @@ project-status: ## Show project status and progress
 project-execute: ## Execute project tasks with multi-agent coordination
 	@echo "🚀 Executing project tasks with AI agents..."
 	@uv run python -m scenarios.project_planner execute
+
+smart-decomposer: ## Smart multi-agent task decomposition. Usage: make smart-decomposer ARGS="decompose 'Build API' --auto-assign"
+	@echo "🧠 Running Smart Decomposer multi-agent orchestration..."
+	@if [ -n "$(ARGS)" ]; then \
+		echo "  Args: $(ARGS)"; \
+		uv run python -m scenarios.smart_decomposer $(ARGS); \
+	else \
+		echo "  Running status check..."; \
+		uv run python -m scenarios.smart_decomposer status; \
+	fi
 
 # Article Illustration
 illustrate: ## Generate AI illustrations for markdown article. Usage: make illustrate INPUT=article.md [OUTPUT=path] [STYLE="..."] [APIS="..."] [RESUME=true]

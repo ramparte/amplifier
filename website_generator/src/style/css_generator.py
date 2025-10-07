@@ -2,9 +2,9 @@
 CSS generator for website styling.
 Generates CSS based on design system configuration.
 """
-from pathlib import Path
-from typing import Dict, Any, List
+
 import sys
+from pathlib import Path
 
 # Import our components
 sys.path.append(str(Path(__file__).parent.parent))
@@ -17,7 +17,7 @@ class CSSGenerator:
     def __init__(self, config: SiteConfig):
         self.config = config
         self.design_system = config.design_system
-        self.colors = self.design_system.get('colors', {})
+        self.colors = self.design_system.get("colors", {})
         self.responsive = config.responsive
 
     def generate_full_css(self) -> str:
@@ -30,14 +30,14 @@ class CSSGenerator:
             self._generate_component_styles(),
             self._generate_section_styles(),
             self._generate_responsive_styles(),
-            self._generate_animation_styles()
+            self._generate_animation_styles(),
         ]
 
-        return '\n\n'.join(css_parts)
+        return "\n\n".join(css_parts)
 
     def _generate_css_reset(self) -> str:
         """Generate CSS reset and base styles"""
-        return '''/* CSS Reset and Base Styles */
+        return """/* CSS Reset and Base Styles */
 * {
     margin: 0;
     padding: 0;
@@ -76,7 +76,7 @@ button {
 
 ul, ol {
     list-style: none;
-}'''
+}"""
 
     def _generate_css_variables(self) -> str:
         """Generate CSS custom properties from design system"""
@@ -84,12 +84,12 @@ ul, ol {
 
         # Colors
         for color_name, color_value in self.colors.items():
-            css_name = color_name.replace('_', '-')
+            css_name = color_name.replace("_", "-")
             vars_css += f"    --{css_name}: {color_value};\n"
 
         # Typography
-        if self.design_system.get('typography') == 'inter_modern':
-            vars_css += '''    --font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        if self.design_system.get("typography") == "inter_modern":
+            vars_css += """    --font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     --font-size-xs: 0.75rem;
     --font-size-sm: 0.875rem;
     --font-size-base: 1rem;
@@ -99,10 +99,10 @@ ul, ol {
     --font-size-3xl: 1.875rem;
     --font-size-4xl: 2.25rem;
     --font-size-5xl: 3rem;
-'''
+"""
 
         # Spacing
-        vars_css += '''    --spacing-xs: 0.25rem;
+        vars_css += """    --spacing-xs: 0.25rem;
     --spacing-sm: 0.5rem;
     --spacing-md: 1rem;
     --spacing-lg: 1.5rem;
@@ -110,26 +110,26 @@ ul, ol {
     --spacing-2xl: 3rem;
     --spacing-3xl: 4rem;
     --spacing-4xl: 6rem;
-'''
+"""
 
         # Shadows
-        vars_css += '''    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        vars_css += """    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-'''
+"""
 
         # Border radius
-        vars_css += '''    --radius-sm: 0.25rem;
+        vars_css += """    --radius-sm: 0.25rem;
     --radius: 0.5rem;
     --radius-md: 0.75rem;
     --radius-lg: 1rem;
     --radius-xl: 1.5rem;
-'''
+"""
 
         # Responsive breakpoints
         if self.responsive:
-            breakpoints = self.responsive.get('breakpoints', {})
+            breakpoints = self.responsive.get("breakpoints", {})
             for bp_name, bp_value in breakpoints.items():
                 vars_css += f"    --breakpoint-{bp_name}: {bp_value};\n"
 
@@ -138,7 +138,7 @@ ul, ol {
 
     def _generate_base_styles(self) -> str:
         """Generate base typography and element styles"""
-        return '''/* Base Typography and Elements */
+        return """/* Base Typography and Elements */
 body {
     font-family: var(--font-family, -apple-system, BlinkMacSystemFont, sans-serif);
     font-size: var(--font-size-base);
@@ -191,11 +191,11 @@ pre code {
     background: none;
     padding: 0;
     border: none;
-}'''
+}"""
 
     def _generate_layout_styles(self) -> str:
         """Generate layout and grid styles"""
-        return '''/* Layout Styles */
+        return """/* Layout Styles */
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -251,14 +251,15 @@ pre code {
 
 .flex-col {
     flex-direction: column;
-}'''
+}"""
 
     def _generate_component_styles(self) -> str:
         """Generate component styles"""
-        animation_level = self.design_system.get('animation_level', 'engaging')
+        # Animation level for future component styling
+        # animation_level = self.design_system.get("animation_level", "engaging")
 
         # Button styles
-        btn_styles = '''/* Button Components */
+        btn_styles = """/* Button Components */
 .btn {
     display: inline-flex;
     align-items: center;
@@ -304,10 +305,10 @@ pre code {
 .btn-outline:hover {
     background: var(--surface, #f8fafc);
     border-color: var(--primary-color);
-}'''
+}"""
 
         # Card styles
-        card_styles = '''
+        card_styles = """
 /* Card Components */
 .card {
     background: white;
@@ -340,10 +341,10 @@ pre code {
 .card-description {
     color: var(--text-secondary);
     margin-bottom: var(--spacing-md);
-}'''
+}"""
 
         # Badge styles
-        badge_styles = '''
+        badge_styles = """
 /* Badge Components */
 .badge {
     display: inline-flex;
@@ -379,13 +380,13 @@ pre code {
 .badge-development {
     background: rgba(107, 114, 128, 0.1);
     color: var(--text-secondary);
-}'''
+}"""
 
         return btn_styles + card_styles + badge_styles
 
     def _generate_section_styles(self) -> str:
         """Generate styles for specific sections"""
-        return '''/* Section-Specific Styles */
+        return """/* Section-Specific Styles */
 
 /* Header and Navigation */
 .header {
@@ -871,14 +872,14 @@ pre code {
 
 .tab-content.active {
     display: block;
-}'''
+}"""
 
     def _generate_responsive_styles(self) -> str:
         """Generate responsive breakpoint styles"""
-        mobile_bp = self.responsive.get('breakpoints', {}).get('mobile', '768px')
-        tablet_bp = self.responsive.get('breakpoints', {}).get('tablet', '1024px')
+        mobile_bp = self.responsive.get("breakpoints", {}).get("mobile", "768px")
+        tablet_bp = self.responsive.get("breakpoints", {}).get("tablet", "1024px")
 
-        return f'''/* Responsive Styles */
+        return f"""/* Responsive Styles */
 
 @media (max-width: {mobile_bp}) {{
     .container {{
@@ -939,30 +940,30 @@ pre code {
     .agent-grid {{
         grid-template-columns: repeat(2, 1fr);
     }}
-}}'''
+}}"""
 
     def _generate_animation_styles(self) -> str:
         """Generate animation styles based on animation level"""
-        animation_level = self.design_system.get('animation_level', 'engaging')
+        animation_level = self.design_system.get("animation_level", "engaging")
 
-        if animation_level == 'minimal':
-            return '''/* Minimal Animations */
+        if animation_level == "minimal":
+            return """/* Minimal Animations */
 .btn, .card, .agent-card, .tier-card {
     transition: opacity 0.2s ease;
-}'''
+}"""
 
-        elif animation_level == 'subtle':
-            return '''/* Subtle Animations */
+        if animation_level == "subtle":
+            return """/* Subtle Animations */
 .btn, .card, .agent-card, .tier-card {
     transition: all 0.2s ease;
 }
 
 .card:hover, .agent-card:hover, .tier-card:hover {
     transform: translateY(-2px);
-}'''
+}"""
 
-        elif animation_level == 'engaging':
-            return '''/* Engaging Animations */
+        if animation_level == "engaging":
+            return """/* Engaging Animations */
 .btn, .card, .agent-card, .tier-card {
     transition: all 0.3s ease;
 }
@@ -999,10 +1000,10 @@ pre code {
 
 .agent-card:hover .agent-name {
     color: var(--primary-color);
-}'''
+}"""
 
-        else:  # bold
-            return '''/* Bold Animations */
+        # bold
+        return """/* Bold Animations */
 .btn, .card, .agent-card, .tier-card {
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
@@ -1025,7 +1026,7 @@ pre code {
 
 .metric-card {
     animation: bounce-in 0.6s ease-out;
-}'''
+}"""
 
     def save_css(self, output_path: str) -> None:
         """Save generated CSS to file"""
@@ -1034,7 +1035,7 @@ pre code {
         output_file = Path(output_path)
         output_file.parent.mkdir(parents=True, exist_ok=True)
 
-        with open(output_file, 'w', encoding='utf-8') as f:
+        with open(output_file, "w", encoding="utf-8") as f:
             f.write(css_content)
 
         print(f"✓ CSS saved to: {output_file} ({len(css_content):,} characters)")
@@ -1047,6 +1048,7 @@ def test_css_generator():
 
     # Load configuration
     from config_loader import ConfigLoader
+
     loader = ConfigLoader()
     amplifier_config_path = Path(__file__).parent.parent.parent / "examples" / "amplifier_config.yaml"
     config = loader.load_full_config(str(amplifier_config_path))
