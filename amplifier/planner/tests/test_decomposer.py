@@ -66,7 +66,7 @@ class TestDecomposer:
         ]
 
         mock_result = MagicMock()
-        mock_result.data = mock_decomposition
+        mock_result.output = mock_decomposition
 
         with patch("amplifier.planner.decomposer._get_decomposer_agent") as mock_agent:
             agent = AsyncMock()
@@ -105,9 +105,9 @@ class TestDecomposer:
         ]
 
         mock_result_1 = MagicMock()
-        mock_result_1.data = mock_decomposition_1
+        mock_result_1.output = mock_decomposition_1
         mock_result_2 = MagicMock()
-        mock_result_2.data = mock_decomposition_2
+        mock_result_2.output = mock_decomposition_2
 
         with patch("amplifier.planner.decomposer._get_decomposer_agent") as mock_agent:
             agent = AsyncMock()
@@ -137,7 +137,7 @@ class TestDecomposer:
             {"title": "Write API endpoints", "description": "Create APIs"},
         ]
 
-        mock_results = [MagicMock(data=level1_decomposition), MagicMock(data=level2_decomposition)]
+        mock_results = [MagicMock(output=level1_decomposition), MagicMock(output=level2_decomposition)]
 
         with patch("amplifier.planner.decomposer._get_decomposer_agent") as mock_agent:
             agent = AsyncMock()

@@ -30,7 +30,7 @@ class ConcurrencyError(Exception):
     pass
 
 
-@dataclass
+@dataclass(frozen=True)
 class StateTransition:
     """Represents a state transition with validation and effects."""
 
@@ -40,6 +40,10 @@ class StateTransition:
     side_effects: Callable[[Task], None] | None = None
     requires_assignment: bool = False
     description: str = ""
+
+    def __hash__(self) -> int:
+        """Make StateTransition hashable for use in sets."""
+        return hash((self.from_state, self.to_state, self.requires_assignment, self.description))
 
 
 class StateTransitionProtocol:

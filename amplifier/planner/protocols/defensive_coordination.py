@@ -69,14 +69,14 @@ def retry_with_backoff(config: RetryConfig | None = None):
     def decorator(func: Callable[..., T]) -> Callable[..., T]:
         @wraps(func)
         async def async_wrapper(*args, **kwargs) -> T:
-            last_exception = None
+            last_exception: Exception | None = None
             delay = config.initial_delay
 
             for attempt in range(config.max_attempts):
                 try:
                     if asyncio.iscoroutinefunction(func):
                         return await func(*args, **kwargs)
-                    return func(*args, **kwargs)
+                    return func(*args, **kwargs)  # type: ignore
 
                 except config.retry_on_exceptions as e:
                     last_exception = e
@@ -100,14 +100,16 @@ def retry_with_backoff(config: RetryConfig | None = None):
                     logger.error(f"Non-recoverable error in {func.__name__}: {e}")
                     raise e
 
-            raise last_exception
+            if last_exception:
+                raise last_exception
+            raise RuntimeError("Unexpected retry loop exit")
 
         @wraps(func)
         def sync_wrapper(*args, **kwargs) -> T:
             return asyncio.run(async_wrapper(*args, **kwargs))
 
         if asyncio.iscoroutinefunction(func):
-            return async_wrapper
+            return async_wrapper  # type: ignore
         return sync_wrapper
 
     return decorator

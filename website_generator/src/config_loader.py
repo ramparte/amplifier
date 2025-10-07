@@ -28,7 +28,7 @@ class SiteConfig:
 class ConfigLoader:
     """Loads and manages website generator configuration"""
 
-    def __init__(self, config_dir: str = None):
+    def __init__(self, config_dir: str | None = None):
         if config_dir is None:
             self.config_dir = Path(__file__).parent.parent / "config"
         else:

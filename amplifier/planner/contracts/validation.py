@@ -12,7 +12,6 @@ from dataclasses import fields
 from dataclasses import is_dataclass
 from typing import Any
 from typing import Optional
-from typing import Protocol
 
 
 class ContractValidator:
@@ -22,7 +21,7 @@ class ContractValidator:
     """
 
     @staticmethod
-    def validate_protocol_implementation(implementation: Any, protocol: type[Protocol]) -> list[str]:
+    def validate_protocol_implementation(implementation: Any, protocol: type) -> list[str]:
         """
         Validate that a class implements all methods required by a protocol.
 
@@ -184,7 +183,7 @@ class ContractTest:
     Provides utilities for testing module contracts.
     """
 
-    def assert_implements_protocol(self, implementation: Any, protocol: type[Protocol]):
+    def assert_implements_protocol(self, implementation: Any, protocol: type):
         """Assert that implementation satisfies protocol contract."""
         errors = ContractValidator.validate_protocol_implementation(implementation, protocol)
         if errors:
@@ -221,7 +220,7 @@ class ContractMonitor:
         self.logger = logger or self._get_default_logger()
         self.violations = []
 
-    def check_protocol(self, implementation: Any, protocol: type[Protocol]) -> bool:
+    def check_protocol(self, implementation: Any, protocol: type) -> bool:
         """Check protocol implementation, log violations."""
         errors = ContractValidator.validate_protocol_implementation(implementation, protocol)
 

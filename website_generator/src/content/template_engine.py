@@ -31,7 +31,7 @@ from content.content_generator import GeneratedContent
 class TemplateEngine:
     """Converts generated content into HTML using Jinja2 templates"""
 
-    def __init__(self, config: SiteConfig, templates_dir: str = None, css_filename: str = "styles.css"):
+    def __init__(self, config: SiteConfig, templates_dir: str | None = None, css_filename: str = "styles.css"):
         self.config = config
         self.css_filename = css_filename
 

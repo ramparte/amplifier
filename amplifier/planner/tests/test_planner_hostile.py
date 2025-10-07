@@ -895,7 +895,7 @@ class HostileTester:
         print("\n🎉 ALL HOSTILE TESTS PASSED! 🎉")
         print("✨ Phase 1 is BULLETPROOF! ✨")
         print(
-            f"💪 Successfully handled {len(loaded_project.tasks) if 'loaded_project' in locals() else 'many'} tasks in complex project"
+            f"💪 Successfully handled {len(loaded_project.tasks) if 'loaded_project' in locals() and loaded_project else 'many'} tasks in complex project"
         )
         return True
 
