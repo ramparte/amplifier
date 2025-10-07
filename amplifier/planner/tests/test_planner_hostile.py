@@ -15,6 +15,7 @@ This test is designed to break things and find edge cases by:
 """
 
 import json
+import sys
 import time
 from pathlib import Path
 

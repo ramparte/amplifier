@@ -4,6 +4,7 @@ Manual test script for Super-Planner Phase 1
 Run this script to verify the basic functionality works correctly.
 """
 
+import sys
 import uuid
 from pathlib import Path
 
