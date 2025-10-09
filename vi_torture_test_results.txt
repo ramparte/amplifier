@@ -1,0 +1,487 @@
+Uninstalled 1 package in 2.37s
+warning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.
+         If the cache and target directories are on different filesystems, hardlinking may not be supported.
+         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.
+Installed 1 package in 9.78s
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.6.0 -- /mnt/c/Users/samschillace/amplifier/.venv/bin/python3
+cachedir: .pytest_cache
+rootdir: /mnt/c/Users/samschillace/amplifier
+configfile: pyproject.toml
+plugins: anyio-4.9.0, langsmith-0.4.9, logfire-4.8.0, asyncio-1.1.0, cov-6.2.1, mock-3.14.1
+asyncio: mode=Mode.STRICT, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 67 items
+
+tests/vi_torture/test_edge_cases.py::TestEmptyBufferEdgeCases::test_empty_buffer_movements FAILED [  1%]
+tests/vi_torture/test_edge_cases.py::TestEmptyBufferEdgeCases::test_empty_buffer_editing FAILED [  2%]
+tests/vi_torture/test_edge_cases.py::TestEmptyBufferEdgeCases::test_empty_buffer_visual_mode FAILED [  4%]
+tests/vi_torture/test_edge_cases.py::TestSingleCharacterBuffer::test_single_char_movements FAILED [  5%]
+tests/vi_torture/test_edge_cases.py::TestSingleCharacterBuffer::test_single_char_deletion FAILED [  7%]
+tests/vi_torture/test_edge_cases.py::TestSingleCharacterBuffer::test_single_char_visual FAILED [  8%]
+tests/vi_torture/test_edge_cases.py::TestLongLines::test_long_line_movement FAILED [ 10%]
+tests/vi_torture/test_edge_cases.py::TestLongLines::test_long_line_deletion FAILED [ 11%]
+tests/vi_torture/test_edge_cases.py::TestLongLines::test_long_line_yank FAILED [ 13%]
+tests/vi_torture/test_edge_cases.py::TestManyLines::test_many_lines_navigation FAILED [ 14%]
+tests/vi_torture/test_edge_cases.py::TestManyLines::test_many_lines_deletion FAILED [ 16%]
+tests/vi_torture/test_edge_cases.py::TestUnicodeEdgeCases::test_unicode_characters FAILED [ 17%]
+tests/vi_torture/test_edge_cases.py::TestUnicodeEdgeCases::test_zero_width_characters FAILED [ 19%]
+tests/vi_torture/test_edge_cases.py::TestUnicodeEdgeCases::test_rtl_text FAILED [ 20%]
+tests/vi_torture/test_edge_cases.py::TestBoundaryConditions::test_cursor_at_line_end FAILED [ 22%]
+tests/vi_torture/test_edge_cases.py::TestBoundaryConditions::test_cursor_at_buffer_end FAILED [ 23%]
+tests/vi_torture/test_edge_cases.py::TestBoundaryConditions::test_cursor_at_empty_line FAILED [ 25%]
+tests/vi_torture/test_edge_cases.py::TestRepeatedOperations::test_large_repeat_count FAILED [ 26%]
+tests/vi_torture/test_edge_cases.py::TestRepeatedOperations::test_repeated_deletion FAILED [ 28%]
+tests/vi_torture/test_edge_cases.py::TestRepeatedOperations::test_repeated_insertion FAILED [ 29%]
+tests/vi_torture/test_edge_cases.py::TestMarkEdgeCases::test_mark_on_empty_buffer FAILED [ 31%]
+tests/vi_torture/test_edge_cases.py::TestMarkEdgeCases::test_mark_after_deletion FAILED [ 32%]
+tests/vi_torture/test_edge_cases.py::TestVisualModeEdgeCases::test_visual_selection_empty_lines FAILED [ 34%]
+tests/vi_torture/test_edge_cases.py::TestVisualModeEdgeCases::test_visual_mode_at_buffer_boundaries FAILED [ 35%]
+tests/vi_torture/test_edge_cases.py::TestSearchEdgeCases::test_search_empty_pattern FAILED [ 37%]
+tests/vi_torture/test_edge_cases.py::TestSearchEdgeCases::test_search_not_found FAILED [ 38%]
+tests/vi_torture/test_edge_cases.py::TestSearchEdgeCases::test_search_regex_errors FAILED [ 40%]
+tests/vi_torture/test_edge_cases.py::TestMemoryStress::test_large_buffer_operations FAILED [ 41%]
+tests/vi_torture/test_edge_cases.py::TestMemoryStress::test_many_undo_operations FAILED [ 43%]
+tests/vi_torture/test_edge_cases.py::TestConcurrentOperations::test_rapid_mode_switching FAILED [ 44%]
+tests/vi_torture/test_edge_cases.py::TestConcurrentOperations::test_rapid_cursor_movements FAILED [ 46%]
+tests/vi_torture/test_performance.py::TestNavigationPerformance::test_large_buffer_navigation_speed FAILED [ 47%]
+tests/vi_torture/test_performance.py::TestNavigationPerformance::test_word_movement_performance FAILED [ 49%]
+tests/vi_torture/test_performance.py::TestNavigationPerformance::test_search_performance FAILED [ 50%]
+tests/vi_torture/test_performance.py::TestEditingPerformance::test_mass_insertion_performance FAILED [ 52%]
+tests/vi_torture/test_performance.py::TestEditingPerformance::test_mass_deletion_performance FAILED [ 53%]
+tests/vi_torture/test_performance.py::TestEditingPerformance::test_yank_performance FAILED [ 55%]
+tests/vi_torture/test_performance.py::TestVisualModePerformance::test_large_visual_selection FAILED [ 56%]
+tests/vi_torture/test_performance.py::TestVisualModePerformance::test_visual_block_operations FAILED [ 58%]
+tests/vi_torture/test_performance.py::TestMemoryPerformance::test_large_buffer_memory FAILED [ 59%]
+tests/vi_torture/test_performance.py::TestMemoryPerformance::test_undo_stack_memory FAILED [ 61%]
+tests/vi_torture/test_performance.py::TestConcurrentPerformance::test_rapid_mode_switching_performance FAILED [ 62%]
+tests/vi_torture/test_performance.py::TestConcurrentPerformance::test_rapid_cursor_updates_performance FAILED [ 64%]
+tests/vi_torture/test_performance.py::TestWorstCaseScenarios::test_single_character_per_line FAILED [ 65%]
+tests/vi_torture/test_performance.py::TestWorstCaseScenarios::test_extremely_long_single_line FAILED [ 67%]
+tests/vi_torture/test_performance.py::TestWorstCaseScenarios::test_deep_nesting_brackets FAILED [ 68%]
+tests/vi_torture/test_performance.py::TestRegressionPerformance::test_baseline_operations FAILED [ 70%]
+tests/vi_torture/test_stress.py::TestComplexEditingPatterns::test_alternating_operations FAILED [ 71%]
+tests/vi_torture/test_stress.py::TestComplexEditingPatterns::test_nested_visual_operations FAILED [ 73%]
+tests/vi_torture/test_stress.py::TestComplexEditingPatterns::test_mark_and_jump_combinations FAILED [ 74%]
+tests/vi_torture/test_stress.py::TestDataIntegrity::test_massive_editing_consistency FAILED [ 76%]
+tests/vi_torture/test_stress.py::TestDataIntegrity::test_cursor_never_invalid FAILED [ 77%]
+tests/vi_torture/test_stress.py::TestDataIntegrity::test_buffer_never_corrupted FAILED [ 79%]
+tests/vi_torture/test_stress.py::TestErrorRecovery::test_invalid_operation_recovery FAILED [ 80%]
+tests/vi_torture/test_stress.py::TestErrorRecovery::test_mode_consistency_after_errors FAILED [ 82%]
+tests/vi_torture/test_stress.py::TestErrorRecovery::test_state_recovery_after_crash_simulation FAILED [ 83%]
+tests/vi_torture/test_stress.py::TestBoundaryStress::test_zero_length_operations FAILED [ 85%]
+tests/vi_torture/test_stress.py::TestBoundaryStress::test_maximum_line_length FAILED [ 86%]
+tests/vi_torture/test_stress.py::TestBoundaryStress::test_maximum_buffer_size FAILED [ 88%]
+tests/vi_torture/test_stress.py::TestComplexWorkflows::test_code_editing_workflow FAILED [ 89%]
+tests/vi_torture/test_stress.py::TestComplexWorkflows::test_document_editing_workflow FAILED [ 91%]
+tests/vi_torture/test_stress.py::TestStateMachineIntegrity::test_all_valid_mode_transitions FAILED [ 92%]
+tests/vi_torture/test_stress.py::TestStateMachineIntegrity::test_mode_state_preserved FAILED [ 94%]
+tests/vi_torture/test_stress.py::TestStateMachineIntegrity::test_rapid_mode_changes_integrity FAILED [ 95%]
+tests/vi_torture/test_stress.py::TestCornerCases::test_operations_at_all_boundaries FAILED [ 97%]
+tests/vi_torture/test_stress.py::TestCornerCases::test_all_whitespace_operations FAILED [ 98%]
+tests/vi_torture/test_stress.py::TestCornerCases::test_mixed_line_endings FAILED [100%]
+
+=================================== FAILURES ===================================
+_____________ TestEmptyBufferEdgeCases.test_empty_buffer_movements _____________
+tests/vi_torture/test_edge_cases.py:39: in test_empty_buffer_movements
+    buffer.set_lines([])
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+______________ TestEmptyBufferEdgeCases.test_empty_buffer_editing ______________
+tests/vi_torture/test_edge_cases.py:50: in test_empty_buffer_editing
+    buffer.set_lines([])
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+____________ TestEmptyBufferEdgeCases.test_empty_buffer_visual_mode ____________
+tests/vi_torture/test_edge_cases.py:63: in test_empty_buffer_visual_mode
+    buffer.set_lines([])
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+_____________ TestSingleCharacterBuffer.test_single_char_movements _____________
+tests/vi_torture/test_edge_cases.py:79: in test_single_char_movements
+    buffer.set_lines(["a"])
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+_____________ TestSingleCharacterBuffer.test_single_char_deletion ______________
+tests/vi_torture/test_edge_cases.py:93: in test_single_char_deletion
+    buffer.set_lines(["a"])
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+______________ TestSingleCharacterBuffer.test_single_char_visual _______________
+tests/vi_torture/test_edge_cases.py:102: in test_single_char_visual
+    buffer.set_lines(["a"])
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+____________________ TestLongLines.test_long_line_movement _____________________
+tests/vi_torture/test_edge_cases.py:117: in test_long_line_movement
+    buffer.set_lines([long_line])
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+____________________ TestLongLines.test_long_line_deletion _____________________
+tests/vi_torture/test_edge_cases.py:137: in test_long_line_deletion
+    buffer.set_lines([long_line])
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+______________________ TestLongLines.test_long_line_yank _______________________
+tests/vi_torture/test_edge_cases.py:148: in test_long_line_yank
+    buffer.set_lines([long_line])
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+___________________ TestManyLines.test_many_lines_navigation ___________________
+tests/vi_torture/test_edge_cases.py:163: in test_many_lines_navigation
+    buffer.set_lines(lines)
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+____________________ TestManyLines.test_many_lines_deletion ____________________
+tests/vi_torture/test_edge_cases.py:182: in test_many_lines_deletion
+    buffer.set_lines(lines)
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+_________________ TestUnicodeEdgeCases.test_unicode_characters _________________
+tests/vi_torture/test_edge_cases.py:197: in test_unicode_characters
+    buffer.set_lines(["Hello 世界 🌍"])
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+_______________ TestUnicodeEdgeCases.test_zero_width_characters ________________
+tests/vi_torture/test_edge_cases.py:211: in test_zero_width_characters
+    buffer.set_lines(["e\u0301"])  # é as e + combining acute
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+______________________ TestUnicodeEdgeCases.test_rtl_text ______________________
+tests/vi_torture/test_edge_cases.py:220: in test_rtl_text
+    buffer.set_lines(["Hello مرحبا"])
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+________________ TestBoundaryConditions.test_cursor_at_line_end ________________
+tests/vi_torture/test_edge_cases.py:235: in test_cursor_at_line_end
+    buffer.set_lines(["hello"])
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+_______________ TestBoundaryConditions.test_cursor_at_buffer_end _______________
+tests/vi_torture/test_edge_cases.py:249: in test_cursor_at_buffer_end
+    buffer.set_lines(["line1", "line2", "line3"])
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+_______________ TestBoundaryConditions.test_cursor_at_empty_line _______________
+tests/vi_torture/test_edge_cases.py:263: in test_cursor_at_empty_line
+    buffer.set_lines(["line1", "", "line3"])
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+________________ TestRepeatedOperations.test_large_repeat_count ________________
+tests/vi_torture/test_edge_cases.py:282: in test_large_repeat_count
+    buffer.set_lines(lines)
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+________________ TestRepeatedOperations.test_repeated_deletion _________________
+tests/vi_torture/test_edge_cases.py:297: in test_repeated_deletion
+    buffer.set_lines(lines)
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+________________ TestRepeatedOperations.test_repeated_insertion ________________
+tests/vi_torture/test_edge_cases.py:307: in test_repeated_insertion
+    buffer.set_lines([""])
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+_________________ TestMarkEdgeCases.test_mark_on_empty_buffer __________________
+tests/vi_torture/test_edge_cases.py:326: in test_mark_on_empty_buffer
+    buffer.set_lines([])
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+__________________ TestMarkEdgeCases.test_mark_after_deletion __________________
+tests/vi_torture/test_edge_cases.py:335: in test_mark_after_deletion
+    buffer.set_lines(["line1", "line2", "line3"])
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+__________ TestVisualModeEdgeCases.test_visual_selection_empty_lines ___________
+tests/vi_torture/test_edge_cases.py:357: in test_visual_selection_empty_lines
+    buffer.set_lines(["line1", "", "", "line4"])
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+________ TestVisualModeEdgeCases.test_visual_mode_at_buffer_boundaries _________
+tests/vi_torture/test_edge_cases.py:369: in test_visual_mode_at_buffer_boundaries
+    buffer.set_lines(["line1", "line2", "line3"])
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+________________ TestSearchEdgeCases.test_search_empty_pattern _________________
+tests/vi_torture/test_edge_cases.py:390: in test_search_empty_pattern
+    buffer.set_lines(["hello world"])
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+__________________ TestSearchEdgeCases.test_search_not_found ___________________
+tests/vi_torture/test_edge_cases.py:396: in test_search_not_found
+    buffer.set_lines(["hello world"])
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+_________________ TestSearchEdgeCases.test_search_regex_errors _________________
+tests/vi_torture/test_edge_cases.py:402: in test_search_regex_errors
+    buffer.set_lines(["hello world"])
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+________________ TestMemoryStress.test_large_buffer_operations _________________
+tests/vi_torture/test_edge_cases.py:414: in test_large_buffer_operations
+    buffer.set_lines(lines)
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+__________________ TestMemoryStress.test_many_undo_operations __________________
+tests/vi_torture/test_edge_cases.py:424: in test_many_undo_operations
+    buffer.set_lines([""])
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+______________ TestConcurrentOperations.test_rapid_mode_switching ______________
+tests/vi_torture/test_edge_cases.py:442: in test_rapid_mode_switching
+    buffer.set_lines(["hello"])
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+_____________ TestConcurrentOperations.test_rapid_cursor_movements _____________
+tests/vi_torture/test_edge_cases.py:458: in test_rapid_cursor_movements
+    buffer.set_lines(lines)
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+_________ TestNavigationPerformance.test_large_buffer_navigation_speed _________
+tests/vi_torture/test_performance.py:42: in test_large_buffer_navigation_speed
+    buffer.set_lines(lines)
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+___________ TestNavigationPerformance.test_word_movement_performance ___________
+tests/vi_torture/test_performance.py:58: in test_word_movement_performance
+    buffer.set_lines([line])
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+______________ TestNavigationPerformance.test_search_performance _______________
+tests/vi_torture/test_performance.py:76: in test_search_performance
+    buffer.set_lines(lines)
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+____________ TestEditingPerformance.test_mass_insertion_performance ____________
+tests/vi_torture/test_performance.py:98: in test_mass_insertion_performance
+    buffer.set_lines([""])
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+____________ TestEditingPerformance.test_mass_deletion_performance _____________
+tests/vi_torture/test_performance.py:116: in test_mass_deletion_performance
+    buffer.set_lines(lines)
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+_________________ TestEditingPerformance.test_yank_performance _________________
+tests/vi_torture/test_performance.py:131: in test_yank_performance
+    buffer.set_lines(lines)
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+____________ TestVisualModePerformance.test_large_visual_selection _____________
+tests/vi_torture/test_performance.py:149: in test_large_visual_selection
+    buffer.set_lines(lines)
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+____________ TestVisualModePerformance.test_visual_block_operations ____________
+tests/vi_torture/test_performance.py:164: in test_visual_block_operations
+    buffer.set_lines(lines)
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+________________ TestMemoryPerformance.test_large_buffer_memory ________________
+tests/vi_torture/test_performance.py:189: in test_large_buffer_memory
+    buffer.set_lines(lines)
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+_________________ TestMemoryPerformance.test_undo_stack_memory _________________
+tests/vi_torture/test_performance.py:203: in test_undo_stack_memory
+    buffer.set_lines([""])
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+_______ TestConcurrentPerformance.test_rapid_mode_switching_performance ________
+tests/vi_torture/test_performance.py:222: in test_rapid_mode_switching_performance
+    buffer.set_lines(["test line"])
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+_______ TestConcurrentPerformance.test_rapid_cursor_updates_performance ________
+tests/vi_torture/test_performance.py:239: in test_rapid_cursor_updates_performance
+    buffer.set_lines(lines)
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+____________ TestWorstCaseScenarios.test_single_character_per_line _____________
+tests/vi_torture/test_performance.py:260: in test_single_character_per_line
+    buffer.set_lines(lines)
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+____________ TestWorstCaseScenarios.test_extremely_long_single_line ____________
+tests/vi_torture/test_performance.py:274: in test_extremely_long_single_line
+    buffer.set_lines([long_line])
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+______________ TestWorstCaseScenarios.test_deep_nesting_brackets _______________
+tests/vi_torture/test_performance.py:290: in test_deep_nesting_brackets
+    buffer.set_lines([nested])
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+______________ TestRegressionPerformance.test_baseline_operations ______________
+tests/vi_torture/test_performance.py:309: in test_baseline_operations
+    buffer.set_lines(lines)
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+____________ TestComplexEditingPatterns.test_alternating_operations ____________
+tests/vi_torture/test_stress.py:39: in test_alternating_operations
+    buffer.set_lines(["line one", "line two", "line three"])
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+___________ TestComplexEditingPatterns.test_nested_visual_operations ___________
+tests/vi_torture/test_stress.py:57: in test_nested_visual_operations
+    buffer.set_lines(["line 1", "line 2", "line 3", "line 4", "line 5"])
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+__________ TestComplexEditingPatterns.test_mark_and_jump_combinations __________
+tests/vi_torture/test_stress.py:80: in test_mark_and_jump_combinations
+    buffer.set_lines(lines)
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+______________ TestDataIntegrity.test_massive_editing_consistency ______________
+tests/vi_torture/test_stress.py:115: in test_massive_editing_consistency
+    buffer.set_lines(["start"])
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+_________________ TestDataIntegrity.test_cursor_never_invalid __________________
+tests/vi_torture/test_stress.py:132: in test_cursor_never_invalid
+    buffer.set_lines(lines)
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+________________ TestDataIntegrity.test_buffer_never_corrupted _________________
+tests/vi_torture/test_stress.py:154: in test_buffer_never_corrupted
+    buffer.set_lines(initial.copy())
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+______________ TestErrorRecovery.test_invalid_operation_recovery _______________
+tests/vi_torture/test_stress.py:176: in test_invalid_operation_recovery
+    buffer.set_lines(["test"])
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+_____________ TestErrorRecovery.test_mode_consistency_after_errors _____________
+tests/vi_torture/test_stress.py:189: in test_mode_consistency_after_errors
+    buffer.set_lines(["test"])
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+_________ TestErrorRecovery.test_state_recovery_after_crash_simulation _________
+tests/vi_torture/test_stress.py:204: in test_state_recovery_after_crash_simulation
+    buffer.set_lines(initial.copy())
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+________________ TestBoundaryStress.test_zero_length_operations ________________
+tests/vi_torture/test_stress.py:222: in test_zero_length_operations
+    buffer.set_lines([""])
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+_________________ TestBoundaryStress.test_maximum_line_length __________________
+tests/vi_torture/test_stress.py:238: in test_maximum_line_length
+    buffer.set_lines([max_line])
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+_________________ TestBoundaryStress.test_maximum_buffer_size __________________
+tests/vi_torture/test_stress.py:250: in test_maximum_buffer_size
+    buffer.set_lines(max_lines)
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+_______________ TestComplexWorkflows.test_code_editing_workflow ________________
+tests/vi_torture/test_stress.py:273: in test_code_editing_workflow
+    buffer.set_lines(code.copy())
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+_____________ TestComplexWorkflows.test_document_editing_workflow ______________
+tests/vi_torture/test_stress.py:306: in test_document_editing_workflow
+    buffer.set_lines(doc.copy())
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+__________ TestStateMachineIntegrity.test_all_valid_mode_transitions ___________
+tests/vi_torture/test_stress.py:331: in test_all_valid_mode_transitions
+    buffer.set_lines(["test"])
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+_____________ TestStateMachineIntegrity.test_mode_state_preserved ______________
+tests/vi_torture/test_stress.py:354: in test_mode_state_preserved
+    buffer.set_lines(["line 1", "line 2"])
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+_________ TestStateMachineIntegrity.test_rapid_mode_changes_integrity __________
+tests/vi_torture/test_stress.py:369: in test_rapid_mode_changes_integrity
+    buffer.set_lines(["test"])
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+______________ TestCornerCases.test_operations_at_all_boundaries _______________
+tests/vi_torture/test_stress.py:390: in test_operations_at_all_boundaries
+    buffer.set_lines(["line 1", "line 2", "line 3"])
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+________________ TestCornerCases.test_all_whitespace_operations ________________
+tests/vi_torture/test_stress.py:409: in test_all_whitespace_operations
+    buffer.set_lines(["   ", "\t\t", "  \t  "])
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+___________________ TestCornerCases.test_mixed_line_endings ____________________
+tests/vi_torture/test_stress.py:423: in test_mixed_line_endings
+    buffer.set_lines(["line1", "", "line3", "", ""])
+    ^^^^^^^^^^^^^^^^
+E   AttributeError: 'TextBuffer' object has no attribute 'set_lines'. Did you mean: 'get_lines'?
+=========================== short test summary info ============================
+FAILED tests/vi_torture/test_edge_cases.py::TestEmptyBufferEdgeCases::test_empty_buffer_movements
+FAILED tests/vi_torture/test_edge_cases.py::TestEmptyBufferEdgeCases::test_empty_buffer_editing
+FAILED tests/vi_torture/test_edge_cases.py::TestEmptyBufferEdgeCases::test_empty_buffer_visual_mode
+FAILED tests/vi_torture/test_edge_cases.py::TestSingleCharacterBuffer::test_single_char_movements
+FAILED tests/vi_torture/test_edge_cases.py::TestSingleCharacterBuffer::test_single_char_deletion
+FAILED tests/vi_torture/test_edge_cases.py::TestSingleCharacterBuffer::test_single_char_visual
+FAILED tests/vi_torture/test_edge_cases.py::TestLongLines::test_long_line_movement
+FAILED tests/vi_torture/test_edge_cases.py::TestLongLines::test_long_line_deletion
+FAILED tests/vi_torture/test_edge_cases.py::TestLongLines::test_long_line_yank
+FAILED tests/vi_torture/test_edge_cases.py::TestManyLines::test_many_lines_navigation
+FAILED tests/vi_torture/test_edge_cases.py::TestManyLines::test_many_lines_deletion
+FAILED tests/vi_torture/test_edge_cases.py::TestUnicodeEdgeCases::test_unicode_characters
+FAILED tests/vi_torture/test_edge_cases.py::TestUnicodeEdgeCases::test_zero_width_characters
+FAILED tests/vi_torture/test_edge_cases.py::TestUnicodeEdgeCases::test_rtl_text
+FAILED tests/vi_torture/test_edge_cases.py::TestBoundaryConditions::test_cursor_at_line_end
+FAILED tests/vi_torture/test_edge_cases.py::TestBoundaryConditions::test_cursor_at_buffer_end
+FAILED tests/vi_torture/test_edge_cases.py::TestBoundaryConditions::test_cursor_at_empty_line
+FAILED tests/vi_torture/test_edge_cases.py::TestRepeatedOperations::test_large_repeat_count
+FAILED tests/vi_torture/test_edge_cases.py::TestRepeatedOperations::test_repeated_deletion
+FAILED tests/vi_torture/test_edge_cases.py::TestRepeatedOperations::test_repeated_insertion
+FAILED tests/vi_torture/test_edge_cases.py::TestMarkEdgeCases::test_mark_on_empty_buffer
+FAILED tests/vi_torture/test_edge_cases.py::TestMarkEdgeCases::test_mark_after_deletion
+FAILED tests/vi_torture/test_edge_cases.py::TestVisualModeEdgeCases::test_visual_selection_empty_lines
+FAILED tests/vi_torture/test_edge_cases.py::TestVisualModeEdgeCases::test_visual_mode_at_buffer_boundaries
+FAILED tests/vi_torture/test_edge_cases.py::TestSearchEdgeCases::test_search_empty_pattern
+FAILED tests/vi_torture/test_edge_cases.py::TestSearchEdgeCases::test_search_not_found
+FAILED tests/vi_torture/test_edge_cases.py::TestSearchEdgeCases::test_search_regex_errors
+FAILED tests/vi_torture/test_edge_cases.py::TestMemoryStress::test_large_buffer_operations
+FAILED tests/vi_torture/test_edge_cases.py::TestMemoryStress::test_many_undo_operations
+FAILED tests/vi_torture/test_edge_cases.py::TestConcurrentOperations::test_rapid_mode_switching
+FAILED tests/vi_torture/test_edge_cases.py::TestConcurrentOperations::test_rapid_cursor_movements
+FAILED tests/vi_torture/test_performance.py::TestNavigationPerformance::test_large_buffer_navigation_speed
+FAILED tests/vi_torture/test_performance.py::TestNavigationPerformance::test_word_movement_performance
+FAILED tests/vi_torture/test_performance.py::TestNavigationPerformance::test_search_performance
+FAILED tests/vi_torture/test_performance.py::TestEditingPerformance::test_mass_insertion_performance
+FAILED tests/vi_torture/test_performance.py::TestEditingPerformance::test_mass_deletion_performance
+FAILED tests/vi_torture/test_performance.py::TestEditingPerformance::test_yank_performance
+FAILED tests/vi_torture/test_performance.py::TestVisualModePerformance::test_large_visual_selection
+FAILED tests/vi_torture/test_performance.py::TestVisualModePerformance::test_visual_block_operations
+FAILED tests/vi_torture/test_performance.py::TestMemoryPerformance::test_large_buffer_memory
+FAILED tests/vi_torture/test_performance.py::TestMemoryPerformance::test_undo_stack_memory
+FAILED tests/vi_torture/test_performance.py::TestConcurrentPerformance::test_rapid_mode_switching_performance
+FAILED tests/vi_torture/test_performance.py::TestConcurrentPerformance::test_rapid_cursor_updates_performance
+FAILED tests/vi_torture/test_performance.py::TestWorstCaseScenarios::test_single_character_per_line
+FAILED tests/vi_torture/test_performance.py::TestWorstCaseScenarios::test_extremely_long_single_line
+FAILED tests/vi_torture/test_performance.py::TestWorstCaseScenarios::test_deep_nesting_brackets
+FAILED tests/vi_torture/test_performance.py::TestRegressionPerformance::test_baseline_operations
+FAILED tests/vi_torture/test_stress.py::TestComplexEditingPatterns::test_alternating_operations
+FAILED tests/vi_torture/test_stress.py::TestComplexEditingPatterns::test_nested_visual_operations
+FAILED tests/vi_torture/test_stress.py::TestComplexEditingPatterns::test_mark_and_jump_combinations
+FAILED tests/vi_torture/test_stress.py::TestDataIntegrity::test_massive_editing_consistency
+FAILED tests/vi_torture/test_stress.py::TestDataIntegrity::test_cursor_never_invalid
+FAILED tests/vi_torture/test_stress.py::TestDataIntegrity::test_buffer_never_corrupted
+FAILED tests/vi_torture/test_stress.py::TestErrorRecovery::test_invalid_operation_recovery
+FAILED tests/vi_torture/test_stress.py::TestErrorRecovery::test_mode_consistency_after_errors
+FAILED tests/vi_torture/test_stress.py::TestErrorRecovery::test_state_recovery_after_crash_simulation
+FAILED tests/vi_torture/test_stress.py::TestBoundaryStress::test_zero_length_operations
+FAILED tests/vi_torture/test_stress.py::TestBoundaryStress::test_maximum_line_length
+FAILED tests/vi_torture/test_stress.py::TestBoundaryStress::test_maximum_buffer_size
+FAILED tests/vi_torture/test_stress.py::TestComplexWorkflows::test_code_editing_workflow
+FAILED tests/vi_torture/test_stress.py::TestComplexWorkflows::test_document_editing_workflow
+FAILED tests/vi_torture/test_stress.py::TestStateMachineIntegrity::test_all_valid_mode_transitions
+FAILED tests/vi_torture/test_stress.py::TestStateMachineIntegrity::test_mode_state_preserved
+FAILED tests/vi_torture/test_stress.py::TestStateMachineIntegrity::test_rapid_mode_changes_integrity
+FAILED tests/vi_torture/test_stress.py::TestCornerCases::test_operations_at_all_boundaries
+FAILED tests/vi_torture/test_stress.py::TestCornerCases::test_all_whitespace_operations
+FAILED tests/vi_torture/test_stress.py::TestCornerCases::test_mixed_line_endings
+============================== 67 failed in 9.08s ==============================
