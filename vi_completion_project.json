@@ -1,0 +1,437 @@
+{
+  "project": {
+    "name": "vi_editor_completion",
+    "description": "Complete production-ready vi editor with CLI launcher and comprehensive testing",
+    "version": "2.0.0",
+    "status": "planned",
+    "created": "2025-01-XX",
+    "repository": "/mnt/c/Users/samschillace/amplifier",
+    "base_directory": "amplifier/vi"
+  },
+  "objectives": {
+    "primary": [
+      "CLI-launchable vi editor that behaves identically to traditional vi",
+      "Complete file I/O system (load, save, encoding handling)",
+      "Full ex command system (:w, :q, :e, :s, :g, :set)",
+      "Complete search system (/, ?, n, N, *, #)",
+      "All missing normal mode commands (., J, ~, >>, %, gu, gU)",
+      "Complete text objects (brackets, quotes, tags)",
+      "Macro recording and playback system",
+      "Comprehensive golden-master testing (20+ scenarios)"
+    ],
+    "secondary": [
+      "Multiple buffer support",
+      "Configuration system (.virc)",
+      "Performance optimization for large files"
+    ]
+  },
+  "phases": [
+    {
+      "id": 1,
+      "name": "File I/O System",
+      "priority": "P0",
+      "complexity": "medium",
+      "dependencies": [],
+      "tasks": [
+        {
+          "id": "1.1",
+          "name": "File Loading Module",
+          "description": "Read files from disk with encoding detection, handle edge cases",
+          "deliverables": ["amplifier/vi/file_io/loader.py", "tests/test_file_loader.py"],
+          "agent": "modular-builder",
+          "estimated_hours": 8
+        },
+        {
+          "id": "1.2",
+          "name": "File Saving Module",
+          "description": "Write buffer to disk atomically, handle permissions, create backups",
+          "deliverables": ["amplifier/vi/file_io/saver.py", "tests/test_file_saver.py"],
+          "agent": "modular-builder",
+          "estimated_hours": 8
+        },
+        {
+          "id": "1.3",
+          "name": "File State Management",
+          "description": "Track modified state, file path, detect external changes",
+          "deliverables": ["amplifier/vi/file_io/state.py", "tests/test_file_state.py"],
+          "agent": "modular-builder",
+          "estimated_hours": 4
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Ex Command System",
+      "priority": "P0",
+      "complexity": "high",
+      "dependencies": [1],
+      "tasks": [
+        {
+          "id": "2.1",
+          "name": "Ex Command Parser",
+          "description": "Parse ex command syntax including ranges, flags, and arguments",
+          "deliverables": ["amplifier/vi/commands/ex/parser.py", "tests/test_ex_parser.py"],
+          "agent": "modular-builder",
+          "estimated_hours": 16
+        },
+        {
+          "id": "2.2",
+          "name": "Core Ex Commands",
+          "description": "Implement :w, :q, :wq, :x, :e, :r commands",
+          "deliverables": ["amplifier/vi/commands/ex/file_commands.py", "tests/test_ex_file_commands.py"],
+          "agent": "modular-builder",
+          "estimated_hours": 12
+        },
+        {
+          "id": "2.3",
+          "name": "Substitution Command",
+          "description": "Implement :s/pattern/replacement/ with ranges and flags",
+          "deliverables": ["amplifier/vi/commands/ex/substitution.py", "tests/test_substitution.py"],
+          "agent": "modular-builder",
+          "estimated_hours": 16
+        },
+        {
+          "id": "2.4",
+          "name": "Global Commands",
+          "description": "Implement :g/pattern/command and :v/pattern/command",
+          "deliverables": ["amplifier/vi/commands/ex/global.py", "tests/test_global.py"],
+          "agent": "modular-builder",
+          "estimated_hours": 12
+        },
+        {
+          "id": "2.5",
+          "name": "Settings Commands",
+          "description": "Implement :set commands for configuration",
+          "deliverables": ["amplifier/vi/commands/ex/settings.py", "tests/test_settings.py"],
+          "agent": "modular-builder",
+          "estimated_hours": 8
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Search System Integration",
+      "priority": "P0",
+      "complexity": "medium",
+      "dependencies": [],
+      "tasks": [
+        {
+          "id": "3.1",
+          "name": "Search Command Implementation",
+          "description": "Integrate /, ?, n, N, *, # commands with existing search engine",
+          "deliverables": ["amplifier/vi/search/commands.py", "tests/test_search_commands.py"],
+          "agent": "modular-builder",
+          "estimated_hours": 12
+        },
+        {
+          "id": "3.2",
+          "name": "Search State Management",
+          "description": "Track search pattern, direction, history, highlighting",
+          "deliverables": ["amplifier/vi/search/state.py", "tests/test_search_state.py"],
+          "agent": "modular-builder",
+          "estimated_hours": 6
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Missing Normal Mode Commands",
+      "priority": "P1",
+      "complexity": "medium",
+      "dependencies": [3],
+      "tasks": [
+        {
+          "id": "4.1",
+          "name": "Repeat Command",
+          "description": "Implement . command to repeat last change",
+          "deliverables": ["amplifier/vi/commands/editing/repeat.py", "tests/test_repeat.py"],
+          "agent": "modular-builder",
+          "estimated_hours": 8
+        },
+        {
+          "id": "4.2",
+          "name": "Line Operations",
+          "description": "Implement J (join lines) command",
+          "deliverables": ["amplifier/vi/commands/editing/join.py", "tests/test_join.py"],
+          "agent": "modular-builder",
+          "estimated_hours": 4
+        },
+        {
+          "id": "4.3",
+          "name": "Case Operations",
+          "description": "Implement ~, gu, gU, g~ commands",
+          "deliverables": ["amplifier/vi/commands/editing/case.py", "tests/test_case.py"],
+          "agent": "modular-builder",
+          "estimated_hours": 6
+        },
+        {
+          "id": "4.4",
+          "name": "Indent Operations",
+          "description": "Implement >>, <<, = commands",
+          "deliverables": ["amplifier/vi/commands/editing/indent.py", "tests/test_indent.py"],
+          "agent": "modular-builder",
+          "estimated_hours": 6
+        },
+        {
+          "id": "4.5",
+          "name": "Bracket Matching",
+          "description": "Implement % command for bracket/paren matching",
+          "deliverables": ["amplifier/vi/commands/movements/brackets.py", "tests/test_brackets.py"],
+          "agent": "modular-builder",
+          "estimated_hours": 8
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Complete Text Objects",
+      "priority": "P2",
+      "complexity": "medium",
+      "dependencies": [4],
+      "tasks": [
+        {
+          "id": "5.1",
+          "name": "Bracket Text Objects",
+          "description": "Implement i(, a(, i[, a[, i{, a{, i<, a< text objects",
+          "deliverables": ["amplifier/vi/text_objects/brackets.py", "tests/test_bracket_objects.py"],
+          "agent": "modular-builder",
+          "estimated_hours": 10
+        },
+        {
+          "id": "5.2",
+          "name": "Quote Text Objects",
+          "description": "Implement i\", a\", i', a', i`, a` text objects",
+          "deliverables": ["amplifier/vi/text_objects/quotes.py", "tests/test_quote_objects.py"],
+          "agent": "modular-builder",
+          "estimated_hours": 8
+        },
+        {
+          "id": "5.3",
+          "name": "Tag Text Objects",
+          "description": "Implement it, at for HTML/XML tags",
+          "deliverables": ["amplifier/vi/text_objects/tags.py", "tests/test_tag_objects.py"],
+          "agent": "modular-builder",
+          "estimated_hours": 12
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Macro System",
+      "priority": "P2",
+      "complexity": "high",
+      "dependencies": [4],
+      "tasks": [
+        {
+          "id": "6.1",
+          "name": "Macro Recording",
+          "description": "Implement q{register} command to record keystrokes",
+          "deliverables": ["amplifier/vi/commands/macros/recorder.py", "tests/test_macro_recording.py"],
+          "agent": "modular-builder",
+          "estimated_hours": 12
+        },
+        {
+          "id": "6.2",
+          "name": "Macro Playback",
+          "description": "Implement @{register} and @@ commands",
+          "deliverables": ["amplifier/vi/commands/macros/player.py", "tests/test_macro_playback.py"],
+          "agent": "modular-builder",
+          "estimated_hours": 8
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "CLI Launcher",
+      "priority": "P0",
+      "complexity": "medium",
+      "dependencies": [1, 2],
+      "tasks": [
+        {
+          "id": "7.1",
+          "name": "Terminal Interface",
+          "description": "Raw terminal mode, cursor control, screen refresh using curses/blessed",
+          "deliverables": ["amplifier/vi/terminal/interface.py", "tests/test_terminal.py"],
+          "agent": "modular-builder",
+          "estimated_hours": 16
+        },
+        {
+          "id": "7.2",
+          "name": "Main Entry Point",
+          "description": "CLI argument parsing, file opening, main event loop",
+          "deliverables": ["amplifier/vi/main.py", "amplifier/vi/cli.py", "tests/test_cli.py"],
+          "agent": "modular-builder",
+          "estimated_hours": 12
+        },
+        {
+          "id": "7.3",
+          "name": "Event Loop and Rendering",
+          "description": "Key input handling, command dispatch, screen rendering, status line",
+          "deliverables": ["amplifier/vi/event_loop.py", "tests/test_event_loop.py"],
+          "agent": "modular-builder",
+          "estimated_hours": 16
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "Comprehensive Testing Framework",
+      "priority": "P0",
+      "complexity": "high",
+      "dependencies": [7],
+      "status": "completed",
+      "completion_date": "2025-10-09",
+      "tasks": [
+        {
+          "id": "8.1",
+          "name": "Golden Master Test Framework",
+          "description": "Build framework to execute .vicmd files and compare outputs",
+          "deliverables": ["tests/vi_functional/test_runner.py", "tests/vi_functional/command_parser.py"],
+          "agent": "test-coverage",
+          "estimated_hours": 20,
+          "status": "completed"
+        },
+        {
+          "id": "8.2",
+          "name": "Test Scenarios - Basic",
+          "description": "Create 5 basic editing test scenarios",
+          "deliverables": ["tests/vi_functional/scenarios/test_basic_*.vicmd"],
+          "agent": "test-coverage",
+          "estimated_hours": 8,
+          "status": "completed"
+        },
+        {
+          "id": "8.3",
+          "name": "Test Scenarios - Advanced",
+          "description": "Create 10 advanced test scenarios (operators, visual, search)",
+          "deliverables": ["tests/vi_functional/scenarios/test_advanced_*.vicmd"],
+          "agent": "test-coverage",
+          "estimated_hours": 16,
+          "status": "completed"
+        },
+        {
+          "id": "8.4",
+          "name": "Test Scenarios - Complex",
+          "description": "Create 5 complex workflow test scenarios",
+          "deliverables": ["tests/vi_functional/scenarios/test_complex_*.vicmd"],
+          "agent": "test-coverage",
+          "estimated_hours": 12,
+          "status": "completed"
+        },
+        {
+          "id": "8.5",
+          "name": "Torture Tests",
+          "description": "Edge cases, stress tests, performance tests",
+          "deliverables": ["tests/vi_torture/test_edge_cases.py", "tests/vi_torture/test_performance.py", "tests/vi_torture/test_stress.py"],
+          "agent": "test-coverage",
+          "estimated_hours": 16,
+          "status": "completed"
+        }
+      ]
+    }
+  ],
+  "testing_strategy": {
+    "approach": "Multi-level testing pyramid",
+    "levels": [
+      {
+        "name": "Unit Tests",
+        "coverage_target": "90%",
+        "description": "Test individual modules in isolation"
+      },
+      {
+        "name": "Integration Tests",
+        "coverage_target": "80%",
+        "description": "Test module interactions"
+      },
+      {
+        "name": "Functional Tests",
+        "coverage_target": "100% of features",
+        "description": "Test complete workflows"
+      },
+      {
+        "name": "Golden Master Tests",
+        "coverage_target": "20+ scenarios",
+        "description": "Execute command sequences, compare byte-for-byte outputs"
+      }
+    ],
+    "golden_master_format": {
+      "file_extension": ".vicmd",
+      "structure": [
+        "# Comments",
+        "@INPUT_FILE <path>",
+        "@EXPECTED_OUTPUT <path>",
+        "@DESCRIPTION <text>",
+        "<vi_command_sequence>"
+      ],
+      "special_keys": {
+        "<ESC>": "Escape key",
+        "<CR>": "Enter/Return",
+        "<TAB>": "Tab key",
+        "<BS>": "Backspace",
+        "<DEL>": "Delete",
+        "<SPACE>": "Space"
+      }
+    }
+  },
+  "success_criteria": {
+    "mvp": {
+      "description": "Minimum Viable Product",
+      "requirements": [
+        "Launches with 'vi filename' command",
+        "All modes work (normal, insert, visual, command)",
+        "Can edit, save, quit",
+        "Core ex commands (:w, :q, :wq, :e)",
+        "Search works (/, ?, n, N)",
+        "All basic movements and operators",
+        "90% test coverage",
+        "10+ passing golden master tests"
+      ]
+    },
+    "complete": {
+      "description": "Complete Product",
+      "requirements": [
+        "All MVP requirements",
+        "Macros work (q, @)",
+        "All text objects implemented",
+        "Advanced ex commands (:s, :g)",
+        "Repeat command (.)",
+        "All missing normal mode commands",
+        "95% test coverage",
+        "20+ passing golden master tests"
+      ]
+    },
+    "excellent": {
+      "description": "Excellent Product",
+      "requirements": [
+        "All Complete requirements",
+        "Multiple buffers support",
+        "Configuration system (.virc)",
+        "Performance optimized",
+        "98% test coverage",
+        "30+ passing golden master tests",
+        "Comprehensive documentation"
+      ]
+    }
+  },
+  "timeline": {
+    "aggressive": "6-8 weeks (full-time)",
+    "realistic": "8-10 weeks (full-time)",
+    "conservative": "12-16 weeks (part-time)",
+    "with_ai": "4-6 weeks to MVP, 6-8 weeks to Complete"
+  },
+  "resources": {
+    "agents": [
+      "modular-builder (primary implementation)",
+      "zen-architect (design and planning)",
+      "test-coverage (testing framework)",
+      "bug-hunter (debugging and fixes)",
+      "integration-specialist (module integration)"
+    ],
+    "tools": [
+      "Python 3.11+",
+      "curses or blessed (terminal handling)",
+      "pytest (testing)",
+      "Standard library (regex, etc.)"
+    ]
+  }
+}

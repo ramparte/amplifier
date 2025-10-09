@@ -1,0 +1,9 @@
+# Change operations
+@INPUT_FILE basic_text.txt
+@EXPECTED_OUTPUT expected_change_operations.txt
+@DESCRIPTION Test cc, cw, c$ commands
+
+# Change line
+ccNew line content<ESC>
+# Change word
+cwreplaced<ESC>

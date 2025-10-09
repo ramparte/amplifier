@@ -1,0 +1,7 @@
+# Forward search
+@INPUT_FILE search_text.txt
+@EXPECTED_OUTPUT expected_search_forward.txt
+@DESCRIPTION Test / forward search
+
+# Search for pattern
+/test<CR>nn

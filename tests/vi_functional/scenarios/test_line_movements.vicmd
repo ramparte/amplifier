@@ -1,0 +1,7 @@
+# Line movement commands
+@INPUT_FILE basic_text.txt
+@EXPECTED_OUTPUT expected_line_movements.txt
+@DESCRIPTION Test 0, ^, $, gg, G movements
+
+# Move to start, end, first line, last line
+0$^ggG

@@ -1,0 +1,9 @@
+# Substitute command
+@INPUT_FILE basic_text.txt
+@EXPECTED_OUTPUT expected_substitute.txt
+@DESCRIPTION Test :s/pattern/replacement/ command
+
+# Substitute on current line
+:s/old/new/<CR>
+# Substitute all on all lines
+:%s/test/result/g<CR>

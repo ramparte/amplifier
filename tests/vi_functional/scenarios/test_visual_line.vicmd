@@ -1,0 +1,7 @@
+# Visual line mode
+@INPUT_FILE multiline_text.txt
+@EXPECTED_OUTPUT expected_visual_line.txt
+@DESCRIPTION Test visual line selection and yank
+
+# Select lines and yank
+Vjjy

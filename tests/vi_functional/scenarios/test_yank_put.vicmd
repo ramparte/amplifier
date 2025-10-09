@@ -1,0 +1,9 @@
+# Yank and put operations
+@INPUT_FILE basic_text.txt
+@EXPECTED_OUTPUT expected_yank_put.txt
+@DESCRIPTION Test yy, yw, p, P commands
+
+# Yank line, put after cursor
+yyjp
+# Yank word, put before cursor
+ywP

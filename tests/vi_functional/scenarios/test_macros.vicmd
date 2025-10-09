@@ -1,0 +1,9 @@
+# Macro recording and playback
+@INPUT_FILE basic_text.txt
+@EXPECTED_OUTPUT expected_macros.txt
+@DESCRIPTION Test q{register} recording and @{register} playback
+
+# Record macro: delete word, move down
+qawd<ESC>jq
+# Play macro 3 times
+@a@a@a

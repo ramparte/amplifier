@@ -1,0 +1,7 @@
+# Case change operations
+@INPUT_FILE basic_text.txt
+@EXPECTED_OUTPUT expected_case_change.txt
+@DESCRIPTION Test ~, gu, gU case operations
+
+# Toggle case, lowercase, uppercase
+~~~~~guwgUw

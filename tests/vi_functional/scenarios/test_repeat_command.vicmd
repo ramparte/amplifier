@@ -1,0 +1,7 @@
+# Repeat command (.)
+@INPUT_FILE basic_text.txt
+@EXPECTED_OUTPUT expected_repeat_command.txt
+@DESCRIPTION Test . repeat last change
+
+# Delete word, repeat
+dwj.j.

@@ -1,0 +1,13 @@
+# Character search
+@INPUT_FILE basic_text.txt
+@EXPECTED_OUTPUT expected_char_search.txt
+@DESCRIPTION Test f, F, t, T, ; , character search
+
+# Find 'e' forward
+fe
+# Find 'a' backward
+Fa
+# To 'o' forward
+to
+# Repeat last search
+;;

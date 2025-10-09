@@ -1,0 +1,9 @@
+# Text objects - brackets
+@INPUT_FILE brackets_text.txt
+@EXPECTED_OUTPUT expected_text_objects_brackets.txt
+@DESCRIPTION Test i(, a(, i{, a{ text objects
+
+# Delete inside parentheses
+di(
+# Delete around braces
+da{

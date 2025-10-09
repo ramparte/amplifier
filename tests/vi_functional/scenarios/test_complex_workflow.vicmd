@@ -1,0 +1,19 @@
+# Complex workflow combining multiple features
+@INPUT_FILE code_sample.py
+@EXPECTED_OUTPUT expected_complex_workflow.txt
+@DESCRIPTION Test complex multi-command workflow
+
+# Search for function
+/def<CR>
+# Mark position
+ma
+# Change function name
+cwprocess_data<ESC>
+# Move to end
+G
+# Add new line
+oreturn result<ESC>
+# Jump back to mark
+'a
+# Visual select and indent
+Vjj>

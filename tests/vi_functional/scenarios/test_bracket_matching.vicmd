@@ -1,0 +1,7 @@
+# Bracket matching
+@INPUT_FILE brackets_text.txt
+@EXPECTED_OUTPUT expected_bracket_matching.txt
+@DESCRIPTION Test % bracket matching
+
+# Jump between matching brackets
+%%%

@@ -1,0 +1,12 @@
+# Undo and redo
+@INPUT_FILE basic_text.txt
+@EXPECTED_OUTPUT expected_undo_redo.txt
+@DESCRIPTION Test u (undo) and Ctrl-R (redo)
+
+# Make changes
+dd
+i New text<ESC>
+# Undo twice
+uu
+# Redo once
+<CTRL-R>

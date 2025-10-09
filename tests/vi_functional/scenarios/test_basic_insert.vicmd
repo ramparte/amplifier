@@ -1,0 +1,7 @@
+# Basic insert mode test
+@INPUT_FILE basic_text.txt
+@EXPECTED_OUTPUT expected_basic_insert.txt
+@DESCRIPTION Test basic insert mode operations
+
+# Enter insert mode, type text, exit
+iHello, World!<ESC>

@@ -1,0 +1,7 @@
+# Join lines command
+@INPUT_FILE multiline_text.txt
+@EXPECTED_OUTPUT expected_join_lines.txt
+@DESCRIPTION Test J join lines
+
+# Join current line with next
+JJJJ

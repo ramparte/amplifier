@@ -1,0 +1,7 @@
+# Delete operations
+@INPUT_FILE basic_text.txt
+@EXPECTED_OUTPUT expected_delete_operations.txt
+@DESCRIPTION Test x, dd, dw, d$ commands
+
+# Delete char, line, word, to end of line
+xdddwd$

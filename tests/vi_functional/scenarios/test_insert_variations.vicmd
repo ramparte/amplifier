@@ -1,0 +1,17 @@
+# Insert mode variations
+@INPUT_FILE basic_text.txt
+@EXPECTED_OUTPUT expected_insert_variations.txt
+@DESCRIPTION Test i, I, a, A, o, O insert variations
+
+# Insert before cursor
+iX<ESC>
+# Insert at line start
+IY<ESC>
+# Append after cursor
+aZ<ESC>
+# Append at line end
+AW<ESC>
+# Open line below
+oNEW<ESC>
+# Open line above
+OABOVE<ESC>

@@ -1,0 +1,7 @@
+# Word movement commands
+@INPUT_FILE basic_text.txt
+@EXPECTED_OUTPUT expected_word_movements.txt
+@DESCRIPTION Test w, b, e, ge movements
+
+# Move forward by words, back, to end of word
+wwwbbbeegege

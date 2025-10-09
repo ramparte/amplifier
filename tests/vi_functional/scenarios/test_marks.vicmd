@@ -1,0 +1,11 @@
+# Marks
+@INPUT_FILE basic_text.txt
+@EXPECTED_OUTPUT expected_marks.txt
+@DESCRIPTION Test ma (set mark) and 'a (jump to mark)
+
+# Set mark at current position
+ma
+# Move around
+10j
+# Jump back to mark
+'a

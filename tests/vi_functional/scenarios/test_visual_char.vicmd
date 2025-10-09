@@ -1,0 +1,7 @@
+# Visual character mode
+@INPUT_FILE basic_text.txt
+@EXPECTED_OUTPUT expected_visual_char.txt
+@DESCRIPTION Test visual character selection and delete
+
+# Select characters and delete
+vlllllld

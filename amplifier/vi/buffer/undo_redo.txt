@@ -1,0 +1,115 @@
+    # Undo/Redo functionality
+
+    def _create_snapshot(self) -> dict:
+        """Create a snapshot of the current buffer state.
+
+        Returns:
+            Dictionary containing complete buffer state
+        """
+        return {
+            "lines": [line for line in self._lines],  # Deep copy of lines
+            "cursor_row": self._cursor_row,
+            "cursor_col": self._cursor_col,
+            "mark_row": self._mark_row,
+            "mark_col": self._mark_col,
+        }
+
+    def _restore_snapshot(self, snapshot: dict) -> None:
+        """Restore buffer state from a snapshot.
+
+        Args:
+            snapshot: Dictionary containing buffer state to restore
+        """
+        self._lines = [line for line in snapshot["lines"]]  # Deep copy
+        self._cursor_row = snapshot["cursor_row"]
+        self._cursor_col = snapshot["cursor_col"]
+        self._mark_row = snapshot["mark_row"]
+        self._mark_col = snapshot["mark_col"]
+
+        # Ensure cursor is within bounds after restore
+        self._adjust_cursor_bounds()
+
+    def save_state(self) -> None:
+        """Save current state to undo stack before a change.
+
+        This should be called before any operation that modifies the buffer.
+        """
+        # Don't save if we're in the middle of a compound change
+        if self._pending_change:
+            return
+
+        # Create snapshot and add to undo stack
+        snapshot = self._create_snapshot()
+        self._undo_stack.append(snapshot)
+
+        # Limit undo history size
+        if len(self._undo_stack) > self._max_undo_levels:
+            self._undo_stack.pop(0)
+
+        # Clear redo stack when new changes are made
+        self._redo_stack.clear()
+
+    def begin_compound_change(self) -> None:
+        """Begin a compound change that groups multiple operations.
+
+        Used for operations that involve multiple buffer modifications
+        that should be undone/redone as a single unit.
+        """
+        if not self._pending_change:
+            self.save_state()
+            self._pending_change = True
+
+    def end_compound_change(self) -> None:
+        """End a compound change."""
+        self._pending_change = False
+
+    def undo(self) -> bool:
+        """Undo the last change.
+
+        Returns:
+            True if undo was performed, False if nothing to undo
+        """
+        if not self._undo_stack:
+            return False
+
+        # Save current state to redo stack
+        current_state = self._create_snapshot()
+        self._redo_stack.append(current_state)
+
+        # Restore previous state
+        previous_state = self._undo_stack.pop()
+        self._restore_snapshot(previous_state)
+
+        return True
+
+    def redo(self) -> bool:
+        """Redo the last undone change.
+
+        Returns:
+            True if redo was performed, False if nothing to redo
+        """
+        if not self._redo_stack:
+            return False
+
+        # Save current state to undo stack
+        current_state = self._create_snapshot()
+        self._undo_stack.append(current_state)
+
+        # Restore next state
+        next_state = self._redo_stack.pop()
+        self._restore_snapshot(next_state)
+
+        return True
+
+    def get_undo_count(self) -> int:
+        """Get number of available undo operations."""
+        return len(self._undo_stack)
+
+    def get_redo_count(self) -> int:
+        """Get number of available redo operations."""
+        return len(self._redo_stack)
+
+    def clear_undo_history(self) -> None:
+        """Clear all undo/redo history."""
+        self._undo_stack.clear()
+        self._redo_stack.clear()

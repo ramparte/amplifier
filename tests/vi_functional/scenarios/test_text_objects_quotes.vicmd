@@ -1,0 +1,9 @@
+# Text objects - quotes
+@INPUT_FILE basic_text.txt
+@EXPECTED_OUTPUT expected_text_objects_quotes.txt
+@DESCRIPTION Test i", a", i', a' text objects
+
+# Delete inside quotes
+di"
+# Change around single quotes
+ca'

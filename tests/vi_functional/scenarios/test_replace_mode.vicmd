@@ -1,0 +1,7 @@
+# Replace mode
+@INPUT_FILE basic_text.txt
+@EXPECTED_OUTPUT expected_replace_mode.txt
+@DESCRIPTION Test R replace mode
+
+# Enter replace mode and type
+RREPLACE<ESC>

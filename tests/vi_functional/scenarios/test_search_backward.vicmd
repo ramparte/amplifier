@@ -1,0 +1,7 @@
+# Backward search
+@INPUT_FILE search_text.txt
+@EXPECTED_OUTPUT expected_search_backward.txt
+@DESCRIPTION Test ? backward search
+
+# Move to end, search backward
+G?test<CR>NN

@@ -1,0 +1,7 @@
+# Screen movements
+@INPUT_FILE multiline_text.txt
+@EXPECTED_OUTPUT expected_screen_movements.txt
+@DESCRIPTION Test H, M, L screen position movements
+
+# Move to top, middle, bottom of screen
+HML

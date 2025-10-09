@@ -1,0 +1,7 @@
+# Indent operations
+@INPUT_FILE code_sample.py
+@EXPECTED_OUTPUT expected_indent.txt
+@DESCRIPTION Test >>, <<, = indent commands
+
+# Indent right, indent left, auto-indent
+>>j<<j=j

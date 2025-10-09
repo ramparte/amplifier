@@ -1,0 +1,8 @@
+def function():
+    if True:
+        print("inside")
+    return value
+
+{start}
+middle content
+{end}
