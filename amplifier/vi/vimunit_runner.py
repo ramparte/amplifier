@@ -153,6 +153,7 @@ class VimunitParser:
                         "tab": "TAB",
                         "space": " ",
                         "bs": "BACKSPACE",
+                        "backspace": "BACKSPACE",
                         "del": "DELETE",
                         "up": "UP",
                         "down": "DOWN",

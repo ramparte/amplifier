@@ -151,10 +151,6 @@ class TextBuffer:
             return
         if self._cursor_col > 0:
             self._cursor_col -= 1
-        elif self._cursor_row > 0:
-            # Move to end of previous line
-            self._cursor_row -= 1
-            self._cursor_col = len(self._lines[self._cursor_row])
 
     def move_cursor_right(self) -> None:
         """Move cursor right one character."""
@@ -168,10 +164,6 @@ class TextBuffer:
         elif not current_line:
             # Empty line - stay at column 0
             pass
-        elif self._cursor_row < len(self._lines) - 1:
-            # At end of line, move to start of next line
-            self._cursor_row += 1
-            self._cursor_col = 0
 
     def move_to_line_start(self) -> None:
         """Move cursor to start of current line."""
