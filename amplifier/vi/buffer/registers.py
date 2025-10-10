@@ -39,14 +39,18 @@ class BufferRegisterManager:
             The yanked text
         """
         lines = buffer.get_lines()
+        if not lines:
+            return ""  # Nothing to yank from empty buffer
+
         end_row = min(start_row + count, len(lines))
 
         # Extract lines with newlines
         yanked_lines = lines[start_row:end_row]
         yanked_text = "\n".join(yanked_lines) + "\n"  # Add trailing newline for linewise
 
-        # Store in register
-        self.yank_text(yanked_text, register, is_linewise=True)
+        # Store in register only if we actually yanked something
+        if yanked_text.strip():  # Only store non-empty content
+            self.yank_text(yanked_text, register, is_linewise=True)
 
         return yanked_text
 

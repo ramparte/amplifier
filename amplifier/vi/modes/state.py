@@ -84,6 +84,11 @@ class ModeManager:
         """
         return self._mode
 
+    @property
+    def current_mode(self) -> str:
+        """Property alias for get_mode() for test compatibility."""
+        return self._mode
+
     def set_mode(self, mode: str) -> bool:
         """Set the current mode. Alias for switch_to().
 

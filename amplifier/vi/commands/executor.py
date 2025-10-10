@@ -19,6 +19,7 @@ class CommandExecutor:
         self._repeat_count = ""
         self._last_command = ""
         self._pending_operator = ""
+        self._pending_count = 1  # Count to use for pending operator
 
         # Initialize visual mode and register manager
         from ..buffer.registers import BufferRegisterManager
@@ -152,8 +153,10 @@ class CommandExecutor:
         if char == "d":
             if self._last_command == "d":
                 self._last_command = ""
-                return self._execute_delete_line(count)
+                # Use the saved count from when first 'd' was pressed
+                return self._execute_delete_line(self._pending_count)
             self._last_command = "d"
+            self._pending_count = count  # Save count for when second 'd' arrives
             return True
         if char == "D":
             return self._execute_delete_to_end()
@@ -162,8 +165,10 @@ class CommandExecutor:
         if char == "c":
             if self._last_command == "c":
                 self._last_command = ""
-                return self._execute_change_line(count)
+                # Use the saved count from when first 'c' was pressed
+                return self._execute_change_line(self._pending_count)
             self._last_command = "c"
+            self._pending_count = count  # Save count for when second 'c' arrives
             return True
         if char == "C":
             return self._execute_change_to_end()
@@ -177,8 +182,10 @@ class CommandExecutor:
         if char == "y":
             if self._last_command == "y":
                 self._last_command = ""
-                return self._execute_yank_line(count)
+                # Use the saved count from when first 'y' was pressed
+                return self._execute_yank_line(self._pending_count)
             self._last_command = "y"
+            self._pending_count = count  # Save count for when second 'y' arrives
             return True
 
         # Put
@@ -320,6 +327,10 @@ class CommandExecutor:
                     while col < len(line) and line[col].isspace():
                         col += 1
 
+            # In normal mode, cursor must stay on a character, not past it
+            if row < len(lines) and col >= len(lines[row]) and len(lines[row]) > 0:
+                col = len(lines[row]) - 1
+
             self.buffer.set_cursor(row, col)
         return True
 
@@ -395,14 +406,19 @@ class CommandExecutor:
         # Collect lines to delete
         end_row = min(row + count, len(lines))
         deleted_lines = lines[row:end_row]
-        deleted_text = "\n".join(deleted_lines) + "\n"
+
+        # Only store if we actually deleted something
+        if deleted_lines:
+            deleted_text = "\n".join(deleted_lines) + "\n"
+        else:
+            deleted_text = ""
 
         # Delete the lines
         for _ in range(count):
             if row < len(self.buffer.get_lines()):
                 self.buffer.delete_line()
 
-        # Store in register
+        # Store in register only if we deleted something
         if deleted_text:
             self.registers.delete_and_yank(deleted_text, is_linewise=True)
         return True
@@ -579,3 +595,45 @@ class CommandExecutor:
         self._repeat_count = ""
         self._last_command = ""
         self._pending_operator = ""
+        self._pending_count = 1
+
+    # Test API aliases for compatibility with torture tests
+    def execute_normal(self, command: str) -> bool:
+        """Alias for execute_normal_command that handles multi-character commands.
+
+        Args:
+            command: Single or multi-character command string (e.g., "100dd", "gg")
+
+        Returns:
+            True if all characters were handled successfully
+        """
+        # For multi-character commands, we need to process them as a complete unit
+        # not character by character, to preserve count handling
+
+        # If command starts with digits, extract the count and the rest
+        count_str = ""
+        cmd_start = 0
+
+        for i, char in enumerate(command):
+            if char.isdigit() and (char != "0" or count_str):
+                count_str += char
+                cmd_start = i + 1
+            else:
+                break
+
+        # Feed the count digits first if any
+        result = True
+        for char in count_str:
+            if not self.execute_normal_command(char):
+                result = False
+
+        # Then feed the remaining command characters
+        for char in command[cmd_start:]:
+            if not self.execute_normal_command(char):
+                result = False
+
+        return result
+
+    def execute_visual(self, command: str) -> bool:
+        """Alias for execute_visual_command for test compatibility."""
+        return self.execute_visual_command(command)

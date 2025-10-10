@@ -76,6 +76,10 @@ class VisualMode:
         (start_row, start_col), (end_row, end_col) = selection
         lines = self.buffer.get_lines()
 
+        # Empty buffer protection
+        if not lines:
+            return ""
+
         if self.mode_type == "line":
             # Select complete lines
             return "\n".join(lines[start_row : end_row + 1])
@@ -91,7 +95,9 @@ class VisualMode:
 
         # character mode
         if start_row == end_row:
-            # Single line selection
+            # Single line selection - protect from index errors
+            if start_row >= len(lines):
+                return ""
             return lines[start_row][start_col : end_col + 1]
         # Multi-line selection
         selected = []
