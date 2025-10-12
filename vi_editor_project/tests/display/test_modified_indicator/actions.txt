@@ -1,0 +1,4 @@
+# Test modified indicator
+i
+ modified<ESC>
+# Status should show: [+] or [Modified]

@@ -1,0 +1,4 @@
+# Test command line display
+:
+# Should show ':' prompt at bottom
+<ESC>

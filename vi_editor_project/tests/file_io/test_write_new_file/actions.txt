@@ -1,0 +1,2 @@
+# Test writing to specific file
+:w newfile.txt<ENTER>

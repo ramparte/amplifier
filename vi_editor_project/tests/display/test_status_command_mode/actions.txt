@@ -1,0 +1,2 @@
+# Check status bar in command mode
+# Status should show: -- COMMAND --

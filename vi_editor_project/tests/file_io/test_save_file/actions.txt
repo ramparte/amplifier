@@ -1,0 +1,4 @@
+# Test saving file with :w
+i<ESC>
+A modified<ESC>
+:w<ENTER>

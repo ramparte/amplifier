@@ -1,0 +1,4 @@
+# Test cursor position display
+j
+l
+# Status should show: 2,1 (row 2, col 1)

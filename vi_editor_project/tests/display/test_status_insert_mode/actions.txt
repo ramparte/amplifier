@@ -1,0 +1,4 @@
+# Check status bar in insert mode
+i
+# Status should show: -- INSERT --
+<ESC>

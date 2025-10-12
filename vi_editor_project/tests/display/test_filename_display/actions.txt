@@ -1,0 +1,3 @@
+# Test filename display
+:e testfile.txt<ENTER>
+# Status should show: "testfile.txt"

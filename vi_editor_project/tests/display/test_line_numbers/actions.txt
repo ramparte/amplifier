@@ -1,0 +1,2 @@
+# Test line number display
+:set number<ENTER>

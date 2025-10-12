@@ -180,7 +180,7 @@ class FileBasedTest:
             input_lines = self.load_input()
             actions = self.load_actions()
             expected = self.load_expected()
-            metadata = self.load_metadata()
+            _ = self.load_metadata()  # Metadata loaded for potential future use
 
             # Create editor instance with input
             editor = editor_factory(input_lines)

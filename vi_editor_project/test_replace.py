@@ -247,7 +247,7 @@ def run_replace_tests():
                                     cmd_mode.replace_text(char)
                             else:
                                 # Process as command
-                                result = cmd_mode.process_command(char)
+                                _ = cmd_mode.process_command(char)
                                 # Check if we entered a special mode
                                 if char in "iIaAsScCrR" or (hasattr(cmd_mode, "mode") and cmd_mode.mode != "command"):
                                     in_special_mode = True

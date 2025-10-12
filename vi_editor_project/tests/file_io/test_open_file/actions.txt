@@ -1,0 +1,2 @@
+# Test opening another file
+:e testfile.txt<ENTER>

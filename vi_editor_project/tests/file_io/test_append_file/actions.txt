@@ -1,0 +1,4 @@
+# Test appending to file
+o
+Second part<ESC>
+:w >> output.txt<ENTER>

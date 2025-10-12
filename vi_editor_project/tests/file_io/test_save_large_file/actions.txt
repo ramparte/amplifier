@@ -1,0 +1,5 @@
+# Test saving large file
+G
+o
+Last line added<ESC>
+:w<ENTER>

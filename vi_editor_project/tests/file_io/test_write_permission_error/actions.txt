@@ -1,0 +1,2 @@
+# Test handling permission error
+:w /root/readonly.txt<ENTER>

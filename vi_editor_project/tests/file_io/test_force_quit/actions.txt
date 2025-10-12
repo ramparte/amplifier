@@ -1,0 +1,4 @@
+# Test force quit discarding changes
+i
+Modified but not saved<ESC>
+:q!<ENTER>

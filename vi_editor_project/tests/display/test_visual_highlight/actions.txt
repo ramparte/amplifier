@@ -1,0 +1,5 @@
+# Test visual mode highlighting
+v
+lll
+# Should highlight "Sele" characters
+<ESC>

@@ -1,0 +1,4 @@
+# Test save and quit with :wq
+o
+New line added<ESC>
+:wq<ENTER>

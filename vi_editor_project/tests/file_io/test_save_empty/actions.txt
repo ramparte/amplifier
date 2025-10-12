@@ -1,0 +1,2 @@
+# Test saving empty file
+:w<ENTER>

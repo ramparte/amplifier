@@ -453,9 +453,8 @@ class CommandMode:
     def _delete_lines(self, count: int = 1) -> None:
         """Delete entire line(s) at cursor."""
         deleted_lines = []
-        start_row = self.buffer.cursor[0]
 
-        for i in range(count):
+        for _ in range(count):
             row = self.buffer.cursor[0]
             if row < self.buffer.line_count():
                 deleted_lines.append(self.buffer.get_line(row))
