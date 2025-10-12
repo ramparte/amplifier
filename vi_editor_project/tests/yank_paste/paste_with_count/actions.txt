@@ -1,0 +1,5 @@
+# Yank A and paste 3 times
+set_cursor:0,0
+yw
+set_cursor:0,4
+3p

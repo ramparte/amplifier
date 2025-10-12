@@ -110,7 +110,7 @@
       "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-delete-tests",
       "title": "Create delete operation tests",
       "description": "Create file-based tests for deletions:\n        - x delete character\n        - dd delete line\n        - dw delete word\n        - d$ delete to line end\n        - D delete to line end (alternate)\n        - Numbered deletes (3dd, 5x)\n\n        Test edge cases and buffer updates.\n        Minimum 10 test cases.",
-      "state": "pending",
+      "state": "completed",
       "parent_id": null,
       "depends_on": [
         "9d16c244-42ba-4ce9-91bc-cb928c869e75-insert-impl"
@@ -123,7 +123,7 @@
       "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-delete-impl",
       "title": "Implement delete operations",
       "description": "Implement delete operations in command_mode.py:\n        - Character/word/line deletion\n        - Delete with motion commands\n        - Numeric repeat handling\n        - Buffer cleanup after deletes\n\n        All delete tests must pass.",
-      "state": "pending",
+      "state": "completed",
       "parent_id": null,
       "depends_on": [
         "9d16c244-42ba-4ce9-91bc-cb928c869e75-delete-tests"
@@ -136,7 +136,7 @@
       "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-yank-tests",
       "title": "Create yank and paste tests",
       "description": "Create file-based tests for copy/paste:\n        - yy yank line\n        - yw yank word\n        - p,P paste after/before\n        - Yanking with counts (3yy)\n        - Paste multiple times\n\n        Test register storage and retrieval.\n        Minimum 8 test cases.",
-      "state": "pending",
+      "state": "completed",
       "parent_id": null,
       "depends_on": [
         "9d16c244-42ba-4ce9-91bc-cb928c869e75-delete-impl"
@@ -149,7 +149,7 @@
       "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-yank-impl",
       "title": "Implement yank and paste",
       "description": "Implement yank/paste in command_mode.py:\n        - Yank operations to register\n        - Paste from register\n        - Register management\n        - Line vs character yanks\n\n        All yank/paste tests must pass.",
-      "state": "pending",
+      "state": "completed",
       "parent_id": null,
       "depends_on": [
         "9d16c244-42ba-4ce9-91bc-cb928c869e75-yank-tests"

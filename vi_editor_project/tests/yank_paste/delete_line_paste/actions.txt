@@ -1,0 +1,5 @@
+# Delete line 2 and paste after line 3
+set_cursor:1,0
+dd
+set_cursor:1,0
+p

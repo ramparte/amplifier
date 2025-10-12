@@ -1,0 +1,3 @@
+# Delete word at line end
+set_cursor:0,12
+dw

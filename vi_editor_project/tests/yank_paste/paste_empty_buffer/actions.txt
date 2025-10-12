@@ -1,0 +1,6 @@
+# Yank line, delete all, paste
+set_cursor:0,0
+yy
+dd
+dd
+p

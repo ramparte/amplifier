@@ -1,0 +1,2 @@
+# Try to delete from empty buffer
+x

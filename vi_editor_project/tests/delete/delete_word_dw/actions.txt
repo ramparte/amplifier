@@ -1,0 +1,3 @@
+# Delete word forward
+set_cursor:0,4
+dw

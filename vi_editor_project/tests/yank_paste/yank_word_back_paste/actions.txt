@@ -1,0 +1,5 @@
+# Yank 'quick' backward and paste
+set_cursor:0,9
+yb
+set_cursor:0,18
+p

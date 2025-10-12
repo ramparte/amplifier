@@ -1,0 +1,3 @@
+# Delete to beginning of line
+set_cursor:0,13
+d0

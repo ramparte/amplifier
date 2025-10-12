@@ -1,0 +1,5 @@
+# Yank 'quick' and paste after 'fox'
+set_cursor:0,4
+yw
+set_cursor:0,18
+p

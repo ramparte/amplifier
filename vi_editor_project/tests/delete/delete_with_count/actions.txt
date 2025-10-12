@@ -1,0 +1,3 @@
+# Delete 3 characters
+set_cursor:0,2
+3x

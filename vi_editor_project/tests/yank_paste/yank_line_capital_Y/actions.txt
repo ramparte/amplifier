@@ -1,0 +1,5 @@
+# Yank with Y and paste
+set_cursor:0,0
+Y
+set_cursor:1,0
+p

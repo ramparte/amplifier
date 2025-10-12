@@ -1,0 +1,3 @@
+# Delete to end of line
+set_cursor:0,7
+d$

@@ -1,0 +1,5 @@
+# Yank from beginning to 'here'
+set_cursor:0,11
+y0
+set_cursor:0,14
+p

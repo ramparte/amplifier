@@ -1,0 +1,5 @@
+# Delete 'this' and paste after 'here'
+set_cursor:0,5
+dw
+set_cursor:0,13
+p

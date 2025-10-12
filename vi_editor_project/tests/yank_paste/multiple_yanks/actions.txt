@@ -1,0 +1,7 @@
+# Yank First, then Second, paste Second
+set_cursor:0,0
+yw
+set_cursor:0,6
+yw
+set_cursor:0,17
+p

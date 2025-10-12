@@ -1,0 +1,3 @@
+# Delete empty line
+set_cursor:1,0
+dd

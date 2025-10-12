@@ -1,0 +1,5 @@
+# Yank from 'part' to end and paste
+set_cursor:0,10
+y$
+set_cursor:0,0
+p

@@ -1,0 +1,5 @@
+# Yank second line and paste at beginning
+set_cursor:1,0
+yy
+set_cursor:0,0
+P
