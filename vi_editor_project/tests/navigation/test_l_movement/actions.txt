@@ -1,0 +1,5 @@
+set_cursor:0,0
+l
+l
+l
+l

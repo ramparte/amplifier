@@ -1,0 +1,1 @@
+Test j (down) movement - cursor should move down

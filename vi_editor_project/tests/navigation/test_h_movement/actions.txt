@@ -1,0 +1,4 @@
+set_cursor:0,5
+h
+h
+h

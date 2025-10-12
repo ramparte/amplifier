@@ -1,0 +1,4 @@
+set_cursor:0,0
+w
+w
+w

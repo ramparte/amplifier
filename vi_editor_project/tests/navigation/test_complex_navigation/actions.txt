@@ -1,0 +1,9 @@
+set_cursor:0,0
+j
+l
+l
+l
+j
+$
+k
+0

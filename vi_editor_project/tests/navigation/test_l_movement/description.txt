@@ -1,0 +1,1 @@
+Test l (right) movement - cursor should move right

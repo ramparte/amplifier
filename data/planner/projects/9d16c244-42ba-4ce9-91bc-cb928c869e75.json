@@ -2,7 +2,7 @@
   "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75",
   "name": "Vi Editor Python Rewrite with TDD",
   "created_at": "2025-10-12T20:06:24.794643",
-  "updated_at": "2025-10-12T20:11:48.775277",
+  "updated_at": "2025-10-12T20:25:57.309966",
   "tasks": {
     "9d16c244-42ba-4ce9-91bc-cb928c869e75-arch-design": {
       "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-arch-design",
@@ -62,27 +62,29 @@
       "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-nav-tests",
       "title": "Create navigation command tests",
       "description": "Create file-based tests for navigation:\n        - h,j,k,l movement (left,down,up,right)\n        - w,b word movement\n        - 0,$ line start/end\n        - gg,G file start/end\n        - Numbered movements (5j, 10l, etc.)\n\n        Test edge cases: empty lines, file boundaries, word boundaries.\n        Minimum 15 test cases.",
-      "state": "pending",
+      "state": "completed",
       "parent_id": null,
       "depends_on": [
         "9d16c244-42ba-4ce9-91bc-cb928c869e75-buffer-impl"
       ],
       "assigned_to": "test-coverage",
       "created_at": "2025-10-12T20:06:24.794666",
-      "updated_at": "2025-10-12T20:06:24.794666"
+      "updated_at": "2025-10-12T20:20:14.246325",
+      "completed_at": "2025-10-12T20:20:14.246320"
     },
     "9d16c244-42ba-4ce9-91bc-cb928c869e75-nav-impl": {
       "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-nav-impl",
       "title": "Implement navigation commands",
       "description": "Implement navigation in command_mode.py:\n        - Parse movement commands\n        - Execute cursor movements\n        - Handle numeric prefixes\n        - Respect file/line boundaries\n\n        All navigation tests must pass.",
-      "state": "pending",
+      "state": "completed",
       "parent_id": null,
       "depends_on": [
         "9d16c244-42ba-4ce9-91bc-cb928c869e75-nav-tests"
       ],
       "assigned_to": "modular-builder",
       "created_at": "2025-10-12T20:06:24.794668",
-      "updated_at": "2025-10-12T20:06:24.794668"
+      "updated_at": "2025-10-12T20:25:57.309964",
+      "completed_at": "2025-10-12T20:25:57.309959"
     },
     "9d16c244-42ba-4ce9-91bc-cb928c869e75-insert-tests": {
       "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-insert-tests",

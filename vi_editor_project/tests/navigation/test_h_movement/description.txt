@@ -1,0 +1,1 @@
+Test h (left) movement - cursor should move left

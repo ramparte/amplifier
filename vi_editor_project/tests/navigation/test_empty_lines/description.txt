@@ -1,0 +1,1 @@
+Test navigation through empty lines
