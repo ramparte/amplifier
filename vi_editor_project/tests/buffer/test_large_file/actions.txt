@@ -1,0 +1,5 @@
+# Navigate large file
+G
+gg
+500j
+G

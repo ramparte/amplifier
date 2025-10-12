@@ -1,0 +1,5 @@
+{
+  "name": "test_empty_file",
+  "description": "Test cursor movement in empty file",
+  "category": "buffer"
+}

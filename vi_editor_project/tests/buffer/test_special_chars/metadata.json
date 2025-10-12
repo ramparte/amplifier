@@ -1,0 +1,5 @@
+{
+  "name": "test_special_chars",
+  "description": "Test special characters and Unicode",
+  "category": "buffer"
+}

@@ -1,0 +1,5 @@
+{
+  "name": "test_insert_line_middle",
+  "description": "Test inserting line in middle of file",
+  "category": "buffer"
+}

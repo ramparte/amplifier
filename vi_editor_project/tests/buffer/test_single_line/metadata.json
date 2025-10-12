@@ -1,0 +1,5 @@
+{
+  "name": "test_single_line",
+  "description": "Test cursor movement on single line",
+  "category": "buffer"
+}

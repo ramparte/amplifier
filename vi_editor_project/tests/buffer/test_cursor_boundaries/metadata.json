@@ -1,0 +1,5 @@
+{
+  "name": "test_cursor_boundaries",
+  "description": "Test cursor boundary constraints",
+  "category": "buffer"
+}

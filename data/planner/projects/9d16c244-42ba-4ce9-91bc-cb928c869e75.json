@@ -1,0 +1,387 @@
+{
+  "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75",
+  "name": "Vi Editor Python Rewrite with TDD",
+  "created_at": "2025-10-12T20:06:24.794643",
+  "updated_at": "2025-10-12T20:11:48.775277",
+  "tasks": {
+    "9d16c244-42ba-4ce9-91bc-cb928c869e75-arch-design": {
+      "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-arch-design",
+      "title": "Design modular architecture for vi editor",
+      "description": "Design the overall architecture for the vi editor with clear module boundaries:\n        - Buffer management module (line storage, cursor)\n        - Mode management (command, insert, visual)\n        - Command parser and executor\n        - File I/O module\n        - Display/rendering module\n        - Configuration module\n\n        Create architecture document with module interfaces and data flow.",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [],
+      "assigned_to": "zen-architect",
+      "created_at": "2025-10-12T20:06:24.794653",
+      "updated_at": "2025-10-12T20:11:48.775271",
+      "completed_at": "2025-10-12T20:11:48.775276"
+    },
+    "9d16c244-42ba-4ce9-91bc-cb928c869e75-test-framework": {
+      "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-test-framework",
+      "title": "Create file-based test framework",
+      "description": "Build a test framework that:\n        - Reads input_file.txt, actions.txt, expected_output.txt\n        - Executes actions against the editor\n        - Compares output with expected using diff\n        - Provides clear test reports\n        - Supports both unit and integration tests\n\n        Framework must be simple, reliable, and extensible.",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "9d16c244-42ba-4ce9-91bc-cb928c869e75-arch-design"
+      ],
+      "assigned_to": "test-coverage",
+      "created_at": "2025-10-12T20:06:24.794658",
+      "updated_at": "2025-10-12T20:13:27.206735",
+      "completed_at": "2025-10-12T20:13:27.206729"
+    },
+    "9d16c244-42ba-4ce9-91bc-cb928c869e75-buffer-tests": {
+      "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-buffer-tests",
+      "title": "Create comprehensive buffer management tests",
+      "description": "Create file-based tests for buffer management:\n        - Test empty file handling\n        - Test single/multi-line files\n        - Test cursor movement boundaries\n        - Test line insertion/deletion\n        - Test large file handling (1000+ lines)\n        - Test special characters and unicode\n\n        Minimum 10 test cases with input/action/expected files.",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "9d16c244-42ba-4ce9-91bc-cb928c869e75-test-framework"
+      ],
+      "assigned_to": "test-coverage",
+      "created_at": "2025-10-12T20:06:24.794661",
+      "updated_at": "2025-10-12T20:14:17.400462",
+      "completed_at": "2025-10-12T20:14:17.400453"
+    },
+    "9d16c244-42ba-4ce9-91bc-cb928c869e75-buffer-impl": {
+      "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-buffer-impl",
+      "title": "Implement buffer management module",
+      "description": "Implement buffer.py module:\n        - Line-based text storage\n        - Cursor position tracking\n        - Line insertion/deletion/modification\n        - Efficient memory usage for large files\n        - Boundary checking\n\n        All tests from buffer-tests must pass.",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "9d16c244-42ba-4ce9-91bc-cb928c869e75-buffer-tests"
+      ],
+      "assigned_to": "modular-builder",
+      "created_at": "2025-10-12T20:06:24.794663",
+      "updated_at": "2025-10-12T20:15:08.669360",
+      "completed_at": "2025-10-12T20:15:08.669351"
+    },
+    "9d16c244-42ba-4ce9-91bc-cb928c869e75-nav-tests": {
+      "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-nav-tests",
+      "title": "Create navigation command tests",
+      "description": "Create file-based tests for navigation:\n        - h,j,k,l movement (left,down,up,right)\n        - w,b word movement\n        - 0,$ line start/end\n        - gg,G file start/end\n        - Numbered movements (5j, 10l, etc.)\n\n        Test edge cases: empty lines, file boundaries, word boundaries.\n        Minimum 15 test cases.",
+      "state": "pending",
+      "parent_id": null,
+      "depends_on": [
+        "9d16c244-42ba-4ce9-91bc-cb928c869e75-buffer-impl"
+      ],
+      "assigned_to": "test-coverage",
+      "created_at": "2025-10-12T20:06:24.794666",
+      "updated_at": "2025-10-12T20:06:24.794666"
+    },
+    "9d16c244-42ba-4ce9-91bc-cb928c869e75-nav-impl": {
+      "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-nav-impl",
+      "title": "Implement navigation commands",
+      "description": "Implement navigation in command_mode.py:\n        - Parse movement commands\n        - Execute cursor movements\n        - Handle numeric prefixes\n        - Respect file/line boundaries\n\n        All navigation tests must pass.",
+      "state": "pending",
+      "parent_id": null,
+      "depends_on": [
+        "9d16c244-42ba-4ce9-91bc-cb928c869e75-nav-tests"
+      ],
+      "assigned_to": "modular-builder",
+      "created_at": "2025-10-12T20:06:24.794668",
+      "updated_at": "2025-10-12T20:06:24.794668"
+    },
+    "9d16c244-42ba-4ce9-91bc-cb928c869e75-insert-tests": {
+      "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-insert-tests",
+      "title": "Create insert mode tests",
+      "description": "Create file-based tests for insert mode:\n        - i,I insert at cursor/line start\n        - a,A append after cursor/line end\n        - o,O open line below/above\n        - Text insertion and escape\n        - Special key handling (backspace, enter)\n\n        Test mode transitions and text insertion.\n        Minimum 12 test cases.",
+      "state": "pending",
+      "parent_id": null,
+      "depends_on": [
+        "9d16c244-42ba-4ce9-91bc-cb928c869e75-nav-impl"
+      ],
+      "assigned_to": "test-coverage",
+      "created_at": "2025-10-12T20:06:24.794670",
+      "updated_at": "2025-10-12T20:06:24.794670"
+    },
+    "9d16c244-42ba-4ce9-91bc-cb928c869e75-insert-impl": {
+      "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-insert-impl",
+      "title": "Implement insert mode",
+      "description": "Implement insert_mode.py:\n        - Mode transition handlers\n        - Character insertion at cursor\n        - Special key processing\n        - Proper cursor positioning after mode change\n\n        All insert mode tests must pass.",
+      "state": "pending",
+      "parent_id": null,
+      "depends_on": [
+        "9d16c244-42ba-4ce9-91bc-cb928c869e75-insert-tests"
+      ],
+      "assigned_to": "modular-builder",
+      "created_at": "2025-10-12T20:06:24.794674",
+      "updated_at": "2025-10-12T20:06:24.794675"
+    },
+    "9d16c244-42ba-4ce9-91bc-cb928c869e75-delete-tests": {
+      "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-delete-tests",
+      "title": "Create delete operation tests",
+      "description": "Create file-based tests for deletions:\n        - x delete character\n        - dd delete line\n        - dw delete word\n        - d$ delete to line end\n        - D delete to line end (alternate)\n        - Numbered deletes (3dd, 5x)\n\n        Test edge cases and buffer updates.\n        Minimum 10 test cases.",
+      "state": "pending",
+      "parent_id": null,
+      "depends_on": [
+        "9d16c244-42ba-4ce9-91bc-cb928c869e75-insert-impl"
+      ],
+      "assigned_to": "test-coverage",
+      "created_at": "2025-10-12T20:06:24.794678",
+      "updated_at": "2025-10-12T20:06:24.794678"
+    },
+    "9d16c244-42ba-4ce9-91bc-cb928c869e75-delete-impl": {
+      "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-delete-impl",
+      "title": "Implement delete operations",
+      "description": "Implement delete operations in command_mode.py:\n        - Character/word/line deletion\n        - Delete with motion commands\n        - Numeric repeat handling\n        - Buffer cleanup after deletes\n\n        All delete tests must pass.",
+      "state": "pending",
+      "parent_id": null,
+      "depends_on": [
+        "9d16c244-42ba-4ce9-91bc-cb928c869e75-delete-tests"
+      ],
+      "assigned_to": "modular-builder",
+      "created_at": "2025-10-12T20:06:24.794681",
+      "updated_at": "2025-10-12T20:06:24.794681"
+    },
+    "9d16c244-42ba-4ce9-91bc-cb928c869e75-yank-tests": {
+      "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-yank-tests",
+      "title": "Create yank and paste tests",
+      "description": "Create file-based tests for copy/paste:\n        - yy yank line\n        - yw yank word\n        - p,P paste after/before\n        - Yanking with counts (3yy)\n        - Paste multiple times\n\n        Test register storage and retrieval.\n        Minimum 8 test cases.",
+      "state": "pending",
+      "parent_id": null,
+      "depends_on": [
+        "9d16c244-42ba-4ce9-91bc-cb928c869e75-delete-impl"
+      ],
+      "assigned_to": "test-coverage",
+      "created_at": "2025-10-12T20:06:24.794683",
+      "updated_at": "2025-10-12T20:06:24.794683"
+    },
+    "9d16c244-42ba-4ce9-91bc-cb928c869e75-yank-impl": {
+      "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-yank-impl",
+      "title": "Implement yank and paste",
+      "description": "Implement yank/paste in command_mode.py:\n        - Yank operations to register\n        - Paste from register\n        - Register management\n        - Line vs character yanks\n\n        All yank/paste tests must pass.",
+      "state": "pending",
+      "parent_id": null,
+      "depends_on": [
+        "9d16c244-42ba-4ce9-91bc-cb928c869e75-yank-tests"
+      ],
+      "assigned_to": "modular-builder",
+      "created_at": "2025-10-12T20:06:24.794685",
+      "updated_at": "2025-10-12T20:06:24.794685"
+    },
+    "9d16c244-42ba-4ce9-91bc-cb928c869e75-visual-tests": {
+      "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-visual-tests",
+      "title": "Create visual mode tests",
+      "description": "Create file-based tests for visual mode:\n        - v character-wise selection\n        - V line-wise selection\n        - Selection with movement\n        - Operations on selections (d, y)\n\n        Test selection highlighting and operations.\n        Minimum 8 test cases.",
+      "state": "pending",
+      "parent_id": null,
+      "depends_on": [
+        "9d16c244-42ba-4ce9-91bc-cb928c869e75-yank-impl"
+      ],
+      "assigned_to": "test-coverage",
+      "created_at": "2025-10-12T20:06:24.794687",
+      "updated_at": "2025-10-12T20:06:24.794687"
+    },
+    "9d16c244-42ba-4ce9-91bc-cb928c869e75-visual-impl": {
+      "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-visual-impl",
+      "title": "Implement visual mode",
+      "description": "Implement visual_mode.py:\n        - Visual mode activation\n        - Selection tracking\n        - Movement in visual mode\n        - Operations on selections\n\n        All visual mode tests must pass.",
+      "state": "pending",
+      "parent_id": null,
+      "depends_on": [
+        "9d16c244-42ba-4ce9-91bc-cb928c869e75-visual-tests"
+      ],
+      "assigned_to": "modular-builder",
+      "created_at": "2025-10-12T20:06:24.794689",
+      "updated_at": "2025-10-12T20:06:24.794689"
+    },
+    "9d16c244-42ba-4ce9-91bc-cb928c869e75-undo-tests": {
+      "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-undo-tests",
+      "title": "Create undo/redo tests",
+      "description": "Create file-based tests for undo/redo:\n        - u undo last change\n        - Ctrl-r redo\n        - Multiple undo levels\n        - Undo after various operations\n\n        Test state management and restoration.\n        Minimum 6 test cases.",
+      "state": "pending",
+      "parent_id": null,
+      "depends_on": [
+        "9d16c244-42ba-4ce9-91bc-cb928c869e75-visual-impl"
+      ],
+      "assigned_to": "test-coverage",
+      "created_at": "2025-10-12T20:06:24.794691",
+      "updated_at": "2025-10-12T20:06:24.794691"
+    },
+    "9d16c244-42ba-4ce9-91bc-cb928c869e75-undo-impl": {
+      "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-undo-impl",
+      "title": "Implement undo/redo system",
+      "description": "Implement undo.py:\n        - Command history stack\n        - State snapshots\n        - Undo/redo operations\n        - Memory-efficient storage\n\n        All undo/redo tests must pass.",
+      "state": "pending",
+      "parent_id": null,
+      "depends_on": [
+        "9d16c244-42ba-4ce9-91bc-cb928c869e75-undo-tests"
+      ],
+      "assigned_to": "modular-builder",
+      "created_at": "2025-10-12T20:06:24.794693",
+      "updated_at": "2025-10-12T20:06:24.794693"
+    },
+    "9d16c244-42ba-4ce9-91bc-cb928c869e75-search-tests": {
+      "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-search-tests",
+      "title": "Create search tests",
+      "description": "Create file-based tests for search:\n        - / forward search\n        - ? backward search\n        - n,N next/previous match\n        - Case sensitivity\n        - Regex patterns\n\n        Test wraparound and highlighting.\n        Minimum 8 test cases.",
+      "state": "pending",
+      "parent_id": null,
+      "depends_on": [
+        "9d16c244-42ba-4ce9-91bc-cb928c869e75-undo-impl"
+      ],
+      "assigned_to": "test-coverage",
+      "created_at": "2025-10-12T20:06:24.794695",
+      "updated_at": "2025-10-12T20:06:24.794695"
+    },
+    "9d16c244-42ba-4ce9-91bc-cb928c869e75-search-impl": {
+      "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-search-impl",
+      "title": "Implement search functionality",
+      "description": "Implement search.py:\n        - Pattern search forward/backward\n        - Match highlighting\n        - Next/previous navigation\n        - Basic regex support\n\n        All search tests must pass.",
+      "state": "pending",
+      "parent_id": null,
+      "depends_on": [
+        "9d16c244-42ba-4ce9-91bc-cb928c869e75-search-tests"
+      ],
+      "assigned_to": "modular-builder",
+      "created_at": "2025-10-12T20:06:24.794696",
+      "updated_at": "2025-10-12T20:06:24.794697"
+    },
+    "9d16c244-42ba-4ce9-91bc-cb928c869e75-replace-tests": {
+      "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-replace-tests",
+      "title": "Create replace command tests",
+      "description": "Create file-based tests for replace:\n        - :s/old/new/ single replace\n        - :s/old/new/g global replace\n        - :%s/old/new/g file-wide replace\n        - Regex patterns in replace\n\n        Test various replace scenarios.\n        Minimum 6 test cases.",
+      "state": "pending",
+      "parent_id": null,
+      "depends_on": [
+        "9d16c244-42ba-4ce9-91bc-cb928c869e75-search-impl"
+      ],
+      "assigned_to": "test-coverage",
+      "created_at": "2025-10-12T20:06:24.794698",
+      "updated_at": "2025-10-12T20:06:24.794699"
+    },
+    "9d16c244-42ba-4ce9-91bc-cb928c869e75-replace-impl": {
+      "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-replace-impl",
+      "title": "Implement replace commands",
+      "description": "Implement replace in ex_commands.py:\n        - Parse :s commands\n        - Pattern matching and replacement\n        - Flags (g, i, c)\n        - Range support\n\n        All replace tests must pass.",
+      "state": "pending",
+      "parent_id": null,
+      "depends_on": [
+        "9d16c244-42ba-4ce9-91bc-cb928c869e75-replace-tests"
+      ],
+      "assigned_to": "modular-builder",
+      "created_at": "2025-10-12T20:06:24.794700",
+      "updated_at": "2025-10-12T20:06:24.794701"
+    },
+    "9d16c244-42ba-4ce9-91bc-cb928c869e75-file-tests": {
+      "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-file-tests",
+      "title": "Create file I/O tests",
+      "description": "Create file-based tests for file operations:\n        - :w write file\n        - :q quit\n        - :wq write and quit\n        - :q! force quit\n        - :e open file\n        - Handle permissions and errors\n\n        Test file creation, modification, saving.\n        Minimum 8 test cases.",
+      "state": "pending",
+      "parent_id": null,
+      "depends_on": [
+        "9d16c244-42ba-4ce9-91bc-cb928c869e75-replace-impl"
+      ],
+      "assigned_to": "test-coverage",
+      "created_at": "2025-10-12T20:06:24.794702",
+      "updated_at": "2025-10-12T20:06:24.794702"
+    },
+    "9d16c244-42ba-4ce9-91bc-cb928c869e75-file-impl": {
+      "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-file-impl",
+      "title": "Implement file I/O operations",
+      "description": "Implement file_io.py:\n        - Read files into buffer\n        - Write buffer to file\n        - Handle encodings\n        - Permission and error handling\n        - Backup creation\n\n        All file I/O tests must pass.",
+      "state": "pending",
+      "parent_id": null,
+      "depends_on": [
+        "9d16c244-42ba-4ce9-91bc-cb928c869e75-file-tests"
+      ],
+      "assigned_to": "modular-builder",
+      "created_at": "2025-10-12T20:06:24.794704",
+      "updated_at": "2025-10-12T20:06:24.794704"
+    },
+    "9d16c244-42ba-4ce9-91bc-cb928c869e75-display-tests": {
+      "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-display-tests",
+      "title": "Create display and UI tests",
+      "description": "Create tests for display features:\n        - Line numbers display\n        - Status bar (mode, file, position)\n        - Command line display\n        - Screen refresh and scrolling\n\n        Test terminal output formatting.\n        Minimum 5 test cases.",
+      "state": "pending",
+      "parent_id": null,
+      "depends_on": [
+        "9d16c244-42ba-4ce9-91bc-cb928c869e75-file-impl"
+      ],
+      "assigned_to": "test-coverage",
+      "created_at": "2025-10-12T20:06:24.794707",
+      "updated_at": "2025-10-12T20:06:24.794707"
+    },
+    "9d16c244-42ba-4ce9-91bc-cb928c869e75-display-impl": {
+      "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-display-impl",
+      "title": "Implement display and UI",
+      "description": "Implement display.py:\n        - Terminal control (curses or similar)\n        - Screen rendering\n        - Status bar updates\n        - Line number display\n        - Efficient screen updates\n\n        All display tests must pass.",
+      "state": "pending",
+      "parent_id": null,
+      "depends_on": [
+        "9d16c244-42ba-4ce9-91bc-cb928c869e75-display-tests"
+      ],
+      "assigned_to": "modular-builder",
+      "created_at": "2025-10-12T20:06:24.794708",
+      "updated_at": "2025-10-12T20:06:24.794709"
+    },
+    "9d16c244-42ba-4ce9-91bc-cb928c869e75-integration-tests": {
+      "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-integration-tests",
+      "title": "Create comprehensive integration tests",
+      "description": "Create end-to-end integration tests:\n        - Complete editing sessions\n        - Multiple mode transitions\n        - Complex command sequences\n        - Edge cases and error handling\n        - Performance with large files\n\n        Minimum 15 integration test scenarios.",
+      "state": "pending",
+      "parent_id": null,
+      "depends_on": [
+        "9d16c244-42ba-4ce9-91bc-cb928c869e75-display-impl"
+      ],
+      "assigned_to": "test-coverage",
+      "created_at": "2025-10-12T20:06:24.794710",
+      "updated_at": "2025-10-12T20:06:24.794710"
+    },
+    "9d16c244-42ba-4ce9-91bc-cb928c869e75-cli-impl": {
+      "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-cli-impl",
+      "title": "Implement CLI interface",
+      "description": "Implement main.py CLI:\n        - Command-line argument parsing\n        - Editor initialization\n        - Main event loop\n        - Signal handling (Ctrl-C, etc.)\n        - Graceful shutdown\n\n        Create executable vi.py script.",
+      "state": "pending",
+      "parent_id": null,
+      "depends_on": [
+        "9d16c244-42ba-4ce9-91bc-cb928c869e75-integration-tests"
+      ],
+      "assigned_to": "integration-specialist",
+      "created_at": "2025-10-12T20:06:24.794712",
+      "updated_at": "2025-10-12T20:06:24.794712"
+    },
+    "9d16c244-42ba-4ce9-91bc-cb928c869e75-integration-verify": {
+      "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-integration-verify",
+      "title": "Verify all integration tests pass",
+      "description": "Run all integration tests:\n        - Execute full test suite\n        - Verify 100% pass rate\n        - Document any limitations\n        - Performance benchmarks\n\n        Ensure editor is production-ready.",
+      "state": "pending",
+      "parent_id": null,
+      "depends_on": [
+        "9d16c244-42ba-4ce9-91bc-cb928c869e75-cli-impl"
+      ],
+      "assigned_to": "test-coverage",
+      "created_at": "2025-10-12T20:06:24.794714",
+      "updated_at": "2025-10-12T20:06:24.794714"
+    },
+    "9d16c244-42ba-4ce9-91bc-cb928c869e75-docs": {
+      "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-docs",
+      "title": "Create user and developer documentation",
+      "description": "Create comprehensive documentation:\n        - User manual with command reference\n        - Developer guide with architecture\n        - Test writing guide\n        - Installation instructions\n        - Known limitations\n\n        Documentation in markdown format.",
+      "state": "pending",
+      "parent_id": null,
+      "depends_on": [
+        "9d16c244-42ba-4ce9-91bc-cb928c869e75-integration-verify"
+      ],
+      "assigned_to": "zen-architect",
+      "created_at": "2025-10-12T20:06:24.794715",
+      "updated_at": "2025-10-12T20:06:24.794716"
+    },
+    "9d16c244-42ba-4ce9-91bc-cb928c869e75-polish": {
+      "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-polish",
+      "title": "Final polish and optimization",
+      "description": "Final improvements:\n        - Code cleanup and refactoring\n        - Performance optimizations\n        - Error message improvements\n        - Edge case handling\n        - Code review and quality checks\n\n        Ensure professional quality.",
+      "state": "pending",
+      "parent_id": null,
+      "depends_on": [
+        "9d16c244-42ba-4ce9-91bc-cb928c869e75-docs"
+      ],
+      "assigned_to": "refactor-architect",
+      "created_at": "2025-10-12T20:06:24.794717",
+      "updated_at": "2025-10-12T20:06:24.794717"
+    }
+  }
+}

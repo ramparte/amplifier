@@ -1,0 +1,5 @@
+{
+  "name": "test_empty_lines",
+  "description": "Test handling empty lines",
+  "category": "buffer"
+}

@@ -1,0 +1,5 @@
+# Test navigation on single line
+0
+$
+5l
+3h

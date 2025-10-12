@@ -1,0 +1,5 @@
+{
+  "name": "test_delete_line",
+  "description": "Test deleting a line",
+  "category": "buffer"
+}

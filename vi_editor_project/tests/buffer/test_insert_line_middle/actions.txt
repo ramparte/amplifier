@@ -1,0 +1,5 @@
+# Insert line in middle
+j
+o
+Inserted Line
+<ESC>

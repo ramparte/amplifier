@@ -1,0 +1,4 @@
+Hello 世界!
+#include <stdio.h>
+$PATH = /usr/bin
+🎉 Unicode émojis

@@ -1,0 +1,5 @@
+{
+  "name": "test_multi_line",
+  "description": "Test navigation in multi-line file",
+  "category": "buffer"
+}

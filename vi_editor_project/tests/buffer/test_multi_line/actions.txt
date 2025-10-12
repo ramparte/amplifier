@@ -1,0 +1,6 @@
+# Navigate through multiple lines
+j
+j
+k
+$
+0

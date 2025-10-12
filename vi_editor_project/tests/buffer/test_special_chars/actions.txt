@@ -1,0 +1,6 @@
+# Navigate special characters
+j
+$
+0
+j
+$

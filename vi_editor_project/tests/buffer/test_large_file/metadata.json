@@ -1,0 +1,5 @@
+{
+  "name": "test_large_file",
+  "description": "Test handling 1000+ line file",
+  "category": "buffer"
+}

@@ -1,0 +1,4 @@
+# Insert new line at beginning
+O
+New First Line
+<ESC>

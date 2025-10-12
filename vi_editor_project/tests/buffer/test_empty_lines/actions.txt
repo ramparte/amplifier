@@ -1,0 +1,6 @@
+# Navigate through empty lines
+j
+j
+j
+x
+j

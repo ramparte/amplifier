@@ -1,0 +1,5 @@
+{
+  "name": "test_delete_chars",
+  "description": "Test character deletion",
+  "category": "buffer"
+}

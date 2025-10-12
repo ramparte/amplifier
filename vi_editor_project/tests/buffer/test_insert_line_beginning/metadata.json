@@ -1,0 +1,5 @@
+{
+  "name": "test_insert_line_beginning",
+  "description": "Test inserting line at file beginning",
+  "category": "buffer"
+}

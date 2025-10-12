@@ -1,0 +1,14 @@
+# Test: example_test
+# Example test case for demonstration
+#
+# Available special keys:
+#   <ESC> <ENTER> <TAB> <BACKSPACE> <DELETE>
+#   <UP> <DOWN> <LEFT> <RIGHT>
+#   <CTRL-C> <CTRL-D> <CTRL-R> <CTRL-U> <CTRL-W>
+#
+# Example actions:
+# i                    # Enter insert mode
+# Hello World          # Type text
+# <ESC>                # Return to command mode
+# :wq<ENTER>           # Save and quit
+
