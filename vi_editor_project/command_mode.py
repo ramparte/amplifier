@@ -13,6 +13,7 @@ Handles navigation commands and movement operations including:
 import re
 
 from buffer import Buffer
+from insert_mode import InsertMode
 
 
 class CommandMode:
@@ -30,6 +31,9 @@ class CommandMode:
         self.pending_command = ""  # Store partial commands like 'd' or 'y' waiting for motion
         self.yank_buffer = ""  # Store yanked/deleted text for paste operations
         self.yank_type = "char"  # Type of yank: "char" or "line"
+        self.insert_mode = InsertMode(buffer)  # Handle insert mode operations
+        self.replace_mode = False  # Track if in replace mode
+        self.mode = "command"  # Track current mode: "command", "insert", "replace"
 
     def process_command(self, command: str) -> bool:
         """
@@ -41,6 +45,35 @@ class CommandMode:
         Returns:
             True if command was processed successfully, False otherwise
         """
+        # Handle mode-specific processing
+        if self.mode == "insert":
+            if command == "\x1b" or command == "<ESC>":  # ESC key
+                self.exit_insert_mode()
+                return True
+            self.insert_text(command)
+            return True
+
+        if self.mode == "replace":
+            if command == "\x1b" or command == "<ESC>":  # ESC key
+                self.exit_replace_mode()
+                return True
+            self.replace_text(command)
+            return True
+
+        # Check if waiting for a character for 'r' command
+        if self.pending_command == "r":
+            self._replace_char(command, int(self.pending_count) if self.pending_count else 1)
+            self.pending_command = ""
+            self.pending_count = ""
+            return True
+
+        # Check if waiting for motion for 'c' command
+        if self.pending_command == "c":
+            result = self._handle_change_motion(command, int(self.pending_count) if self.pending_count else 1)
+            self.pending_command = ""
+            self.pending_count = ""
+            return result
+
         # Check if it's a digit (accumulating count)
         if command.isdigit() and not self.pending_command:
             self.pending_count += command
@@ -102,6 +135,73 @@ class CommandMode:
         if command == "P":
             # Paste before cursor/line
             self._paste_before(count)
+            return True
+
+        # Handle replace commands
+        if command == "r":
+            # Replace single character (wait for next char)
+            self.pending_command = "r"
+            return True
+        if command == "R":
+            # Enter replace mode
+            self.mode = "replace"
+            return True
+        if command == "s":
+            # Substitute character(s) - delete and enter insert mode
+            self._delete_char(count)
+            self.mode = "insert"
+            return True
+        if command == "S":
+            # Substitute entire line
+            self._delete_lines(1)
+            self.buffer.insert_line(self.buffer.cursor[0], "")
+            self.buffer.move_cursor(self.buffer.cursor[0], 0)
+            self.mode = "insert"
+            return True
+        if command == "c":
+            # Start change command (wait for motion)
+            self.pending_command = "c"
+            return True
+        if command == "C":
+            # Change to end of line
+            self._delete_to_end_of_line()
+            self.mode = "insert"
+            return True
+        if command == "~":
+            # Toggle case of character under cursor
+            self._toggle_case(count)
+            return True
+
+        # Handle insert mode commands
+        if command == "i":
+            # Enter insert mode at cursor
+            self.mode = "insert"
+            self.insert_mode.enter_insert_mode("i")
+            return True
+        if command == "I":
+            # Enter insert mode at beginning of line
+            self.mode = "insert"
+            self.insert_mode.enter_insert_mode("I")
+            return True
+        if command == "a":
+            # Enter insert mode after cursor
+            self.mode = "insert"
+            self.insert_mode.enter_insert_mode("a")
+            return True
+        if command == "A":
+            # Enter insert mode at end of line
+            self.mode = "insert"
+            self.insert_mode.enter_insert_mode("A")
+            return True
+        if command == "o":
+            # Open line below
+            self.mode = "insert"
+            self.insert_mode.enter_insert_mode("o")
+            return True
+        if command == "O":
+            # Open line above
+            self.mode = "insert"
+            self.insert_mode.enter_insert_mode("O")
             return True
 
         # Handle single character movements
@@ -597,3 +697,114 @@ class CommandMode:
             self.buffer.modify_line(row, new_line)
             # Move cursor to end of pasted text
             self.buffer.move_cursor(row, col + len(repeated_text) - 1)
+
+    def _handle_change_motion(self, motion: str, count: int) -> bool:
+        """
+        Handle change command with motion.
+
+        Args:
+            motion: The motion command (e.g., 'c' for line, 'w' for word, etc.)
+            count: Number of times to repeat the operation
+
+        Returns:
+            True if motion was valid, False otherwise
+        """
+        if motion == "c":
+            # cc - change entire line
+            self._delete_lines(1)
+            self.buffer.insert_line(self.buffer.cursor[0], "")
+            self.buffer.move_cursor(self.buffer.cursor[0], 0)
+            self.mode = "insert"
+            return True
+        if motion == "w":
+            # cw - change word forward
+            self._delete_word_forward(count)
+            self.mode = "insert"
+            return True
+        if motion == "b":
+            # cb - change word backward
+            self._delete_word_backward(count)
+            self.mode = "insert"
+            return True
+        if motion == "$":
+            # c$ - change to end of line
+            self._delete_to_end_of_line()
+            self.mode = "insert"
+            return True
+        if motion == "0":
+            # c0 - change to beginning of line
+            self._delete_to_beginning_of_line()
+            self.mode = "insert"
+            return True
+        return False
+
+    def _replace_char(self, replacement: str, count: int = 1) -> None:
+        """Replace character(s) at cursor with replacement character."""
+        row, col = self.buffer.cursor
+        line = self.buffer.get_line(row)
+
+        if col < len(line):
+            # Replace count characters with the replacement char
+            end_col = min(col + count, len(line))
+            new_line = line[:col] + replacement * (end_col - col) + line[end_col:]
+            self.buffer.modify_line(row, new_line)
+
+    def _toggle_case(self, count: int = 1) -> None:
+        """Toggle case of character(s) at cursor and move right."""
+        for _ in range(count):
+            row, col = self.buffer.cursor
+            line = self.buffer.get_line(row)
+
+            if col < len(line):
+                char = line[col]
+                if char.isupper():
+                    new_char = char.lower()
+                elif char.islower():
+                    new_char = char.upper()
+                else:
+                    new_char = char
+
+                new_line = line[:col] + new_char + line[col + 1 :]
+                self.buffer.modify_line(row, new_line)
+
+                # Move cursor right
+                if col < len(line) - 1:
+                    self.buffer.move_cursor(row, col + 1)
+
+    def insert_text(self, text: str) -> None:
+        """Insert text at current cursor position (for insert mode)."""
+        if self.mode == "insert":
+            self.insert_mode.process_input(text)
+
+    def replace_text(self, text: str) -> None:
+        """Replace text at current cursor position (for replace mode)."""
+        if self.mode == "replace":
+            row, col = self.buffer.cursor
+            line = self.buffer.get_line(row)
+
+            # Replace character at cursor position
+            if col < len(line):
+                new_line = line[:col] + text + line[col + 1 :]
+            else:
+                # Extend line if at end
+                new_line = line + text
+
+            self.buffer.modify_line(row, new_line)
+            # Move cursor forward
+            self.buffer.move_cursor(row, col + 1)
+
+    def exit_insert_mode(self) -> None:
+        """Exit insert mode and return to command mode."""
+        self.mode = "command"
+        self.insert_mode.exit_insert_mode()
+
+    def exit_replace_mode(self) -> None:
+        """Exit replace mode and return to command mode."""
+        self.mode = "command"
+        self.replace_mode = False
+
+        # Adjust cursor position like vi does
+        row, col = self.buffer.cursor
+        line = self.buffer.get_line(row)
+        if col > 0 and col >= len(line):
+            self.buffer.move_cursor(row, len(line) - 1 if line else 0)

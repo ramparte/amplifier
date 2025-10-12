@@ -1,0 +1,3 @@
+# Replace H with J
+set_cursor:0,0
+rJ

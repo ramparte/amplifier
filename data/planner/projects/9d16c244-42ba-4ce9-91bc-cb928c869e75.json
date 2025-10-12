@@ -240,27 +240,27 @@
       "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-replace-tests",
       "title": "Create replace command tests",
       "description": "Create file-based tests for replace:\n        - :s/old/new/ single replace\n        - :s/old/new/g global replace\n        - :%s/old/new/g file-wide replace\n        - Regex patterns in replace\n\n        Test various replace scenarios.\n        Minimum 6 test cases.",
-      "state": "pending",
+      "state": "completed",
       "parent_id": null,
       "depends_on": [
         "9d16c244-42ba-4ce9-91bc-cb928c869e75-search-impl"
       ],
       "assigned_to": "test-coverage",
       "created_at": "2025-10-12T20:06:24.794698",
-      "updated_at": "2025-10-12T20:06:24.794699"
+      "updated_at": "2025-10-12T20:58:59.032672"
     },
     "9d16c244-42ba-4ce9-91bc-cb928c869e75-replace-impl": {
       "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-replace-impl",
       "title": "Implement replace commands",
       "description": "Implement replace in ex_commands.py:\n        - Parse :s commands\n        - Pattern matching and replacement\n        - Flags (g, i, c)\n        - Range support\n\n        All replace tests must pass.",
-      "state": "pending",
+      "state": "completed",
       "parent_id": null,
       "depends_on": [
         "9d16c244-42ba-4ce9-91bc-cb928c869e75-replace-tests"
       ],
       "assigned_to": "modular-builder",
       "created_at": "2025-10-12T20:06:24.794700",
-      "updated_at": "2025-10-12T20:06:24.794701"
+      "updated_at": "2025-10-12T20:58:59.032678"
     },
     "9d16c244-42ba-4ce9-91bc-cb928c869e75-file-tests": {
       "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-file-tests",

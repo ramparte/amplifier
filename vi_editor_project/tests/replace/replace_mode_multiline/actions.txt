@@ -1,0 +1,3 @@
+# Replace across line boundary
+set_cursor:0,6
+Rnew text goes here<ESC>

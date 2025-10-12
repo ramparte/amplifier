@@ -1,0 +1,3 @@
+# Change 'quick' to 'slow'
+set_cursor:0,4
+cwslow<ESC>

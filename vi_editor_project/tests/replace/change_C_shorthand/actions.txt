@@ -1,0 +1,3 @@
+# Change to end using C
+set_cursor:0,10
+Cand add new<ESC>

@@ -1,0 +1,3 @@
+# Enter replace mode and overwrite
+set_cursor:0,0
+ROverwrite<ESC>

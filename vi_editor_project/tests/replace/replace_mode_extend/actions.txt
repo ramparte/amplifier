@@ -1,0 +1,3 @@
+# Replace with longer text
+set_cursor:0,0
+RMuch longer text<ESC>

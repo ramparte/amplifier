@@ -1,0 +1,7 @@
+# Replace chars at different positions
+set_cursor:0,0
+rb
+set_cursor:0,2
+rc
+set_cursor:0,4
+rd

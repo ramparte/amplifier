@@ -1,0 +1,3 @@
+# Substitute last character
+set_cursor:0,3
+sted<ESC>

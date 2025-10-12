@@ -1,0 +1,3 @@
+# Change backward from 'k' in quick
+set_cursor:0,8
+cbslow<ESC>

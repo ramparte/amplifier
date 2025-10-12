@@ -1,0 +1,3 @@
+# Change two words
+set_cursor:0,4
+2cwnumbers<ESC>

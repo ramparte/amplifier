@@ -1,0 +1,3 @@
+# Substitute H with Hi
+set_cursor:0,0
+siH<ESC>

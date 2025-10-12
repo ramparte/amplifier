@@ -1,0 +1,3 @@
+# Change entire line
+set_cursor:1,5
+ccCompletely new<ESC>

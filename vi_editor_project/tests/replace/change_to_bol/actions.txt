@@ -1,0 +1,3 @@
+# Change to beginning of line
+set_cursor:0,13
+c0New start <ESC>
