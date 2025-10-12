@@ -1,0 +1,12 @@
+# Test: Line start and end navigation
+# Use 0, $, ^, w, b to navigate
+$
+a
+!<ESC>
+j
+0
+i
+><ESC>
+$
+a
+ END<ESC>

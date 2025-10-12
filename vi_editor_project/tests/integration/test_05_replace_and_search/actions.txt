@@ -1,0 +1,5 @@
+# Test: Search and replace characters
+# Replace characters, search, replace more
+3r-
+/banana<ENTER>
+5rx

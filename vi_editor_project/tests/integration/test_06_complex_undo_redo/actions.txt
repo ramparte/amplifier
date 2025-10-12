@@ -1,0 +1,11 @@
+# Test: Complex undo/redo workflow
+# Multiple changes with undo and redo
+A
+ one<ESC>
+A
+ two<ESC>
+A
+ three<ESC>
+u
+u
+<CTRL-R>

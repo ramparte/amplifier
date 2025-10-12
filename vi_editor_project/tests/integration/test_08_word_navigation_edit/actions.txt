@@ -1,0 +1,8 @@
+# Test: Word navigation with editing
+# Jump by words, delete words, insert
+2w
+dw
+i
+INSERTED<ESC>
+w
+x

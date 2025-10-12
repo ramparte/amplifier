@@ -8,25 +8,25 @@
       "id": "arch",
       "title": "Architecture & Design",
       "description": "Define overall architecture, data structures, and interfaces",
-      "state": "pending",
+      "state": "completed",
       "parent_id": null,
       "depends_on": [],
       "assigned_to": null,
       "created_at": "2025-10-07T15:54:49.801148",
-      "updated_at": "2025-10-07T15:54:49.801149"
+      "updated_at": "2025-10-12T21:14:30.247155"
     },
     "core": {
       "id": "core",
       "title": "Core Editing Engine",
       "description": "Text buffer management, cursor handling, basic operations",
-      "state": "pending",
+      "state": "completed",
       "parent_id": null,
       "depends_on": [
         "arch"
       ],
       "assigned_to": null,
       "created_at": "2025-10-07T15:54:49.801150",
-      "updated_at": "2025-10-07T15:54:49.801150"
+      "updated_at": "2025-10-12T21:18:13.586862"
     },
     "commands": {
       "id": "commands",
@@ -71,38 +71,38 @@
       "id": "arch-analysis",
       "title": "Requirements Analysis",
       "description": "Analyze vi behavior, commands, edge cases",
-      "state": "pending",
+      "state": "completed",
       "parent_id": "arch",
       "depends_on": [],
       "assigned_to": null,
       "created_at": "2025-10-07T15:54:49.801154",
-      "updated_at": "2025-10-07T15:54:49.801154"
+      "updated_at": "2025-10-12T21:14:30.247162"
     },
     "arch-design": {
       "id": "arch-design",
       "title": "System Design",
       "description": "Design core data structures and interfaces",
-      "state": "pending",
+      "state": "completed",
       "parent_id": "arch",
       "depends_on": [
         "arch-analysis"
       ],
       "assigned_to": null,
       "created_at": "2025-10-07T15:54:49.801155",
-      "updated_at": "2025-10-07T15:54:49.801155"
+      "updated_at": "2025-10-12T21:18:13.586871"
     },
     "arch-patterns": {
       "id": "arch-patterns",
       "title": "Design Patterns",
       "description": "Define patterns for extensibility",
-      "state": "pending",
+      "state": "completed",
       "parent_id": "arch",
       "depends_on": [
         "arch-design"
       ],
       "assigned_to": null,
       "created_at": "2025-10-07T15:54:49.801156",
-      "updated_at": "2025-10-07T15:54:49.801156"
+      "updated_at": "2025-10-12T21:18:35.360836"
     },
     "arch-docs": {
       "id": "arch-docs",
@@ -121,79 +121,79 @@
       "id": "core-buffer",
       "title": "Text Buffer",
       "description": "Efficient text storage with undo/redo",
-      "state": "pending",
+      "state": "completed",
       "parent_id": "core",
       "depends_on": [
         "core"
       ],
       "assigned_to": null,
       "created_at": "2025-10-07T15:54:49.801158",
-      "updated_at": "2025-10-07T15:54:49.801158"
+      "updated_at": "2025-10-12T21:18:35.360841"
     },
     "core-cursor": {
       "id": "core-cursor",
       "title": "Cursor Management",
       "description": "Cursor positioning, movement, selection",
-      "state": "pending",
+      "state": "completed",
       "parent_id": "core",
       "depends_on": [
         "core-buffer"
       ],
       "assigned_to": null,
       "created_at": "2025-10-07T15:54:49.801159",
-      "updated_at": "2025-10-07T15:54:49.801159"
+      "updated_at": "2025-10-12T21:18:35.360842"
     },
     "core-operations": {
       "id": "core-operations",
       "title": "Basic Operations",
       "description": "Insert, delete, replace operations",
-      "state": "pending",
+      "state": "completed",
       "parent_id": "core",
       "depends_on": [
         "core-cursor"
       ],
       "assigned_to": null,
       "created_at": "2025-10-07T15:54:49.801160",
-      "updated_at": "2025-10-07T15:54:49.801160"
+      "updated_at": "2025-10-12T21:18:35.360847"
     },
     "core-marks": {
       "id": "core-marks",
       "title": "Marks and Registers",
       "description": "Named marks, registers, clipboard",
-      "state": "pending",
+      "state": "completed",
       "parent_id": "core",
       "depends_on": [
         "core-operations"
       ],
       "assigned_to": null,
       "created_at": "2025-10-07T15:54:49.801160",
-      "updated_at": "2025-10-07T15:54:49.801161"
+      "updated_at": "2025-10-12T21:18:35.360849"
     },
     "core-search": {
       "id": "core-search",
       "title": "Search Engine",
       "description": "Pattern matching, regex, search/replace",
-      "state": "pending",
+      "state": "completed",
       "parent_id": "core",
       "depends_on": [
         "core-operations"
       ],
       "assigned_to": null,
       "created_at": "2025-10-07T15:54:49.801161",
-      "updated_at": "2025-10-07T15:54:49.801161"
+      "updated_at": "2025-10-12T21:18:35.360851"
     },
     "buffer-gap": {
       "id": "buffer-gap",
       "title": "Gap Buffer Implementation",
       "description": "Efficient gap buffer with automatic expansion",
-      "state": "pending",
+      "state": "completed",
       "parent_id": "core-buffer",
       "depends_on": [
         "core-buffer"
       ],
       "assigned_to": null,
       "created_at": "2025-10-07T15:54:49.801162",
-      "updated_at": "2025-10-07T15:54:49.801162"
+      "updated_at": "2025-10-12T21:18:35.360852"
     },
     "buffer-lines": {
       "id": "buffer-lines",
@@ -251,14 +251,14 @@
       "id": "cmd-parser",
       "title": "Command Parser",
       "description": "Parse vi commands with error handling",
-      "state": "pending",
+      "state": "completed",
       "parent_id": "commands",
       "depends_on": [
         "commands"
       ],
       "assigned_to": null,
       "created_at": "2025-10-07T15:54:49.801167",
-      "updated_at": "2025-10-07T15:54:49.801167"
+      "updated_at": "2025-10-12T21:18:35.360843"
     },
     "cmd-modes": {
       "id": "cmd-modes",
@@ -303,14 +303,14 @@
       "id": "cmd-visual",
       "title": "Visual Mode",
       "description": "Visual selection, visual block",
-      "state": "pending",
+      "state": "completed",
       "parent_id": "commands",
       "depends_on": [
         "cmd-editing"
       ],
       "assigned_to": null,
       "created_at": "2025-10-07T15:54:49.801170",
-      "updated_at": "2025-10-07T15:54:49.801170"
+      "updated_at": "2025-10-12T21:18:35.360850"
     },
     "cmd-ex": {
       "id": "cmd-ex",

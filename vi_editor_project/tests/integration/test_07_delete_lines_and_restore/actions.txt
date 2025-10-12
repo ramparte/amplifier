@@ -1,0 +1,6 @@
+# Test: Delete multiple lines and restore with undo
+# Delete 2 lines, navigate, delete 1 line, undo last delete
+2dd
+j
+dd
+u

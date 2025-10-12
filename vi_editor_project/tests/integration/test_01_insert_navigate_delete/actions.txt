@@ -1,0 +1,9 @@
+# Test: Insert, navigate, delete workflow
+# Enter insert mode, add text, navigate, delete word
+i
+Hello <ESC>
+j
+A
+ World<ESC>
+k
+dw

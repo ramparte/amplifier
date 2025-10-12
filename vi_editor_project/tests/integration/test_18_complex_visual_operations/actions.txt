@@ -1,0 +1,17 @@
+# Test: Complex visual mode operations
+# Visual select across lines, yank, delete elsewhere, paste
+v
+w
+w
+j
+w
+y
+G
+o
+<ESC>
+p
+gg
+w
+v
+e
+d

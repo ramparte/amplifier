@@ -91,9 +91,8 @@ def visualize_project(project_id):
         # Find tasks that can be executed
         can_execute = []
         for task_id, task in project.tasks.items():
-            if task_id not in executed:
-                if all(dep_id in executed for dep_id in task.depends_on):
-                    can_execute.append(task)
+            if task_id not in executed and all(dep_id in executed for dep_id in task.depends_on):
+                can_execute.append(task)
 
         if not can_execute:
             print("ERROR: Circular dependency or missing tasks!")
@@ -115,9 +114,8 @@ def visualize_project(project_id):
         # Find tasks that can be executed in parallel
         batch = []
         for task_id, task in project.tasks.items():
-            if task_id not in executed:
-                if all(dep_id in executed for dep_id in task.depends_on):
-                    batch.append(task)
+            if task_id not in executed and all(dep_id in executed for dep_id in task.depends_on):
+                batch.append(task)
 
         if not batch:
             break

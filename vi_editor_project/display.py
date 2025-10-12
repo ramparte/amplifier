@@ -100,6 +100,9 @@ class Display:
 
     def _draw_buffer(self, buffer_lines: list[str]):
         """Draw the buffer content with optional line numbers."""
+        if not self.stdscr:
+            return
+
         visible_lines = self.screen_height - 2  # Reserve for status and command line
         line_num_width = 0
 
@@ -145,6 +148,9 @@ class Display:
 
     def _draw_status_bar(self):
         """Draw the status bar at the bottom."""
+        if not self.stdscr:
+            return
+
         status_row = self.screen_height - 2
 
         # Build status line
@@ -172,6 +178,9 @@ class Display:
 
     def _draw_command_line(self):
         """Draw the command line at the bottom."""
+        if not self.stdscr:
+            return
+
         cmd_row = self.screen_height - 1
 
         if self.command_line:
@@ -183,6 +192,9 @@ class Display:
 
     def _position_cursor(self, cursor: tuple[int, int]):
         """Position the hardware cursor."""
+        if not self.stdscr:
+            return
+
         row, col = cursor
         screen_row = row - self.viewport_top
 
@@ -241,7 +253,7 @@ class Display:
 
     def _is_line_in_selection(self, line_num: int) -> bool:
         """Check if a line is part of the visual selection."""
-        if not self._is_visual_mode():
+        if not self._is_visual_mode() or self.visual_start is None or self.visual_end is None:
             return False
 
         start_row = min(self.visual_start[0], self.visual_end[0])

@@ -1,0 +1,8 @@
+# Test: Change word and character replace
+# Change word, replace characters
+cw
+Goodbye<ESC>
+w
+r!
+w
+rX

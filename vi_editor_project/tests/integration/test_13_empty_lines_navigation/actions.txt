@@ -1,0 +1,9 @@
+# Test: Navigation and editing with empty lines
+# Navigate through empty lines, add content
+j
+a
+Second<ESC>
+j
+j
+a
+Fourth<ESC>

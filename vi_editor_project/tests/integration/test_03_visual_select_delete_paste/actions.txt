@@ -1,0 +1,10 @@
+# Test: Visual mode selection, delete, paste
+# Select "quick brown", delete, paste at end
+w
+v
+e
+e
+d
+j
+$
+p

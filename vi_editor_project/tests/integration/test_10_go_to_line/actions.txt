@@ -1,0 +1,10 @@
+# Test: Go to specific line and edit
+# Jump to line 5, delete, jump to end, append
+5G
+dd
+G
+A
+ END<ESC>
+gg
+A
+ START<ESC>

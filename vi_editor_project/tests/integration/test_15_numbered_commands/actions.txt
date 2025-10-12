@@ -1,0 +1,7 @@
+# Test: Numbered/counted commands
+# Use count prefixes with various commands
+3x
+j
+2dw
+A
+ end<ESC>

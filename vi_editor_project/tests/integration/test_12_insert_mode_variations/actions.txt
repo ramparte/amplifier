@@ -1,0 +1,12 @@
+# Test: Different insert mode entry points
+# Use i, I, a, A, o, O to enter insert
+A
+!<ESC>
+j
+I
+Start <ESC>
+o
+New line below<ESC>
+k
+O
+New line above<ESC>

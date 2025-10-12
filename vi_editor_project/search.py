@@ -45,6 +45,9 @@ class SearchManager:
         if start_pos is None:
             start_pos = self.editor.cursor_pos
 
+        if start_pos is None:
+            return None
+
         start_row, start_col = start_pos
 
         # Search from current position to end of current line
@@ -105,6 +108,9 @@ class SearchManager:
 
         if start_pos is None:
             start_pos = self.editor.cursor_pos
+
+        if start_pos is None:
+            return None
 
         start_row, start_col = start_pos
 

@@ -1,0 +1,6 @@
+# Test: Yank, paste, undo sequence
+# Yank line, paste twice, undo once
+yy
+p
+p
+u

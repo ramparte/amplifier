@@ -1,0 +1,7 @@
+# Test: Visual line mode yank and paste
+# Select multiple lines, yank, paste
+V
+j
+y
+G
+p

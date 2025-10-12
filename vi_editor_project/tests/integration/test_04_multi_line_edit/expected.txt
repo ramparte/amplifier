@@ -1,0 +1,4 @@
+greet hello() {
+  return "world";
+  console.log("test");
+}

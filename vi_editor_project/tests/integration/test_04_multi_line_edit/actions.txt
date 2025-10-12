@@ -1,0 +1,7 @@
+# Test: Multi-line editing (adding lines, changing text)
+# Open new line below, add content, go up, change word
+o
+  console.log("test");<ESC>
+k
+cw
+greet<ESC>

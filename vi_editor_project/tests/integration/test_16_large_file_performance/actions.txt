@@ -1,0 +1,12 @@
+# Test: Performance with large file (1000+ lines)
+# Jump to middle, end, search, edit
+500G
+dd
+G
+dd
+gg
+/0100<ENTER>
+dd
+999G
+i
+EDITED<ESC>

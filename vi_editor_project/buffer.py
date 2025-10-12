@@ -30,6 +30,11 @@ class Buffer:
         """Get current cursor position as (row, col)."""
         return (self._cursor_row, self._cursor_col)
 
+    @cursor.setter
+    def cursor(self, pos: tuple[int, int]) -> None:
+        """Set cursor position."""
+        self.move_cursor(pos[0], pos[1])
+
     def move_cursor(self, row: int, col: int) -> None:
         """
         Move cursor to specified position.
@@ -173,6 +178,31 @@ class Buffer:
             Copy of all lines in the buffer
         """
         return self.get_content()
+
+    def get_lines(self) -> list[str]:
+        """
+        Get all buffer lines (mutable reference).
+
+        Returns:
+            Direct reference to the lines list
+        """
+        return self._lines
+
+    @property
+    def lines(self) -> list[str]:
+        """Get direct reference to lines list."""
+        return self._lines
+
+    @lines.setter
+    def lines(self, value: list[str]) -> None:
+        """Set the lines list."""
+        self._lines = value if value else [""]
+        # Adjust cursor if needed
+        if self._cursor_row >= len(self._lines):
+            self._cursor_row = len(self._lines) - 1
+        line_length = len(self._lines[self._cursor_row]) if self._lines else 0
+        if self._cursor_col > line_length:
+            self._cursor_col = line_length
 
     def line_count(self) -> int:
         """

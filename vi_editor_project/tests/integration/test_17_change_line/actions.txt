@@ -1,0 +1,7 @@
+# Test: Change entire line (cc command)
+# Change lines with cc
+cc
+New line one<ESC>
+j
+cc
+New line two<ESC>

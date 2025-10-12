@@ -1,6 +1,6 @@
 """Test file for visual mode functionality in the vi editor."""
 
-from test_framework import BaseViTest
+from test_framework import BaseViTest  # type: ignore[attr-defined]  # pyright: ignore[reportAttributeAccessIssue]
 
 
 class TestVisualMode(BaseViTest):
