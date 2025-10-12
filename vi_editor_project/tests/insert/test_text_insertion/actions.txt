@@ -1,0 +1,4 @@
+$
+i
+ with more text added
+<ESC>

@@ -41,10 +41,12 @@ class ActionParser:
 
     def __init__(self):
         self.special_keys = {
-            "<ESC>": "\x1b",
+            "<ESC>": "<ESC>",
             "<ENTER>": "\n",
+            "<CR>": "<CR>",
             "<TAB>": "\t",
             "<BACKSPACE>": "\x7f",
+            "<BS>": "<BS>",
             "<DELETE>": "\x7f",
             "<UP>": "\x1b[A",
             "<DOWN>": "\x1b[B",
@@ -70,7 +72,8 @@ class ActionParser:
         # Remove comments
         if "#" in line:
             line = line[: line.index("#")]
-        line = line.strip()
+        # Remove only the trailing newline, not other whitespace
+        line = line.rstrip("\n\r")
 
         if not line:
             return []

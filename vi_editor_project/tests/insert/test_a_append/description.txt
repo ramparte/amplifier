@@ -1,0 +1,1 @@
+Test 'a' command - append after cursor

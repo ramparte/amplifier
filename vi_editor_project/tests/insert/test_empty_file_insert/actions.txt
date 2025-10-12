@@ -1,0 +1,3 @@
+i
+First line of text
+<ESC>

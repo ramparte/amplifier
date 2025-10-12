@@ -1,0 +1,1 @@
+Test inserting multiple characters and escape

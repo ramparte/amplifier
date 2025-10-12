@@ -13,8 +13,7 @@
       "depends_on": [],
       "assigned_to": "zen-architect",
       "created_at": "2025-10-12T20:06:24.794653",
-      "updated_at": "2025-10-12T20:11:48.775271",
-      "completed_at": "2025-10-12T20:11:48.775276"
+      "updated_at": "2025-10-12T20:11:48.775271"
     },
     "9d16c244-42ba-4ce9-91bc-cb928c869e75-test-framework": {
       "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-test-framework",
@@ -27,8 +26,7 @@
       ],
       "assigned_to": "test-coverage",
       "created_at": "2025-10-12T20:06:24.794658",
-      "updated_at": "2025-10-12T20:13:27.206735",
-      "completed_at": "2025-10-12T20:13:27.206729"
+      "updated_at": "2025-10-12T20:13:27.206735"
     },
     "9d16c244-42ba-4ce9-91bc-cb928c869e75-buffer-tests": {
       "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-buffer-tests",
@@ -41,8 +39,7 @@
       ],
       "assigned_to": "test-coverage",
       "created_at": "2025-10-12T20:06:24.794661",
-      "updated_at": "2025-10-12T20:14:17.400462",
-      "completed_at": "2025-10-12T20:14:17.400453"
+      "updated_at": "2025-10-12T20:14:17.400462"
     },
     "9d16c244-42ba-4ce9-91bc-cb928c869e75-buffer-impl": {
       "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-buffer-impl",
@@ -55,8 +52,7 @@
       ],
       "assigned_to": "modular-builder",
       "created_at": "2025-10-12T20:06:24.794663",
-      "updated_at": "2025-10-12T20:15:08.669360",
-      "completed_at": "2025-10-12T20:15:08.669351"
+      "updated_at": "2025-10-12T20:15:08.669360"
     },
     "9d16c244-42ba-4ce9-91bc-cb928c869e75-nav-tests": {
       "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-nav-tests",
@@ -69,8 +65,7 @@
       ],
       "assigned_to": "test-coverage",
       "created_at": "2025-10-12T20:06:24.794666",
-      "updated_at": "2025-10-12T20:20:14.246325",
-      "completed_at": "2025-10-12T20:20:14.246320"
+      "updated_at": "2025-10-12T20:20:14.246325"
     },
     "9d16c244-42ba-4ce9-91bc-cb928c869e75-nav-impl": {
       "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-nav-impl",
@@ -83,34 +78,33 @@
       ],
       "assigned_to": "modular-builder",
       "created_at": "2025-10-12T20:06:24.794668",
-      "updated_at": "2025-10-12T20:25:57.309964",
-      "completed_at": "2025-10-12T20:25:57.309959"
+      "updated_at": "2025-10-12T20:25:57.309964"
     },
     "9d16c244-42ba-4ce9-91bc-cb928c869e75-insert-tests": {
       "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-insert-tests",
       "title": "Create insert mode tests",
       "description": "Create file-based tests for insert mode:\n        - i,I insert at cursor/line start\n        - a,A append after cursor/line end\n        - o,O open line below/above\n        - Text insertion and escape\n        - Special key handling (backspace, enter)\n\n        Test mode transitions and text insertion.\n        Minimum 12 test cases.",
-      "state": "pending",
+      "state": "completed",
       "parent_id": null,
       "depends_on": [
         "9d16c244-42ba-4ce9-91bc-cb928c869e75-nav-impl"
       ],
       "assigned_to": "test-coverage",
       "created_at": "2025-10-12T20:06:24.794670",
-      "updated_at": "2025-10-12T20:06:24.794670"
+      "updated_at": "2025-10-12T20:33:39.095234"
     },
     "9d16c244-42ba-4ce9-91bc-cb928c869e75-insert-impl": {
       "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-insert-impl",
       "title": "Implement insert mode",
       "description": "Implement insert_mode.py:\n        - Mode transition handlers\n        - Character insertion at cursor\n        - Special key processing\n        - Proper cursor positioning after mode change\n\n        All insert mode tests must pass.",
-      "state": "pending",
+      "state": "completed",
       "parent_id": null,
       "depends_on": [
         "9d16c244-42ba-4ce9-91bc-cb928c869e75-insert-tests"
       ],
       "assigned_to": "modular-builder",
       "created_at": "2025-10-12T20:06:24.794674",
-      "updated_at": "2025-10-12T20:06:24.794675"
+      "updated_at": "2025-10-12T20:33:39.095235"
     },
     "9d16c244-42ba-4ce9-91bc-cb928c869e75-delete-tests": {
       "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-delete-tests",

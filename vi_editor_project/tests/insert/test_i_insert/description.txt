@@ -1,0 +1,1 @@
+Test 'i' command - insert at cursor position

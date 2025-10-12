@@ -1,0 +1,7 @@
+$
+a
+<CR>
+Second line
+<CR>
+Third line
+<ESC>

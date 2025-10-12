@@ -1,0 +1,1 @@
+Test multiple transitions between command and insert modes

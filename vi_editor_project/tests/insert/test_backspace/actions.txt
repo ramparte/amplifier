@@ -1,0 +1,11 @@
+$
+a
+ extra
+<BS>
+<BS>
+<BS>
+<BS>
+<BS>
+<BS>
+new
+<ESC>

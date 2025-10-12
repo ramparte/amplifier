@@ -1,0 +1,1 @@
+Test enter key creating new lines in insert mode

@@ -1,0 +1,1 @@
+Test 'o' command - open new line below

@@ -1,0 +1,1 @@
+Test 'o' command at end of file

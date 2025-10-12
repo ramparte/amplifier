@@ -1,0 +1,4 @@
+j
+o
+New line inserted
+<ESC>
