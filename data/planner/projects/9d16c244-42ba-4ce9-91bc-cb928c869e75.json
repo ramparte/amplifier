@@ -162,7 +162,7 @@
       "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-visual-tests",
       "title": "Create visual mode tests",
       "description": "Create file-based tests for visual mode:\n        - v character-wise selection\n        - V line-wise selection\n        - Selection with movement\n        - Operations on selections (d, y)\n\n        Test selection highlighting and operations.\n        Minimum 8 test cases.",
-      "state": "pending",
+      "state": "completed",
       "parent_id": null,
       "depends_on": [
         "9d16c244-42ba-4ce9-91bc-cb928c869e75-yank-impl"
@@ -175,7 +175,7 @@
       "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-visual-impl",
       "title": "Implement visual mode",
       "description": "Implement visual_mode.py:\n        - Visual mode activation\n        - Selection tracking\n        - Movement in visual mode\n        - Operations on selections\n\n        All visual mode tests must pass.",
-      "state": "pending",
+      "state": "completed",
       "parent_id": null,
       "depends_on": [
         "9d16c244-42ba-4ce9-91bc-cb928c869e75-visual-tests"
@@ -188,7 +188,7 @@
       "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-undo-tests",
       "title": "Create undo/redo tests",
       "description": "Create file-based tests for undo/redo:\n        - u undo last change\n        - Ctrl-r redo\n        - Multiple undo levels\n        - Undo after various operations\n\n        Test state management and restoration.\n        Minimum 6 test cases.",
-      "state": "pending",
+      "state": "completed",
       "parent_id": null,
       "depends_on": [
         "9d16c244-42ba-4ce9-91bc-cb928c869e75-visual-impl"
@@ -201,7 +201,7 @@
       "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-undo-impl",
       "title": "Implement undo/redo system",
       "description": "Implement undo.py:\n        - Command history stack\n        - State snapshots\n        - Undo/redo operations\n        - Memory-efficient storage\n\n        All undo/redo tests must pass.",
-      "state": "pending",
+      "state": "completed",
       "parent_id": null,
       "depends_on": [
         "9d16c244-42ba-4ce9-91bc-cb928c869e75-undo-tests"
@@ -214,7 +214,7 @@
       "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-search-tests",
       "title": "Create search tests",
       "description": "Create file-based tests for search:\n        - / forward search\n        - ? backward search\n        - n,N next/previous match\n        - Case sensitivity\n        - Regex patterns\n\n        Test wraparound and highlighting.\n        Minimum 8 test cases.",
-      "state": "pending",
+      "state": "completed",
       "parent_id": null,
       "depends_on": [
         "9d16c244-42ba-4ce9-91bc-cb928c869e75-undo-impl"
@@ -227,7 +227,7 @@
       "id": "9d16c244-42ba-4ce9-91bc-cb928c869e75-search-impl",
       "title": "Implement search functionality",
       "description": "Implement search.py:\n        - Pattern search forward/backward\n        - Match highlighting\n        - Next/previous navigation\n        - Basic regex support\n\n        All search tests must pass.",
-      "state": "pending",
+      "state": "completed",
       "parent_id": null,
       "depends_on": [
         "9d16c244-42ba-4ce9-91bc-cb928c869e75-search-tests"
