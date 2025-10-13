@@ -62,7 +62,10 @@ default: ## Show essential commands
 	@echo "  make web-to-md       Convert web pages to markdown"
 	@echo ""
 	@echo "Deck Builder:"
-	@echo "  make deck-build      Convert markdown to PowerPoint"
+	@echo "  make deck-pipeline   Full pipeline: markdown → dense slides → PowerPoint"
+	@echo "  make deck-parse      Parse markdown slides to JSON"
+	@echo "  make deck-densify    Compress slides (storyteller mode)"
+	@echo "  make deck-build      Build PowerPoint from JSON slides"
 	@echo ""
 	@echo "Other:"
 	@echo "  make clean          Clean build artifacts"
@@ -745,17 +748,77 @@ dot-to-mermaid: ## Convert DOT files to Mermaid format. Usage: make dot-to-merma
 	echo "Converting DOT files to Mermaid format..."; \
 	uv run python -m ai_working.dot_to_mermaid.cli "$(INPUT)" --session-file "$$SESSION_DIR/session.json"
 
-# Deck Builder
-deck-build: ## Convert markdown to PowerPoint. Usage: make deck-build INPUT=deck.md OUTPUT=deck.pptx
+# Deck Builder Pipeline
+deck-parse: ## Parse markdown slides to JSON. Usage: make deck-parse INPUT=deck.md OUTPUT=slides.json
 	@if [ -z "$(INPUT)" ]; then \
-		echo "Error: Please provide an input file. Usage: make deck-build INPUT=deck.md OUTPUT=deck.pptx"; \
+		echo "Error: Please provide an input file. Usage: make deck-parse INPUT=deck.md OUTPUT=slides.json"; \
 		exit 1; \
 	fi
 	@if [ -z "$(OUTPUT)" ]; then \
-		echo "Error: Please provide an output file. Usage: make deck-build INPUT=deck.md OUTPUT=deck.pptx"; \
+		echo "Error: Please provide an output file. Usage: make deck-parse INPUT=deck.md OUTPUT=slides.json"; \
 		exit 1; \
 	fi
-	@echo "🎨 Converting markdown to PowerPoint..."
+	@echo "📄 Parsing markdown slides..."
+	@uv run python -m scenarios.deck_builder.parse_cli "$(INPUT)" -o "$(OUTPUT)"
+
+deck-densify: ## Compress slides to storyteller mode. Usage: make deck-densify INPUT=slides.json OUTPUT=dense.json
+	@if [ -z "$(INPUT)" ]; then \
+		echo "Error: Please provide an input file. Usage: make deck-densify INPUT=slides.json OUTPUT=dense.json"; \
+		exit 1; \
+	fi
+	@if [ -z "$(OUTPUT)" ]; then \
+		echo "Error: Please provide an output file. Usage: make deck-densify INPUT=slides.json OUTPUT=dense.json"; \
+		exit 1; \
+	fi
+	@echo "📐 Compressing slides to storyteller mode (5-word title, 10-word content)..."
+	@uv run python -m scenarios.deck_densifier.main "$(INPUT)" -o "$(OUTPUT)"
+
+deck-build: ## Build PowerPoint from JSON slides. Usage: make deck-build INPUT=slides.json OUTPUT=deck.pptx
+	@if [ -z "$(INPUT)" ]; then \
+		echo "Error: Please provide an input file. Usage: make deck-build INPUT=slides.json OUTPUT=deck.pptx"; \
+		exit 1; \
+	fi
+	@if [ -z "$(OUTPUT)" ]; then \
+		echo "Error: Please provide an output file. Usage: make deck-build INPUT=slides.json OUTPUT=deck.pptx"; \
+		exit 1; \
+	fi
+	@echo "🎨 Building PowerPoint presentation..."
+	@uv run python -m scenarios.deck_builder.build_cli "$(INPUT)" "$(OUTPUT)"
+
+deck-pipeline: ## Full pipeline: markdown → dense slides → PowerPoint. Usage: make deck-pipeline INPUT=deck.md OUTPUT=deck.pptx
+	@if [ -z "$(INPUT)" ]; then \
+		echo "Error: Please provide an input file. Usage: make deck-pipeline INPUT=deck.md OUTPUT=deck.pptx"; \
+		exit 1; \
+	fi
+	@if [ -z "$(OUTPUT)" ]; then \
+		echo "Error: Please provide an output file. Usage: make deck-pipeline INPUT=deck.md OUTPUT=deck.pptx"; \
+		exit 1; \
+	fi
+	@echo "🚀 Running full deck pipeline..."
+	@echo "  Input: $(INPUT)"
+	@echo "  Output: $(OUTPUT)"
+	@echo ""
+	@TMPDIR=$$(mktemp -d); \
+	echo "Step 1/3: Parsing markdown..."; \
+	uv run python -m scenarios.deck_builder.parse_cli "$(INPUT)" -o "$$TMPDIR/slides.json"; \
+	echo "Step 2/3: Densifying slides..."; \
+	uv run python -m scenarios.deck_densifier.main "$$TMPDIR/slides.json" -o "$$TMPDIR/dense.json"; \
+	echo "Step 3/3: Building PowerPoint..."; \
+	uv run python -m scenarios.deck_builder.build_cli "$$TMPDIR/dense.json" "$(OUTPUT)"; \
+	rm -rf "$$TMPDIR"; \
+	echo ""; \
+	echo "✅ Complete! Generated: $(OUTPUT)"
+
+deck-build-legacy: ## Legacy: Convert markdown directly to PowerPoint (no densification). Usage: make deck-build-legacy INPUT=deck.md OUTPUT=deck.pptx
+	@if [ -z "$(INPUT)" ]; then \
+		echo "Error: Please provide an input file. Usage: make deck-build-legacy INPUT=deck.md OUTPUT=deck.pptx"; \
+		exit 1; \
+	fi
+	@if [ -z "$(OUTPUT)" ]; then \
+		echo "Error: Please provide an output file. Usage: make deck-build-legacy INPUT=deck.md OUTPUT=deck.pptx"; \
+		exit 1; \
+	fi
+	@echo "🎨 Converting markdown to PowerPoint (legacy mode, no densification)..."
 	@echo "  Input: $(INPUT)"
 	@echo "  Output: $(OUTPUT)"
 	@uv run python -m scenarios.deck_builder.main "$(INPUT)" --output "$(OUTPUT)"

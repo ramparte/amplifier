@@ -1,0 +1,71 @@
+[
+  {
+    "slide_type": "title",
+    "title": "The Amplifier Philosophy",
+    "content_blocks": [],
+    "speaker_notes": "",
+    "slide_number": 1
+  },
+  {
+    "slide_type": "content",
+    "title": "The Core Problem We Face in Modern Software Development",
+    "content_blocks": [
+      {"text": "I have more ideas than time to execute them all", "is_bullet": true},
+      {"text": "The constraint is always execution speed, not creativity", "is_bullet": true},
+      {"text": "We need to amplify our capabilities to match our ambitions", "is_bullet": true}
+    ],
+    "speaker_notes": "This is the fundamental challenge every developer faces. We're idea-rich but time-poor.",
+    "slide_number": 2
+  },
+  {
+    "slide_type": "content",
+    "title": "How AI Changes Everything About Building Software",
+    "content_blocks": [
+      {"text": "AI acts as a force multiplier for human creativity", "is_bullet": true},
+      {"text": "We can now generate entire modules from specifications", "is_bullet": true},
+      {"text": "The bottleneck shifts from coding to designing", "is_bullet": true},
+      {"text": "Quality emerges from clear contracts, not manual review", "is_bullet": true}
+    ],
+    "speaker_notes": "The paradigm shift is from writing code to describing what we want.",
+    "slide_number": 3
+  },
+  {
+    "slide_type": "section",
+    "title": "Building Software Like LEGO Bricks",
+    "content_blocks": [],
+    "speaker_notes": "Introducing the modular philosophy",
+    "slide_number": 4
+  },
+  {
+    "slide_type": "content",
+    "title": "The Brick and Stud Philosophy for Modern Development",
+    "content_blocks": [
+      {"text": "A brick is a self-contained module with one clear responsibility", "is_bullet": true},
+      {"text": "A stud is the public contract that other bricks connect to", "is_bullet": true},
+      {"text": "Bricks can be regenerated without breaking connections", "is_bullet": true},
+      {"text": "All code, tests, and fixtures live inside the brick's folder", "is_bullet": true},
+      {"text": "The contract is the specification, not the implementation", "is_bullet": true}
+    ],
+    "speaker_notes": "This is how we build software that's both flexible and stable.",
+    "slide_number": 5
+  },
+  {
+    "slide_type": "content",
+    "title": "Embracing Regeneration Over Modification",
+    "content_blocks": [
+      {"text": "Stop thinking about code as something to edit line by line", "is_bullet": true},
+      {"text": "Think of it as something to describe and regenerate", "is_bullet": true},
+      {"text": "AI generates fresh code from specifications every time", "is_bullet": true},
+      {"text": "No technical debt accumulates when you regenerate", "is_bullet": true}
+    ],
+    "speaker_notes": "This is the key mindset shift - we're not maintaining code, we're maintaining specifications.",
+    "slide_number": 6
+  },
+  {
+    "slide_type": "blank",
+    "title": "",
+    "content_blocks": [],
+    "speaker_notes": "Pause for questions",
+    "slide_number": 7
+  }
+]

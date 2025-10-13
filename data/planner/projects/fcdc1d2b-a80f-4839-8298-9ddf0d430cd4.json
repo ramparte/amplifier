@@ -1,0 +1,595 @@
+{
+  "id": "fcdc1d2b-a80f-4839-8298-9ddf0d430cd4",
+  "name": "Vi Editor Rewrite in Python",
+  "created_at": "2025-10-11T20:27:26.308528",
+  "updated_at": "2025-10-11T20:27:26.308650",
+  "tasks": {
+    "arch-1": {
+      "id": "arch-1",
+      "title": "Design overall architecture",
+      "description": "Define modular architecture for text editor: buffer management, command parsing, display, I/O",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [],
+      "assigned_to": "zen-architect",
+      "created_at": "2025-10-11T20:27:26.308536",
+      "updated_at": "2025-10-11T20:27:26.308537"
+    },
+    "arch-2": {
+      "id": "arch-2",
+      "title": "Define core data structures",
+      "description": "Design buffer representation, undo/redo stack, command queue",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "arch-1"
+      ],
+      "assigned_to": "zen-architect",
+      "created_at": "2025-10-11T20:27:26.308539",
+      "updated_at": "2025-10-11T20:27:26.308540"
+    },
+    "arch-3": {
+      "id": "arch-3",
+      "title": "Define API contracts",
+      "description": "Specify interfaces between buffer, display, command processor, and I/O modules",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "arch-2"
+      ],
+      "assigned_to": "api-contract-designer",
+      "created_at": "2025-10-11T20:27:26.308542",
+      "updated_at": "2025-10-11T20:27:26.308542"
+    },
+    "buffer-1": {
+      "id": "buffer-1",
+      "title": "Implement buffer data structure",
+      "description": "Create Buffer class with line-based storage, cursor tracking",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "arch-3"
+      ],
+      "assigned_to": "modular-builder",
+      "created_at": "2025-10-11T20:27:26.308544",
+      "updated_at": "2025-10-11T20:27:26.308544"
+    },
+    "buffer-2": {
+      "id": "buffer-2",
+      "title": "Implement buffer operations",
+      "description": "Add insert, delete, replace operations with cursor management",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "buffer-1"
+      ],
+      "assigned_to": "modular-builder",
+      "created_at": "2025-10-11T20:27:26.308545",
+      "updated_at": "2025-10-11T20:27:26.308546"
+    },
+    "buffer-3": {
+      "id": "buffer-3",
+      "title": "Add undo/redo system",
+      "description": "Implement command pattern for undoable operations",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "buffer-2"
+      ],
+      "assigned_to": "modular-builder",
+      "created_at": "2025-10-11T20:27:26.308547",
+      "updated_at": "2025-10-11T20:27:26.308548"
+    },
+    "buffer-test": {
+      "id": "buffer-test",
+      "title": "Test buffer system",
+      "description": "Comprehensive tests for buffer operations, edge cases, undo/redo",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "buffer-3"
+      ],
+      "assigned_to": "test-coverage",
+      "created_at": "2025-10-11T20:27:26.308549",
+      "updated_at": "2025-10-11T20:27:26.308550"
+    },
+    "display-1": {
+      "id": "display-1",
+      "title": "Implement terminal interface",
+      "description": "Create curses-based terminal display with proper escaping",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "arch-3"
+      ],
+      "assigned_to": "modular-builder",
+      "created_at": "2025-10-11T20:27:26.308553",
+      "updated_at": "2025-10-11T20:27:26.308553"
+    },
+    "display-2": {
+      "id": "display-2",
+      "title": "Implement viewport system",
+      "description": "Handle scrolling, line wrapping, cursor rendering",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "display-1"
+      ],
+      "assigned_to": "modular-builder",
+      "created_at": "2025-10-11T20:27:26.308555",
+      "updated_at": "2025-10-11T20:27:26.308556"
+    },
+    "display-3": {
+      "id": "display-3",
+      "title": "Add syntax highlighting",
+      "description": "Basic syntax highlighting for common languages",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "display-2"
+      ],
+      "assigned_to": "modular-builder",
+      "created_at": "2025-10-11T20:27:26.308557",
+      "updated_at": "2025-10-11T20:27:26.308558"
+    },
+    "display-test": {
+      "id": "display-test",
+      "title": "Test display system",
+      "description": "Test rendering, scrolling, highlighting, edge cases",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "display-3"
+      ],
+      "assigned_to": "test-coverage",
+      "created_at": "2025-10-11T20:27:26.308559",
+      "updated_at": "2025-10-11T20:27:26.308559"
+    },
+    "cmd-1": {
+      "id": "cmd-1",
+      "title": "Implement mode system",
+      "description": "Create normal, insert, visual, command modes with transitions",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "buffer-test",
+        "display-test"
+      ],
+      "assigned_to": "modular-builder",
+      "created_at": "2025-10-11T20:27:26.308560",
+      "updated_at": "2025-10-11T20:27:26.308561"
+    },
+    "cmd-2": {
+      "id": "cmd-2",
+      "title": "Implement normal mode commands",
+      "description": "Movement (hjkl, w, b, etc), deletion (x, dd), change (c, cc)",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "cmd-1"
+      ],
+      "assigned_to": "modular-builder",
+      "created_at": "2025-10-11T20:27:26.308562",
+      "updated_at": "2025-10-11T20:27:26.308562"
+    },
+    "cmd-3": {
+      "id": "cmd-3",
+      "title": "Implement insert mode",
+      "description": "Text insertion, backspace, escape to normal",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "cmd-1"
+      ],
+      "assigned_to": "modular-builder",
+      "created_at": "2025-10-11T20:27:26.308564",
+      "updated_at": "2025-10-11T20:27:26.308564"
+    },
+    "cmd-4": {
+      "id": "cmd-4",
+      "title": "Implement visual mode",
+      "description": "Character, line, block visual selection with operations",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "cmd-1"
+      ],
+      "assigned_to": "modular-builder",
+      "created_at": "2025-10-11T20:27:26.308566",
+      "updated_at": "2025-10-11T20:27:26.308566"
+    },
+    "cmd-5": {
+      "id": "cmd-5",
+      "title": "Implement ex commands",
+      "description": "Colon commands: :w, :q, :wq, :s, :set, etc.",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "cmd-1"
+      ],
+      "assigned_to": "modular-builder",
+      "created_at": "2025-10-11T20:27:26.308567",
+      "updated_at": "2025-10-11T20:27:26.308568"
+    },
+    "cmd-test": {
+      "id": "cmd-test",
+      "title": "Test command system",
+      "description": "Test all modes, commands, edge cases, mode transitions",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "cmd-2",
+        "cmd-3",
+        "cmd-4",
+        "cmd-5"
+      ],
+      "assigned_to": "test-coverage",
+      "created_at": "2025-10-11T20:27:26.308569",
+      "updated_at": "2025-10-11T20:27:26.308569"
+    },
+    "io-1": {
+      "id": "io-1",
+      "title": "Implement file loading",
+      "description": "Read files into buffer with encoding detection",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "buffer-test"
+      ],
+      "assigned_to": "modular-builder",
+      "created_at": "2025-10-11T20:27:26.308571",
+      "updated_at": "2025-10-11T20:27:26.308571"
+    },
+    "io-2": {
+      "id": "io-2",
+      "title": "Implement file saving",
+      "description": "Write buffer to file with backup creation",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "buffer-test"
+      ],
+      "assigned_to": "modular-builder",
+      "created_at": "2025-10-11T20:27:26.308572",
+      "updated_at": "2025-10-11T20:27:26.308573"
+    },
+    "io-3": {
+      "id": "io-3",
+      "title": "Add autosave/recovery",
+      "description": "Automatic backup and recovery from crashes",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "io-1",
+        "io-2"
+      ],
+      "assigned_to": "modular-builder",
+      "created_at": "2025-10-11T20:27:26.308574",
+      "updated_at": "2025-10-11T20:27:26.308574"
+    },
+    "io-test": {
+      "id": "io-test",
+      "title": "Test file I/O",
+      "description": "Test loading, saving, encoding, recovery, edge cases",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "io-3"
+      ],
+      "assigned_to": "test-coverage",
+      "created_at": "2025-10-11T20:27:26.308575",
+      "updated_at": "2025-10-11T20:27:26.308576"
+    },
+    "feat-1": {
+      "id": "feat-1",
+      "title": "Implement search and replace",
+      "description": "Regex search, replace, global replace with highlighting",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "cmd-test"
+      ],
+      "assigned_to": "modular-builder",
+      "created_at": "2025-10-11T20:27:26.308577",
+      "updated_at": "2025-10-11T20:27:26.308577"
+    },
+    "feat-2": {
+      "id": "feat-2",
+      "title": "Implement macro system",
+      "description": "Record and playback command sequences (q register)",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "cmd-test"
+      ],
+      "assigned_to": "modular-builder",
+      "created_at": "2025-10-11T20:27:26.308578",
+      "updated_at": "2025-10-11T20:27:26.308579"
+    },
+    "feat-3": {
+      "id": "feat-3",
+      "title": "Implement marks and jumps",
+      "description": "Named marks, jump list, change list",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "cmd-test"
+      ],
+      "assigned_to": "modular-builder",
+      "created_at": "2025-10-11T20:27:26.308580",
+      "updated_at": "2025-10-11T20:27:26.308580"
+    },
+    "feat-4": {
+      "id": "feat-4",
+      "title": "Add multiple buffers",
+      "description": "Buffer list, switching between files, split windows",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "buffer-test",
+        "display-test"
+      ],
+      "assigned_to": "modular-builder",
+      "created_at": "2025-10-11T20:27:26.308581",
+      "updated_at": "2025-10-11T20:27:26.308582"
+    },
+    "feat-test": {
+      "id": "feat-test",
+      "title": "Test advanced features",
+      "description": "Test search, macros, marks, multiple buffers",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "feat-1",
+        "feat-2",
+        "feat-3",
+        "feat-4"
+      ],
+      "assigned_to": "test-coverage",
+      "created_at": "2025-10-11T20:27:26.308583",
+      "updated_at": "2025-10-11T20:27:26.308583"
+    },
+    "config-1": {
+      "id": "config-1",
+      "title": "Implement .virc configuration",
+      "description": "Parse and apply configuration file with settings",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "cmd-test"
+      ],
+      "assigned_to": "modular-builder",
+      "created_at": "2025-10-11T20:27:26.308585",
+      "updated_at": "2025-10-11T20:27:26.308585"
+    },
+    "config-2": {
+      "id": "config-2",
+      "title": "Add key remapping",
+      "description": "Custom key bindings and command aliases",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "config-1"
+      ],
+      "assigned_to": "modular-builder",
+      "created_at": "2025-10-11T20:27:26.308586",
+      "updated_at": "2025-10-11T20:27:26.308587"
+    },
+    "config-test": {
+      "id": "config-test",
+      "title": "Test configuration system",
+      "description": "Test config parsing, settings, remapping",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "config-2"
+      ],
+      "assigned_to": "test-coverage",
+      "created_at": "2025-10-11T20:27:26.308588",
+      "updated_at": "2025-10-11T20:27:26.308588"
+    },
+    "perf-1": {
+      "id": "perf-1",
+      "title": "Profile and optimize buffer operations",
+      "description": "Identify and optimize slow buffer operations for large files",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "buffer-test",
+        "feat-test"
+      ],
+      "assigned_to": "performance-optimizer",
+      "created_at": "2025-10-11T20:27:26.308589",
+      "updated_at": "2025-10-11T20:27:26.308590"
+    },
+    "perf-2": {
+      "id": "perf-2",
+      "title": "Optimize display rendering",
+      "description": "Minimize redraws, optimize syntax highlighting",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "display-test",
+        "feat-test"
+      ],
+      "assigned_to": "performance-optimizer",
+      "created_at": "2025-10-11T20:27:26.308591",
+      "updated_at": "2025-10-11T20:27:26.308591"
+    },
+    "perf-3": {
+      "id": "perf-3",
+      "title": "Add lazy loading for large files",
+      "description": "Stream large files instead of loading entirely",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "perf-1"
+      ],
+      "assigned_to": "modular-builder",
+      "created_at": "2025-10-11T20:27:26.308592",
+      "updated_at": "2025-10-11T20:27:26.308593"
+    },
+    "polish-1": {
+      "id": "polish-1",
+      "title": "Improve error messages",
+      "description": "Clear, helpful error messages for all failure modes",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "cmd-test",
+        "io-test"
+      ],
+      "assigned_to": "modular-builder",
+      "created_at": "2025-10-11T20:27:26.308594",
+      "updated_at": "2025-10-11T20:27:26.308594"
+    },
+    "polish-2": {
+      "id": "polish-2",
+      "title": "Add status line",
+      "description": "Show mode, file, position, modified status",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "display-test"
+      ],
+      "assigned_to": "modular-builder",
+      "created_at": "2025-10-11T20:27:26.308596",
+      "updated_at": "2025-10-11T20:27:26.308596"
+    },
+    "integration-1": {
+      "id": "integration-1",
+      "title": "End-to-end workflow tests",
+      "description": "Test complete workflows: open, edit, save, quit",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "cmd-test",
+        "io-test",
+        "feat-test",
+        "config-test"
+      ],
+      "assigned_to": "test-coverage",
+      "created_at": "2025-10-11T20:27:26.308597",
+      "updated_at": "2025-10-11T20:27:26.308598"
+    },
+    "integration-2": {
+      "id": "integration-2",
+      "title": "Compatibility testing",
+      "description": "Test with various file types, encodings, terminal sizes",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "integration-1"
+      ],
+      "assigned_to": "test-coverage",
+      "created_at": "2025-10-11T20:27:26.308599",
+      "updated_at": "2025-10-11T20:27:26.308599"
+    },
+    "integration-3": {
+      "id": "integration-3",
+      "title": "Stress testing",
+      "description": "Test with huge files, rapid commands, long sessions",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "perf-3"
+      ],
+      "assigned_to": "test-coverage",
+      "created_at": "2025-10-11T20:27:26.308600",
+      "updated_at": "2025-10-11T20:27:26.308600"
+    },
+    "docs-1": {
+      "id": "docs-1",
+      "title": "Write user manual",
+      "description": "Comprehensive manual covering all features",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "feat-test"
+      ],
+      "assigned_to": "content-researcher",
+      "created_at": "2025-10-11T20:27:26.308601",
+      "updated_at": "2025-10-11T20:27:26.308602"
+    },
+    "docs-2": {
+      "id": "docs-2",
+      "title": "Write developer documentation",
+      "description": "Architecture guide, API docs, contribution guide",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "arch-3",
+        "integration-1"
+      ],
+      "assigned_to": "content-researcher",
+      "created_at": "2025-10-11T20:27:26.308603",
+      "updated_at": "2025-10-11T20:27:26.308603"
+    },
+    "docs-3": {
+      "id": "docs-3",
+      "title": "Create tutorial",
+      "description": "Interactive tutorial for new users",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "docs-1"
+      ],
+      "assigned_to": "content-researcher",
+      "created_at": "2025-10-11T20:27:26.308605",
+      "updated_at": "2025-10-11T20:27:26.308605"
+    },
+    "release-1": {
+      "id": "release-1",
+      "title": "Create setup.py and packaging",
+      "description": "Package for PyPI with proper dependencies",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "integration-3"
+      ],
+      "assigned_to": "modular-builder",
+      "created_at": "2025-10-11T20:27:26.308606",
+      "updated_at": "2025-10-11T20:27:26.308606"
+    },
+    "release-2": {
+      "id": "release-2",
+      "title": "Create release scripts",
+      "description": "Automated testing, building, release process",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "release-1"
+      ],
+      "assigned_to": "modular-builder",
+      "created_at": "2025-10-11T20:27:26.308608",
+      "updated_at": "2025-10-11T20:27:26.308608"
+    },
+    "release-3": {
+      "id": "release-3",
+      "title": "Final QA and beta testing",
+      "description": "Beta release, gather feedback, fix critical issues",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "release-2",
+        "docs-3"
+      ],
+      "assigned_to": "test-coverage",
+      "created_at": "2025-10-11T20:27:26.308609",
+      "updated_at": "2025-10-11T20:27:26.308610"
+    },
+    "release-4": {
+      "id": "release-4",
+      "title": "Version 1.0 release",
+      "description": "Official 1.0 release to PyPI with announcement",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "release-3"
+      ],
+      "assigned_to": "content-researcher",
+      "created_at": "2025-10-11T20:27:26.308611",
+      "updated_at": "2025-10-11T20:27:26.308611"
+    }
+  }
+}

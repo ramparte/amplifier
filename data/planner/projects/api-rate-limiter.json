@@ -1,0 +1,407 @@
+{
+  "id": "api-rate-limiter",
+  "name": "API Rate Limiter Implementation",
+  "created_at": "2025-10-11T20:45:45.929448",
+  "updated_at": "2025-10-11T20:45:45.929531",
+  "tasks": {
+    "arch-requirements": {
+      "id": "arch-requirements",
+      "title": "Define Requirements",
+      "description": "Document rate limiting requirements:\n- Per-user limits (e.g., 100 req/min)\n- Per-endpoint limits (e.g., 1000 req/min)\n- IP-based limits for anonymous users\n- Burst allowance handling\n- Response headers (X-RateLimit-Limit, X-RateLimit-Remaining)\n- Error responses (429 Too Many Requests)",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [],
+      "assigned_to": "bug-hunter",
+      "created_at": "2025-10-11T20:45:45.929457",
+      "updated_at": "2025-10-11T20:45:45.929457"
+    },
+    "arch-algorithm": {
+      "id": "arch-algorithm",
+      "title": "Choose Rate Limiting Algorithm",
+      "description": "Research and select algorithm:\n- Token bucket (recommended for burst handling)\n- Leaky bucket\n- Fixed window\n- Sliding window\nDocument choice rationale and implementation strategy",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "arch-requirements"
+      ],
+      "assigned_to": "content-researcher",
+      "created_at": "2025-10-11T20:45:45.929460",
+      "updated_at": "2025-10-11T20:45:45.929460"
+    },
+    "arch-design": {
+      "id": "arch-design",
+      "title": "Design System Architecture",
+      "description": "Create architecture document:\n- Redis data structures for counters\n- Key naming conventions\n- TTL strategies\n- Middleware integration points\n- Configuration schema\n- Monitoring hooks",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "arch-requirements",
+        "arch-algorithm"
+      ],
+      "assigned_to": "zen-code-architect",
+      "created_at": "2025-10-11T20:45:45.929462",
+      "updated_at": "2025-10-11T20:45:45.929462"
+    },
+    "redis-setup": {
+      "id": "redis-setup",
+      "title": "Set Up Redis Connection",
+      "description": "Implement Redis connection:\n- Connection pooling\n- Configuration from environment\n- Health check endpoint\n- Graceful connection handling",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "arch-design"
+      ],
+      "assigned_to": "integration-specialist",
+      "created_at": "2025-10-11T20:45:45.929464",
+      "updated_at": "2025-10-11T20:45:45.929464"
+    },
+    "redis-operations": {
+      "id": "redis-operations",
+      "title": "Implement Redis Operations",
+      "description": "Create Redis operation layer:\n- Atomic increment with TTL\n- Key generation (user_id:endpoint:window)\n- Batch operations for multiple keys\n- Error handling and fallback",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "redis-setup"
+      ],
+      "assigned_to": "bug-hunter",
+      "created_at": "2025-10-11T20:45:45.929465",
+      "updated_at": "2025-10-11T20:45:45.929466"
+    },
+    "redis-tests": {
+      "id": "redis-tests",
+      "title": "Test Redis Integration",
+      "description": "Unit tests for Redis operations:\n- Connection tests\n- Key generation tests\n- Atomic operations tests\n- TTL behavior tests\n- Failure scenario tests",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "redis-operations"
+      ],
+      "assigned_to": "test-coverage",
+      "created_at": "2025-10-11T20:45:45.929467",
+      "updated_at": "2025-10-11T20:45:45.929467"
+    },
+    "redis-mock": {
+      "id": "redis-mock",
+      "title": "Create Redis Mock for Testing",
+      "description": "Build in-memory Redis mock:\n- Supports INCR, EXPIRE, GET operations\n- TTL simulation\n- Integration with pytest fixtures\n- Used for testing without real Redis",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "redis-setup"
+      ],
+      "assigned_to": "test-coverage",
+      "created_at": "2025-10-11T20:45:45.929469",
+      "updated_at": "2025-10-11T20:45:45.929469"
+    },
+    "limiter-core": {
+      "id": "limiter-core",
+      "title": "Implement Core Rate Limiter",
+      "description": "Build rate limiting logic:\n- Token bucket algorithm implementation\n- Check if request allowed\n- Update counters atomically\n- Return remaining quota\n- Handle time windows correctly",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "arch-algorithm",
+        "redis-operations"
+      ],
+      "assigned_to": "modular-builder",
+      "created_at": "2025-10-11T20:45:45.929473",
+      "updated_at": "2025-10-11T20:45:45.929473"
+    },
+    "limiter-strategies": {
+      "id": "limiter-strategies",
+      "title": "Implement Multiple Limit Strategies",
+      "description": "Support different limiting strategies:\n- Per-user limits\n- Per-endpoint limits\n- Per-IP limits\n- Combined limits (user AND endpoint)\n- Configurable strategies per endpoint",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "limiter-core"
+      ],
+      "assigned_to": "modular-builder",
+      "created_at": "2025-10-11T20:45:45.929475",
+      "updated_at": "2025-10-11T20:45:45.929475"
+    },
+    "limiter-burst": {
+      "id": "limiter-burst",
+      "title": "Add Burst Handling",
+      "description": "Implement burst allowance:\n- Allow temporary bursts over limit\n- Burst bucket size configuration\n- Refill rate configuration\n- Burst exhaustion handling",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "limiter-core"
+      ],
+      "assigned_to": "modular-builder",
+      "created_at": "2025-10-11T20:45:45.929477",
+      "updated_at": "2025-10-11T20:45:45.929477"
+    },
+    "limiter-whitelist": {
+      "id": "limiter-whitelist",
+      "title": "Implement Whitelist/Blacklist",
+      "description": "Add access control lists:\n- Whitelist: bypass rate limits\n- Blacklist: reject immediately\n- IP-based and user-based lists\n- Dynamic list updates\n- Redis-backed storage",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "limiter-core"
+      ],
+      "assigned_to": "modular-builder",
+      "created_at": "2025-10-11T20:45:45.929478",
+      "updated_at": "2025-10-11T20:45:45.929478"
+    },
+    "limiter-tests": {
+      "id": "limiter-tests",
+      "title": "Test Rate Limiting Logic",
+      "description": "Comprehensive unit tests:\n- Basic limiting tests\n- Window boundary tests\n- Concurrent request tests\n- Burst behavior tests\n- Edge cases and error conditions",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "limiter-strategies",
+        "limiter-burst",
+        "limiter-whitelist"
+      ],
+      "assigned_to": "test-coverage",
+      "created_at": "2025-10-11T20:45:45.929480",
+      "updated_at": "2025-10-11T20:45:45.929480"
+    },
+    "middleware-core": {
+      "id": "middleware-core",
+      "title": "Create Rate Limit Middleware",
+      "description": "Build FastAPI middleware:\n- Extract user/IP from request\n- Apply rate limiting\n- Set response headers\n- Return 429 when limited\n- Log rate limit events",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "limiter-core"
+      ],
+      "assigned_to": "modular-builder",
+      "created_at": "2025-10-11T20:45:45.929482",
+      "updated_at": "2025-10-11T20:45:45.929482"
+    },
+    "middleware-headers": {
+      "id": "middleware-headers",
+      "title": "Implement Response Headers",
+      "description": "Add standard rate limit headers:\n- X-RateLimit-Limit: total quota\n- X-RateLimit-Remaining: remaining quota\n- X-RateLimit-Reset: reset timestamp\n- Retry-After: wait time on 429",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "middleware-core"
+      ],
+      "assigned_to": "modular-builder",
+      "created_at": "2025-10-11T20:45:45.929483",
+      "updated_at": "2025-10-11T20:45:45.929483"
+    },
+    "middleware-decorator": {
+      "id": "middleware-decorator",
+      "title": "Create Rate Limit Decorator",
+      "description": "Add @rate_limit decorator:\n- Per-endpoint configuration\n- Override global limits\n- Support custom key extractors\n- Easy to apply to routes",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "middleware-core"
+      ],
+      "assigned_to": "modular-builder",
+      "created_at": "2025-10-11T20:45:45.929484",
+      "updated_at": "2025-10-11T20:45:45.929485"
+    },
+    "middleware-tests": {
+      "id": "middleware-tests",
+      "title": "Test Middleware",
+      "description": "Integration tests for middleware:\n- Request processing tests\n- Header validation tests\n- 429 response tests\n- Decorator tests\n- End-to-end flow tests",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "middleware-headers",
+        "middleware-decorator"
+      ],
+      "assigned_to": "test-coverage",
+      "created_at": "2025-10-11T20:45:45.929486",
+      "updated_at": "2025-10-11T20:45:45.929486"
+    },
+    "config-schema": {
+      "id": "config-schema",
+      "title": "Define Configuration Schema",
+      "description": "Create configuration structure:\n- Global default limits\n- Per-endpoint overrides\n- Redis connection settings\n- Monitoring settings\n- YAML/JSON configuration files",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "arch-design"
+      ],
+      "assigned_to": "integration-specialist",
+      "created_at": "2025-10-11T20:45:45.929487",
+      "updated_at": "2025-10-11T20:45:45.929488"
+    },
+    "config-loader": {
+      "id": "config-loader",
+      "title": "Implement Configuration Loader",
+      "description": "Build config loading system:\n- Load from environment\n- Load from files\n- Validate configuration\n- Hot reload support\n- Provide defaults",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "config-schema"
+      ],
+      "assigned_to": "modular-builder",
+      "created_at": "2025-10-11T20:45:45.929489",
+      "updated_at": "2025-10-11T20:45:45.929489"
+    },
+    "config-tests": {
+      "id": "config-tests",
+      "title": "Test Configuration System",
+      "description": "Configuration tests:\n- Loading from different sources\n- Validation tests\n- Override behavior tests\n- Default value tests\n- Hot reload tests",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "config-loader"
+      ],
+      "assigned_to": "zen-code-architect",
+      "created_at": "2025-10-11T20:45:45.929491",
+      "updated_at": "2025-10-11T20:45:45.929491"
+    },
+    "test-unit": {
+      "id": "test-unit",
+      "title": "Comprehensive Unit Tests",
+      "description": "Write all unit tests:\n- Rate limiter logic tests\n- Redis operations tests\n- Configuration tests\n- 95%+ code coverage\n- Fast execution (< 2 seconds)",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "limiter-tests",
+        "redis-tests",
+        "config-tests"
+      ],
+      "assigned_to": "test-coverage",
+      "created_at": "2025-10-11T20:45:45.929493",
+      "updated_at": "2025-10-11T20:45:45.929493"
+    },
+    "test-integration": {
+      "id": "test-integration",
+      "title": "Integration Tests",
+      "description": "End-to-end integration tests:\n- Full request flow tests\n- Multiple concurrent requests\n- Redis integration tests\n- Configuration integration\n- Real-world scenarios",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "middleware-tests",
+        "test-unit"
+      ],
+      "assigned_to": "test-coverage",
+      "created_at": "2025-10-11T20:45:45.929494",
+      "updated_at": "2025-10-11T20:45:45.929494"
+    },
+    "test-load": {
+      "id": "test-load",
+      "title": "Load Testing",
+      "description": "Performance and load tests:\n- High request volume tests\n- Concurrent user tests\n- Latency measurements\n- Redis connection pool tests\n- Identify bottlenecks",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "test-integration"
+      ],
+      "assigned_to": "performance-optimizer",
+      "created_at": "2025-10-11T20:45:45.929495",
+      "updated_at": "2025-10-11T20:45:45.929495"
+    },
+    "test-failure": {
+      "id": "test-failure",
+      "title": "Failure Scenario Tests",
+      "description": "Test failure handling:\n- Redis connection failures\n- Redis timeout scenarios\n- Network partition tests\n- Graceful degradation tests\n- Circuit breaker behavior",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "test-integration"
+      ],
+      "assigned_to": "bug-hunter",
+      "created_at": "2025-10-11T20:45:45.929496",
+      "updated_at": "2025-10-11T20:45:45.929497"
+    },
+    "test-security": {
+      "id": "test-security",
+      "title": "Security Tests",
+      "description": "Security validation:\n- Bypass attempt tests\n- Key injection tests\n- Race condition tests\n- DDoS mitigation tests\n- Review with security-guardian agent",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "test-integration"
+      ],
+      "assigned_to": "test-coverage",
+      "created_at": "2025-10-11T20:45:45.929497",
+      "updated_at": "2025-10-11T20:45:45.929498"
+    },
+    "monitor-metrics": {
+      "id": "monitor-metrics",
+      "title": "Implement Metrics",
+      "description": "Add monitoring metrics:\n- Request count by endpoint\n- Rate limit hits/misses\n- Redis operation latency\n- Error rates\n- Prometheus-compatible",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "middleware-core"
+      ],
+      "assigned_to": "bug-hunter",
+      "created_at": "2025-10-11T20:45:45.929499",
+      "updated_at": "2025-10-11T20:45:45.929499"
+    },
+    "monitor-logging": {
+      "id": "monitor-logging",
+      "title": "Add Structured Logging",
+      "description": "Implement logging:\n- Rate limit events\n- Redis errors\n- Configuration changes\n- JSON-formatted logs\n- Log level configuration",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "middleware-core"
+      ],
+      "assigned_to": "bug-hunter",
+      "created_at": "2025-10-11T20:45:45.929500",
+      "updated_at": "2025-10-11T20:45:45.929500"
+    },
+    "monitor-dashboard": {
+      "id": "monitor-dashboard",
+      "title": "Create Monitoring Dashboard",
+      "description": "Build observability dashboard:\n- Real-time rate limit stats\n- User quota visualization\n- Redis health metrics\n- Alert configuration\n- Grafana dashboard export",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "monitor-metrics",
+        "monitor-logging"
+      ],
+      "assigned_to": "modular-builder",
+      "created_at": "2025-10-11T20:45:45.929501",
+      "updated_at": "2025-10-11T20:45:45.929501"
+    },
+    "docs-api": {
+      "id": "docs-api",
+      "title": "API Documentation",
+      "description": "Document public API:\n- Rate limiter usage\n- Decorator examples\n- Configuration options\n- Response headers\n- OpenAPI/Swagger docs",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "middleware-decorator"
+      ],
+      "assigned_to": "content-researcher",
+      "created_at": "2025-10-11T20:45:45.929503",
+      "updated_at": "2025-10-11T20:45:45.929503"
+    },
+    "docs-deployment": {
+      "id": "docs-deployment",
+      "title": "Deployment Guide",
+      "description": "Create deployment documentation:\n- Redis setup instructions\n- Environment configuration\n- Docker deployment\n- Kubernetes manifests\n- Scaling considerations",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "config-loader",
+        "monitor-dashboard"
+      ],
+      "assigned_to": "content-researcher",
+      "created_at": "2025-10-11T20:45:45.929504",
+      "updated_at": "2025-10-11T20:45:45.929504"
+    },
+    "docs-examples": {
+      "id": "docs-examples",
+      "title": "Usage Examples",
+      "description": "Create example code:\n- Basic usage examples\n- Custom limit examples\n- Whitelist/blacklist examples\n- Monitoring integration\n- Troubleshooting guide",
+      "state": "completed",
+      "parent_id": null,
+      "depends_on": [
+        "docs-api",
+        "docs-deployment"
+      ],
+      "assigned_to": "bug-hunter",
+      "created_at": "2025-10-11T20:45:45.929505",
+      "updated_at": "2025-10-11T20:45:45.929505"
+    }
+  }
+}

@@ -30,6 +30,11 @@ dependencies = [
     "yt-dlp>=2025.9.26",
 ]
 
+[project.scripts]
+deck-parse = "scenarios.deck_builder.parse_cli:main"
+deck-build = "scenarios.deck_builder.build_cli:main"
+deck-densify = "scenarios.deck_densifier.main:main"
+
 [tool.uv.workspace]
 # Add all projects in the workspace
 members = []
