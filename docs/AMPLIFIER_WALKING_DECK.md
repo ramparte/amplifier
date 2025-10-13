@@ -8,46 +8,57 @@
 
 **"I have more ideas than time to try them out."**
 
+- New papers, patterns, workflows, architectural gambits to test
 - Information arrives faster than we can process it
-- Possibilities expand faster than we can explore them
-- Sequential human exploration is the bottleneck
+- The constraint isn't imagination — it's the sequential, one-thing-at-a-time way we work
 
 **Speaker Notes:**
 
-This is the fundamental constraint we're solving. Every day you encounter possibilities, see connections, imagine solutions — but you're limited by sequential exploration. You can only code one solution at a time, read one paper at a time, test one hypothesis at a time. Meanwhile, the space of possibilities keeps expanding: new papers, blog posts, frameworks, ideas emerge faster than any individual can absorb. The gap between what you COULD explore and what you CAN explore grows wider every day.
+This is the fundamental constraint we're solving. Every day you encounter possibilities, see connections, imagine solutions — but you're limited by sequential exploration. You can only code one solution at a time, read one paper at a time, test one hypothesis at a time. Meanwhile, the space of possibilities keeps expanding: new papers, blog posts, frameworks, architectural gambits you want to test emerge faster than any individual can explore. The gap between what you COULD explore and what you CAN explore grows wider every day.
+
+The constraint isn't imagination or capability. It's execution. It's the sequential nature of how we work. Amplifier is about flipping that constraint — enabling parallel exploration while you stay in the driver's seat.
 
 ---
 
 ## Slide 2: The Real Bottleneck
 
-**It's not the AI's capability — it's what the AI lacks:**
+**Out of the box, AI is strong but context-blind:**
 
-- Your specific domain knowledge
-- Context from your previous work
-- Understanding of your patterns and preferences
-- Ability to work on multiple things simultaneously
-- Integration with your development workflow
+- Doesn't remember your patterns or carry forward decisions
+- Needs hand-holding on anything ambitious
+- Can't work on multiple things simultaneously
+- Lacks integration with your development workflow
+
+**Amplifier is the scaffolding around the AI** — the knowledge, workflow, and automation that turns a helpful assistant into a force multiplier.
 
 **Speaker Notes:**
 
-Modern AI like Claude Code is incredibly powerful. But vanilla AI lacks critical ingredients: your domain knowledge, context from previous work, understanding of your patterns, ability to work in parallel, and integration with your workflow. This is the real bottleneck. Amplifier solves this by creating a supercharged environment where AI assistants become dramatically more effective. We're not building another AI — we're building the environment that makes AI 10x more capable.
+Modern AI like Claude Code is incredibly powerful. But vanilla AI is context-blind. It lacks critical ingredients: your domain knowledge, context from previous work, understanding of your patterns, ability to work in parallel, and integration with your workflow. It needs hand-holding on anything ambitious.
+
+This is the real bottleneck. Amplifier solves this by creating a supercharged environment where AI assistants become dramatically more effective. We're not building another AI — we're building the scaffolding around it. The knowledge, workflow, and automation that pile on, take control, and turn a helpful assistant into a force multiplier. The model doesn't change; the environment around it does.
 
 ---
 
 ## Slide 3: The Amplifier Solution
 
-**A complete development environment that supercharges AI with:**
+**Amplifier (today) is a research-stage environment that adds scaffolding:**
 
-- Discovered patterns and specialized expertise
-- Pre-loaded context and proven philosophies
-- Powerful automation and quality controls
-- Parallel exploration capabilities
+- **Specialized sub-agents** for architecture, debugging, security, testing
+- **Pre-loaded context** and philosophies (don't start from zero each session)
+- **Parallel workspaces** to try multiple approaches side-by-side
+- **Persistent knowledge base** that mines docs into queryable structure
+- **Automatic transcript capture** so long sessions don't lose context
+- **Self-improvement tooling** that learns from observations
 
 **Result:** Turning a helpful assistant into a force multiplier
 
 **Speaker Notes:**
 
-Amplifier is a complete development environment that takes AI coding assistants and supercharges them. Instead of starting from scratch every session, you get immediate access to proven patterns, specialized agents for different tasks, and workflows that actually work. It provides 20+ specialized agents, pre-loaded context, parallel worktree system, knowledge extraction, conversation transcripts, and automation tools. The goal is amplification: making you 10x more effective by removing the AI's limitations.
+Amplifier is a complete development environment that takes AI coding assistants and supercharges them. It's the scaffolding around the AI — the knowledge, workflow, and automation that multiply capability.
+
+What's included today: (1) Specialized sub-agents for different domains — work goes to the right expert rather than a one-size-fits-all agent. (2) Pre-loaded context and philosophies so we don't start from zero each session. The system carries forward patterns that have proven reliable. (3) Parallel workspaces so you can try multiple approaches side-by-side and pick winners, instead of betting the farm on a single path. (4) A persistent knowledge base that mines docs and notes into queryable structure, so the AI can recall what we've already learned. (5) Automatic transcript capture and restoration so long sessions don't lose their minds when compaction hits — you can rewind and continue with full context. (6) Tooling that can self-improve the system from observations where users have guided the assistant, reducing the need for users to do so in the future.
+
+That's the "force multiplier" effect: the model doesn't change, the environment around it does. The goal is amplification: making you 10x more effective by removing the AI's limitations.
 
 ---
 
@@ -89,25 +100,29 @@ This makes code that's modular today and ready for automated regeneration tomorr
 
 ## Slide 6: Philosophy #3 - Metacognitive Recipes
 
-**What is a Metacognitive Recipe?**
+**The Real Secret: The Most Transferable Value**
 
-A structured thinking process — the "how should AI think through this problem?"
+Metacognitive recipes encode the "how" that expert users follow:
+- How to decompose, plan, stage work
+- How to verify and recover from failure
+- How to make decisions and evaluate
 
 **Example from Blog Writer:**
-
 1. "First, understand the author's style from their writings"
 2. "Then draft content matching that style"
 3. "Review the draft for accuracy against sources"
 4. "Review the draft for style consistency"
 5. "Get user feedback and refine"
 
-**You describe the thinking process. AI handles the implementation.**
+**Result:** AI can run a whole play, unattended, until it needs your judgment
 
 **Speaker Notes:**
 
+The real secret: the most transferable value isn't any single tool — it's the metacognitive recipes that expert users follow. If we can encode the "how" (decompose, plan, stage work, verify, recover from failure, how we make decisions, how we evaluate, how we think), we can teach tools to do what expert users do. Then anyone can benefit without first becoming an expert.
+
 A metacognitive recipe is NOT code — it's a structured thinking process. You describe HOW the tool should think about the problem, not WHAT to code. The blog writer creator said: "understand my style → draft matching that style → review for accuracy → review for style → get my feedback → refine." That's it. No async/await, no state management, no file I/O details.
 
-This is the magic of Amplifier. You provide the recipe (the thinking process), and Amplifier handles making it work. No need to understand retry logic, state management, or which libraries to use. Just describe the cognitive flow: "First do A, then do B based on what you learned, then check if C is correct."
+Practically, Amplifier bakes these recipes into workflows the AI follows by default: brainstorm → plan → implement → test; decompose big jobs into generative sub-tools; prefer regenerate-from-spec over hand edits; capture learnings and feed them back. That's how we get from "AI can kind of help" to "AI can run a whole play, unattended, until it needs my judgment."
 
 The creator of the blog writer tool didn't write a single line of code. They described what they wanted and how it should think. Total time from idea to working tool: one conversation session. This is the power of metacognitive recipes.
 
@@ -453,7 +468,8 @@ Use transcripts from collaborative problem-solving sessions to have Amplifier im
 3. **Parallel exploration** → test multiple approaches
 4. **Memory** → ensure we don't repeat work
 5. **Recipes** → make successes repeatable
-6. **Each new feature** → becomes building block for the next
+6. **Self-improvement** → capture learnings, feed them back, reduce future guidance needs
+7. **Each new feature** → becomes building block for the next
 
 **This creates exponential growth in capability over time**
 
@@ -461,11 +477,11 @@ Use transcripts from collaborative problem-solving sessions to have Amplifier im
 
 This is the magic of Amplifier: compounding capabilities. Each capability we add makes the system more capable of building the next. This creates exponential growth over time, not linear improvement.
 
-Knowledge extraction helps us understand existing solutions. Synthesis reveals patterns and opportunities from that knowledge. Parallel exploration lets us test multiple approaches based on those patterns. Memory ensures we don't repeat work and compound learnings. Recipes make successes repeatable and shareable. Each new feature becomes a building block for the next innovation.
+Knowledge extraction helps us understand existing solutions. Synthesis reveals patterns and opportunities from that knowledge. Parallel exploration lets us test multiple approaches based on those patterns. Memory ensures we don't repeat work and compound learnings. Recipes make successes repeatable and shareable. Self-improvement tooling captures observations where users have guided the assistant and reduces the need for users to do so in the future. Each new feature becomes a building block for the next innovation.
 
 Near term (now): mine insights from curated articles, find relevant knowledge quickly, identify contradictions and tensions, generate multiple solution approaches, build working prototypes faster.
 
-Medium term (months): integrate diverse knowledge sources (papers, APIs, code), run systematic experiments with measurement, learn from every interaction, build increasingly complex systems through composition, share recipes for common workflows.
+Medium term (months): integrate diverse knowledge sources (papers, APIs, code), run systematic experiments with measurement, learn from every interaction, build increasingly complex systems through composition, share recipes for common workflows, continuous self-improvement from user guidance.
 
 Long term (vision): AI that truly understands your goals and context, parallel exploration of entire solution spaces, automatic hypothesis generation and testing, knowledge that compounds across projects, human creativity amplified 100x or more.
 
