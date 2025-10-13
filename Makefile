@@ -61,6 +61,9 @@ default: ## Show essential commands
 	@echo "Web to Markdown:"
 	@echo "  make web-to-md       Convert web pages to markdown"
 	@echo ""
+	@echo "Deck Builder:"
+	@echo "  make deck-build      Convert markdown to PowerPoint"
+	@echo ""
 	@echo "Other:"
 	@echo "  make clean          Clean build artifacts"
 	@echo "  make help           Show ALL available commands"
@@ -741,3 +744,18 @@ dot-to-mermaid: ## Convert DOT files to Mermaid format. Usage: make dot-to-merma
 	mkdir -p "$$SESSION_DIR"; \
 	echo "Converting DOT files to Mermaid format..."; \
 	uv run python -m ai_working.dot_to_mermaid.cli "$(INPUT)" --session-file "$$SESSION_DIR/session.json"
+
+# Deck Builder
+deck-build: ## Convert markdown to PowerPoint. Usage: make deck-build INPUT=deck.md OUTPUT=deck.pptx
+	@if [ -z "$(INPUT)" ]; then \
+		echo "Error: Please provide an input file. Usage: make deck-build INPUT=deck.md OUTPUT=deck.pptx"; \
+		exit 1; \
+	fi
+	@if [ -z "$(OUTPUT)" ]; then \
+		echo "Error: Please provide an output file. Usage: make deck-build INPUT=deck.md OUTPUT=deck.pptx"; \
+		exit 1; \
+	fi
+	@echo "🎨 Converting markdown to PowerPoint..."
+	@echo "  Input: $(INPUT)"
+	@echo "  Output: $(OUTPUT)"
+	@uv run python -m scenarios.deck_builder.main "$(INPUT)" --output "$(OUTPUT)"
