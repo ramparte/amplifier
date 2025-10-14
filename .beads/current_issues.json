@@ -1,0 +1,52 @@
+[
+  {
+    "id": "bd-3",
+    "title": "Evidence-Required Todo System Enhancement",
+    "description": "Enhance TodoWrite workflow to require evidence (test output, logs, screenshots) when marking tasks complete. Enforces 'trust but verify' principle. Phases: Evidence field addition, Validation logic, Documentation and examples.",
+    "status": "in_progress",
+    "priority": 0,
+    "issue_type": "epic",
+    "created_at": "2025-10-14T22:46:19.126326408Z",
+    "updated_at": "2025-10-14T22:58:09.079076564Z"
+  },
+  {
+    "id": "bd-2",
+    "title": "Code Search MCP Server with Semantic Indexing",
+    "description": "Build MCP server for code search with AST-based indexing and semantic duplicate detection. Prevents recreating existing functionality. Phases: MCP infrastructure, AST parsing, SQLite indexing, Search API, Semantic embeddings (optional), File watching.",
+    "status": "open",
+    "priority": 0,
+    "issue_type": "epic",
+    "created_at": "2025-10-14T22:46:17.67930276Z",
+    "updated_at": "2025-10-14T22:46:17.67930276Z"
+  },
+  {
+    "id": "bd-1",
+    "title": "Safety Guard System with Pre-Tool-Use Hooks",
+    "description": "Implement safety guard system to prevent dangerous operations like force push, test skipping, and unverified assumptions. Based on claude_template's hook system. Phases: Core infrastructure, Git guards, Test guards, Assumption detection, Documentation.",
+    "status": "open",
+    "priority": 0,
+    "issue_type": "epic",
+    "created_at": "2025-10-14T22:46:03.968768025Z",
+    "updated_at": "2025-10-14T22:46:03.968768025Z"
+  },
+  {
+    "id": "bd-4",
+    "title": "Meta-Cognitive Anti-Pattern Detection System",
+    "description": "Detect poor AI reasoning patterns: infrastructure blame, theory lock-in, rabbit holes, excuse making. Improves AI reasoning quality. Phases: Pattern library, Detection system, Intervention mechanisms, Integration with agents, Documentation.",
+    "status": "open",
+    "priority": 1,
+    "issue_type": "epic",
+    "created_at": "2025-10-14T22:46:20.893989085Z",
+    "updated_at": "2025-10-14T22:46:20.893989085Z"
+  },
+  {
+    "id": "bd-5",
+    "title": "Rule #0 Enforcement - Mandatory Context Loading",
+    "description": "Formalize mandatory first-actions protocol: Read CLAUDE.md, check DISCOVERIES.md, search for rules. Optional verification hook. Phases: CLAUDE.md enhancement with checklist, Optional hook implementation.",
+    "status": "open",
+    "priority": 2,
+    "issue_type": "epic",
+    "created_at": "2025-10-14T22:46:22.721423612Z",
+    "updated_at": "2025-10-14T22:46:22.721423612Z"
+  }
+]
