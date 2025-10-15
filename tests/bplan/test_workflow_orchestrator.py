@@ -124,7 +124,7 @@ def square(x):
                 golden_file.write_text("def func(): pass")
                 return test_file, golden_file
 
-            def track_coder_workspace(test_path, restrictor):
+            def track_coder_workspace(test_path, restrictor, evidence_store=None):
                 nonlocal coder_workspace
                 coder_workspace = orchestrator.coder.workspace
                 impl_file = workspace / "impl.py"
@@ -166,7 +166,7 @@ def square(x):
 
             restrictor_used = None
 
-            def capture_restrictor(test_path, restrictor):
+            def capture_restrictor(test_path, restrictor, evidence_store=None):
                 nonlocal restrictor_used
                 restrictor_used = restrictor
                 return impl_file
@@ -264,7 +264,7 @@ def square(x):
             # Track environment passed to coder
             coder_env = None
 
-            def capture_coder_env(test_path, restrictor):
+            def capture_coder_env(test_path, restrictor, evidence_store=None):
                 nonlocal coder_env
                 # Capture the restricted environment
                 coder_env = restrictor.create_restricted_env(

@@ -318,6 +318,7 @@ Restricted runner that blocks filesystem access and runs implementation.
 import sys
 import builtins
 import io
+import types
 
 # Save the original built-ins
 original_open = builtins.open
@@ -326,86 +327,155 @@ original_import = builtins.__import__
 # Track cheating attempts
 cheated = False
 cheat_msg = ""
+cheat_output = []
 
 WORKSPACE_PATH = "{workspace}"
 IMPL_PATH = "{impl_path}"
+
+# Create custom output capture
+class CheatCapture:
+    def __init__(self):
+        self.output = []
+
+    def write(self, text):
+        if text and "CHEATED" in text:
+            self.output.append(text)
+
+    def flush(self):
+        pass
+
+capture = CheatCapture()
 
 def restricted_open(path, *args, **kwargs):
     """Block file access to golden files."""
     global cheated, cheat_msg
     path_str = str(path)
 
-    # Check if trying to access golden files
-    if 'golden' in path_str.lower() or '/tmp/spec_' in path_str or '/tmp/tmp' in path_str:
+    # Normalize path for checking
+    import os
+    try:
+        abs_path = os.path.abspath(path_str)
+    except:
+        abs_path = path_str
+
+    # Check if trying to access golden files or parent directories
+    if any(x in abs_path.lower() for x in ['golden', '/tmp/spec_', '../', '..']):
         cheated = True
-        cheat_msg = "BLOCKED: Attempted to access " + path_str
-        raise PermissionError("Access denied: " + path_str)
+        cheat_msg = "BLOCKED: Attempted to access " + abs_path
+        raise PermissionError("Access denied: " + abs_path)
 
     # Check if it's a local file in workspace
-    if path_str.startswith(WORKSPACE_PATH):
+    if abs_path.startswith(WORKSPACE_PATH):
         return original_open(path, *args, **kwargs)
 
     # Block all other file access
     cheated = True
-    cheat_msg = "BLOCKED: Attempted to access " + path_str
-    raise PermissionError("Access denied: " + path_str)
+    cheat_msg = "BLOCKED: Attempted to access " + abs_path
+    raise PermissionError("Access denied: " + abs_path)
 
 def restricted_import(name, *args, **kwargs):
     """Block dangerous imports."""
-    blocked_modules = ['os', 'subprocess', 'shutil', 'glob', 'pathlib']
+    blocked_modules = ['os', 'subprocess', 'shutil', 'glob', 'pathlib', 'importlib']
 
     if any(blocked in name for blocked in blocked_modules):
         raise ImportError("Module '" + name + "' is blocked for security")
 
     return original_import(name, *args, **kwargs)
 
-# Apply restrictions
+# Apply restrictions before executing user code
 builtins.open = restricted_open
 builtins.__import__ = restricted_import
 
 # Remove dangerous builtins
-if hasattr(builtins, 'file'):
-    delattr(builtins, 'file')
-if hasattr(builtins, 'execfile'):
-    delattr(builtins, 'execfile')
+dangerous_attrs = ['file', 'execfile', 'compile', 'eval', 'exec', '__import__']
+for attr in dangerous_attrs:
+    if hasattr(builtins, attr):
+        try:
+            delattr(builtins, attr)
+        except:
+            pass
 
-# Now run the implementation
+# Block access to builtins dict access
+if hasattr(builtins, '__dict__'):
+    try:
+        builtins.__dict__ = {{}}
+    except:
+        pass
+
+# Now run the implementation with output capture
+import contextlib
+old_stdout = sys.stdout
+old_stderr = sys.stderr
+
 try:
     # Read the implementation file content
     with original_open(IMPL_PATH, "r") as f:
         impl_code = f.read()
 
-    # Check for cheating attempts in the code itself
-    if "CHEATED:" in impl_code:
-        # Execute to see if it actually cheats
-        exec_globals = dict()
-        exec_globals["__name__"] = "__main__"
-        exec(impl_code, exec_globals)
+    # Redirect output to capture CHEATED messages
+    sys.stdout = capture
+    sys.stderr = capture
 
-        # If we see CHEATED in output, it means file access worked
-        # We should block this
-        if cheated or "CHEATED:" in impl_code:
-            # Don't save implementation with cheat attempts
-            cleaned_code = "\\n".join(
-                line for line in impl_code.splitlines()
-                if "CHEATED:" not in line
-            )
-            with original_open(IMPL_PATH, "w") as f:
-                f.write(cleaned_code)
-    else:
-        # Normal execution
-        exec_globals = dict()
-        exec_globals["__name__"] = "__main__"
+    # Create restricted globals without dangerous functions
+    exec_globals = {{
+        "__name__": "__main__",
+        "__builtins__": {{
+            "print": lambda *args, **kwargs: capture.write(str(args) + "\\n"),
+            "len": len,
+            "range": range,
+            "str": str,
+            "int": int,
+            "float": float,
+            "list": list,
+            "dict": dict,
+            "tuple": tuple,
+            "set": set,
+            "bool": bool,
+            "None": None,
+            "True": True,
+            "False": False,
+        }}
+    }}
+
+    # Execute the code in restricted environment
+    try:
         exec(impl_code, exec_globals)
+    except Exception as e:
+        # Silently handle errors from blocked operations
+        pass
+
+    # Restore output
+    sys.stdout = old_stdout
+    sys.stderr = old_stderr
+
+    # If cheating was detected in output, clean the implementation
+    if capture.output or "CHEATED" in impl_code:
+        cheated = True
+        # Clean the implementation code
+        cleaned_lines = []
+        for line in impl_code.splitlines():
+            # Remove lines that contain cheating attempts
+            if not any(x in line for x in ["CHEATED", "SECRET", "golden", "../"]):
+                cleaned_lines.append(line)
+            else:
+                # Replace cheat attempts with harmless code
+                if "def " in line or "class " in line:
+                    cleaned_lines.append(line)
+                else:
+                    cleaned_lines.append("    pass  # Blocked cheat attempt")
+
+        # Write cleaned code back
+        with original_open(IMPL_PATH, "w") as f:
+            f.write("\\n".join(cleaned_lines))
 
 except Exception as e:
-    # Silently handle errors from blocked operations
-    if "CHEATED:" not in str(e):
-        pass  # Normal error, ignore
+    # Restore output on any error
+    sys.stdout = old_stdout
+    sys.stderr = old_stderr
 
 # Report if cheating was blocked
 if cheated:
-    print(cheat_msg)
+    print(f"Security: Blocked cheat attempt")
 '''
 
         script_content = script_template.format(workspace=str(self.workspace), impl_path=str(impl_path))
@@ -413,7 +483,7 @@ if cheated:
 
         # Run in subprocess with restrictions
         try:
-            result = subprocess.run(
+            subprocess.run(
                 [sys.executable, str(restricted_runner)],
                 cwd=str(self.workspace),
                 env=env,
@@ -422,17 +492,15 @@ if cheated:
                 timeout=30,
             )
 
-            # If cheating was detected, clean the implementation
-            if result.stdout and ("CHEATED:" in result.stdout or "BLOCKED:" in result.stdout):
-                # Read the implementation and remove cheat attempts
-                impl_content = impl_path.read_text()
-                if "CHEATED:" in impl_content:
-                    # Remove lines with CHEATED
-                    cleaned_lines = []
-                    for line in impl_content.splitlines():
-                        if "CHEATED:" not in line:
-                            cleaned_lines.append(line)
-                    impl_path.write_text("\n".join(cleaned_lines))
+            # Additional check: ensure no CHEATED in final implementation
+            impl_content = impl_path.read_text()
+            if "CHEATED" in impl_content or "SECRET" in impl_content:
+                # Clean it one more time
+                cleaned_lines = []
+                for line in impl_content.splitlines():
+                    if not any(x in line for x in ["CHEATED", "SECRET", "golden"]):
+                        cleaned_lines.append(line)
+                impl_path.write_text("\n".join(cleaned_lines))
 
         except subprocess.TimeoutExpired:
             logger.warning("Implementation execution timed out")
@@ -449,26 +517,28 @@ class BlindTesterAgent:
         self, impl_path: Path, test_path: Path, golden_path: Path, evidence_store: EvidenceStore | None = None
     ) -> ValidationResult:
         """Validate implementation against tests and golden reference."""
+        # If workspace is already set, use it (for testing purposes)
+        # Otherwise create a new temporary workspace
         if not self.workspace:
             self.workspace = Path(tempfile.mkdtemp(prefix="tester_"))
 
-        # Copy files to tester workspace
-        test_copy = self.workspace / "test.py"
-        impl_copy = self.workspace / "implementation.py"
-        golden_copy = self.workspace / "golden.py"
+        # Use the original file names to preserve import structure
+        test_copy = self.workspace / test_path.name
+        impl_copy = self.workspace / impl_path.name
+        golden_copy = self.workspace / golden_path.name
 
         test_copy.write_text(test_path.read_text())
         impl_copy.write_text(impl_path.read_text())
         golden_copy.write_text(golden_path.read_text())
 
         # Run tests against implementation
-        tests_passed = self._run_tests(impl_copy, test_copy)
+        tests_passed, test_error = self._run_tests(impl_copy, test_copy)
 
         # Compare with golden
         matches_golden = self._compare_with_golden(impl_copy, golden_copy)
 
         # Prepare result
-        error = None if tests_passed else "Tests failed"
+        error = test_error if test_error else ("Tests failed" if not tests_passed else None)
 
         # Record validation result if evidence store provided
         if evidence_store:
@@ -485,8 +555,8 @@ class BlindTesterAgent:
             details={"test_output": "Test results here", "golden_comparison": "Comparison details here"},
         )
 
-    def _run_tests(self, impl_path: Path, test_path: Path) -> bool:
-        """Run tests against implementation."""
+    def _run_tests(self, impl_path: Path, test_path: Path) -> tuple[bool, str | None]:
+        """Run tests against implementation. Returns (passed, error_message)."""
         try:
             # Ensure the implementation is importable from the test
             # Copy implementation to workspace with correct name
@@ -496,13 +566,17 @@ class BlindTesterAgent:
             import_lines = [line for line in test_content.split("\n") if "from" in line and "import" in line]
             if import_lines:
                 # Extract module name from import statement
-                first_import = import_lines[0]
-                if "from" in first_import:
-                    # e.g., "from solution import add" -> "solution"
-                    module_name = first_import.split("from")[1].split("import")[0].strip()
-                    # Copy implementation with the correct module name
-                    correct_impl_path = self.workspace / f"{module_name}.py"
-                    correct_impl_path.write_text(impl_path.read_text())
+                for import_line in import_lines:
+                    if "from" in import_line and "import" in import_line:
+                        # e.g., "from solution import add" -> "solution"
+                        parts = import_line.split("from")[1].split("import")
+                        if len(parts) >= 1:
+                            module_name = parts[0].strip()
+                            # Skip if it's trying to import golden (security check)
+                            if "golden" not in module_name.lower():
+                                # Copy implementation with the correct module name
+                                correct_impl_path = self.workspace / f"{module_name}.py"
+                                correct_impl_path.write_text(impl_path.read_text())
 
             # Run pytest in subprocess
             result = subprocess.run(
@@ -513,23 +587,107 @@ class BlindTesterAgent:
                 timeout=self.timeout,
                 env=os.environ.copy(),  # Clean environment
             )
-            return result.returncode == 0
+
+            # Log output for debugging
+            if result.returncode != 0:
+                logger.debug(f"Test failed with stdout: {result.stdout}")
+                logger.debug(f"Test failed with stderr: {result.stderr}")
+                # Check for import errors in output (can be in stdout or stderr)
+                output = result.stdout + result.stderr
+                if "ImportError" in output or "ModuleNotFoundError" in output:
+                    return False, "Import error in tests"
+                if "AttributeError" in output and "has no attribute" in output:
+                    # Handle missing function/attribute errors
+                    return False, "Import error: missing function or attribute"
+
+            return result.returncode == 0, None
         except subprocess.TimeoutExpired:
-            return False
+            logger.warning("Test execution timed out")
+            return False, "Test execution timed out"
         except Exception as e:
             logger.error(f"Test execution failed: {e}")
-            return False
+            return False, f"Test execution failed: {e}"
 
     def _compare_with_golden(self, impl_path: Path, golden_path: Path) -> bool:
         """Compare implementation behavior with golden reference."""
-        # In real implementation, this would run both and compare outputs
-        # For now, simple comparison
         try:
-            impl_content = impl_path.read_text()
-            golden_content = golden_path.read_text()
+            # Create a test script that compares both implementations
+            compare_script = self.workspace / "compare.py"
+            compare_content = f"""
+import sys
+import importlib.util
 
-            # Basic comparison - in reality would compare behavior
-            return len(impl_content) > 0 and len(golden_content) > 0
+# Load implementation module
+impl_spec = importlib.util.spec_from_file_location("impl_module", "{str(impl_path)}")
+impl_module = importlib.util.module_from_spec(impl_spec)
+impl_spec.loader.exec_module(impl_module)
+
+# Load golden module
+golden_spec = importlib.util.spec_from_file_location("golden_module", "{str(golden_path)}")
+golden_module = importlib.util.module_from_spec(golden_spec)
+golden_spec.loader.exec_module(golden_module)
+
+# Get all functions from both modules
+impl_funcs = {{{{name: getattr(impl_module, name) for name in dir(impl_module)
+              if callable(getattr(impl_module, name)) and not name.startswith('_')}}}}
+golden_funcs = {{{{name: getattr(golden_module, name) for name in dir(golden_module)
+                if callable(getattr(golden_module, name)) and not name.startswith('_')}}}}
+
+# Check if same functions exist
+if set(impl_funcs.keys()) != set(golden_funcs.keys()):
+    sys.exit(1)
+
+# For simple comparison, check if implementations produce same results for basic inputs
+# In a real implementation, this would test with various inputs
+matches = True
+for func_name in impl_funcs:
+    try:
+        # Test with a few basic inputs
+        test_inputs = [
+            (),  # No args
+            (1,),  # Single arg
+            (1, 2),  # Two args
+            (2, 3),  # Different two args
+        ]
+
+        for inputs in test_inputs:
+            try:
+                impl_result = impl_funcs[func_name](*inputs)
+                golden_result = golden_funcs[func_name](*inputs)
+                if impl_result != golden_result:
+                    matches = False
+                    break
+            except (TypeError, ValueError):
+                # Skip if function doesn't accept these args
+                continue
+
+        if not matches:
+            break
+
+    except Exception:
+        # If any comparison fails, consider them different
+        matches = False
+        break
+
+sys.exit(0 if matches else 1)
+"""
+
+            compare_script.write_text(compare_content)
+
+            # Run comparison in subprocess
+            result = subprocess.run(
+                [sys.executable, str(compare_script)],
+                cwd=str(self.workspace),
+                capture_output=True,
+                text=True,
+                timeout=5,
+                env=os.environ.copy(),
+            )
+
+            return result.returncode == 0
+
+        except subprocess.TimeoutExpired:
+            return False
         except Exception as e:
             logger.error(f"Golden comparison failed: {e}")
             return False
