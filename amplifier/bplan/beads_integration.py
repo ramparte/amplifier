@@ -52,11 +52,24 @@ class BeadsIssue:
     title: str
     type: IssueType
     status: IssueStatus
-    priority: int
+    priority: int = 2
     description: str = ""
     labels: list[str] = field(default_factory=list)
     dependencies: list[str] = field(default_factory=list)
     assignee: str = ""
+    evidence_ids: list[str] = field(default_factory=list)
+    requires_evidence: bool = True
+    required_evidence_type: str | None = None
+
+    def attach_evidence(self, evidence_id: str) -> None:
+        """Attach evidence ID to this issue."""
+        if evidence_id not in self.evidence_ids:
+            self.evidence_ids.append(evidence_id)
+
+    @property
+    def content(self) -> str:
+        """Alias for title to match EvidenceRequiredTodo interface."""
+        return self.title
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "BeadsIssue":
@@ -71,6 +84,9 @@ class BeadsIssue:
             labels=data.get("labels", []),
             dependencies=data.get("dependencies", []),
             assignee=data.get("assignee", ""),
+            evidence_ids=data.get("evidence_ids", []),
+            requires_evidence=data.get("requires_evidence", True),
+            required_evidence_type=data.get("required_evidence_type"),
         )
 
     def to_dict(self) -> dict[str, Any]:
@@ -85,6 +101,9 @@ class BeadsIssue:
             "labels": self.labels,
             "dependencies": self.dependencies,
             "assignee": self.assignee,
+            "evidence_ids": self.evidence_ids,
+            "requires_evidence": self.requires_evidence,
+            "required_evidence_type": self.required_evidence_type,
         }
 
 
@@ -323,3 +342,53 @@ class BeadsClient:
             return [BeadsIssue.from_dict(issue_data) for issue_data in issues_data]
         except json.JSONDecodeError as e:
             raise BeadsError(f"Failed to parse JSON output: {e}")
+
+    def close_with_evidence(self, issue: BeadsIssue, enforcer: Any) -> Any:
+        """
+        Close an issue with evidence validation.
+
+        Args:
+            issue: Issue to close
+            enforcer: BlockingEnforcer instance for validation
+
+        Returns:
+            CompletionResult indicating success or failure
+
+        Raises:
+            BeadsError: If closing fails
+        """
+        # Import here to avoid circular dependency
+
+        # Validate evidence before closing
+        result = enforcer.attempt_completion(issue)
+
+        if not result.blocked:
+            # Evidence validated, update status to closed
+            issue.status = IssueStatus.CLOSED
+
+        return result
+
+    def close_issue_with_validation(self, issue: BeadsIssue, enforcer: Any) -> bool:
+        """
+        Close an issue with evidence validation, raising on failure.
+
+        Args:
+            issue: Issue to close
+            enforcer: BlockingEnforcer instance for validation
+
+        Returns:
+            True if successfully closed
+
+        Raises:
+            EvidenceValidationError: If validation fails
+        """
+        # Import here to avoid circular dependency
+        from amplifier.bplan.todowrite_integration import EvidenceValidationError
+
+        # Validate evidence
+        if not enforcer.validator.validate_completion(issue):
+            raise EvidenceValidationError("Evidence validation failed")
+
+        # Update status to closed
+        issue.status = IssueStatus.CLOSED
+        return True
