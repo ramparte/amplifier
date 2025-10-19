@@ -61,3 +61,8 @@ ai_working/tmp
 
 # Smoke test runtime logs
 .smoke_test_data/data
+
+# Beads issue tracker database (keep JSONL in version control)
+.beads/*.db
+# DotRunner sessions
+.dotrunner/

@@ -360,8 +360,11 @@ class CompletionValidator:
             # Evidence seems to be about validation/testing - accept it
             return True
 
-        # No matching keywords at all and not a validation message
-        return not (len(todo_words) > 0 and len(overlap) == 0)
+        if len(todo_words) > 0 and len(overlap) == 0:
+            # No matching keywords at all and not a validation message
+            return False
+
+        return True
 
     def _is_stale_evidence(self, evidence: Evidence) -> bool:
         """Check if evidence is too old"""
