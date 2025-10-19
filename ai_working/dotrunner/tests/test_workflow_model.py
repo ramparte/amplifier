@@ -25,7 +25,8 @@ class TestNodeDataclass:
         assert node.id == "test-node"
         assert node.name == "Test Node"
         assert node.prompt == "Test prompt"
-        assert node.agent == "auto"  # Default
+        assert node.agent is None  # Default (None means use generic AI)
+        assert node.agent_mode is None  # Default
         assert node.outputs == []  # Default
         assert node.next is None  # Default
         assert node.retry_on_failure == 1  # Default
@@ -159,8 +160,9 @@ class TestWorkflowValidation:
         """Test validation catches empty workflow"""
         workflow = Workflow(name="empty", description="Empty workflow", nodes=[])
 
-        with pytest.raises(ValueError, match="Workflow must have at least one node"):
-            workflow.validate()
+        errors = workflow.validate()
+        assert len(errors) > 0
+        assert "at least one node" in errors[0]
 
     def test_validate_duplicate_node_ids(self):
         """Test validation catches duplicate node IDs"""
@@ -171,8 +173,9 @@ class TestWorkflowValidation:
 
         workflow = Workflow(name="test", description="Test", nodes=nodes)
 
-        with pytest.raises(ValueError, match="Duplicate node ID"):
-            workflow.validate()
+        errors = workflow.validate()
+        assert len(errors) > 0
+        assert "duplicate" in errors[0].lower()
 
     def test_validate_invalid_node_reference(self):
         """Test validation catches invalid node references in next"""
@@ -183,8 +186,9 @@ class TestWorkflowValidation:
 
         workflow = Workflow(name="test", description="Test", nodes=nodes)
 
-        with pytest.raises(ValueError, match="Node.*references nonexistent node"):
-            workflow.validate()
+        errors = workflow.validate()
+        assert len(errors) > 0
+        assert "nonexistent" in errors[0]
 
     def test_validate_circular_dependency_simple(self):
         """Test validation catches simple circular dependency"""
@@ -195,8 +199,9 @@ class TestWorkflowValidation:
 
         workflow = Workflow(name="test", description="Test", nodes=nodes)
 
-        with pytest.raises(ValueError, match="Circular dependency detected"):
-            workflow.validate()
+        errors = workflow.validate()
+        assert len(errors) > 0
+        assert "circular" in errors[0].lower()
 
     def test_validate_valid_workflow(self):
         """Test validation passes for valid workflow"""

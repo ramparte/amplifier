@@ -7,6 +7,7 @@ Session files are stored in .dotrunner/sessions/{session_id}/ directories.
 
 import json
 import logging
+import tempfile
 import uuid
 from dataclasses import asdict
 from dataclasses import dataclass
@@ -54,24 +55,32 @@ def get_session_dir(session_id: str) -> Path:
 
 def save_state(state: WorkflowState, session_id: str | None = None) -> str:
     """
-    Save workflow state to disk.
+    Save workflow state to disk atomically.
 
     Creates session directory if needed, saves state.json and metadata.json.
+    Uses atomic write operations to prevent corruption.
     Returns session_id.
     """
+
     if session_id is None:
         session_id = generate_session_id(state.workflow_id)
 
     session_dir = get_session_dir(session_id)
     session_dir.mkdir(parents=True, exist_ok=True)
 
-    # Save state.json
+    # Save state.json atomically
     state_dict = asdict(state)
     state_file = session_dir / "state.json"
-    with open(state_file, "w") as f:
-        json.dump(state_dict, f, indent=2)
 
-    # Save metadata.json
+    # Write to temp file first, then rename atomically
+    with tempfile.NamedTemporaryFile(mode="w", dir=session_dir, delete=False, suffix=".tmp") as tmp:
+        json.dump(state_dict, tmp, indent=2)
+        tmp_path = Path(tmp.name)
+
+    # Atomic rename (on POSIX systems)
+    tmp_path.replace(state_file)
+
+    # Save metadata.json atomically
     metadata = {
         "session_id": session_id,
         "workflow_name": state.workflow_id,
@@ -91,8 +100,12 @@ def save_state(state: WorkflowState, session_id: str | None = None) -> str:
     else:
         metadata["started_at"] = metadata["updated_at"]
 
-    with open(metadata_file, "w") as f:
-        json.dump(metadata, f, indent=2)
+    # Atomic write for metadata too
+    with tempfile.NamedTemporaryFile(mode="w", dir=session_dir, delete=False, suffix=".tmp") as tmp:
+        json.dump(metadata, tmp, indent=2)
+        tmp_path = Path(tmp.name)
+
+    tmp_path.replace(metadata_file)
 
     logger.debug(f"Saved state to {session_dir}")
     return session_id

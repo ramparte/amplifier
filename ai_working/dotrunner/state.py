@@ -6,6 +6,7 @@ node results, and final workflow results. No behavior, just type-safe data.
 """
 
 from dataclasses import dataclass
+from dataclasses import field
 from typing import Any
 
 
@@ -43,6 +44,7 @@ class WorkflowState:
         context: Accumulated context variables from all executed nodes
         results: History of all node results in execution order
         status: Current workflow status ("running", "completed", "failed")
+        execution_path: List of node IDs in order of execution
     """
 
     workflow_id: str
@@ -50,6 +52,7 @@ class WorkflowState:
     context: dict[str, Any]  # Accumulated context
     results: list[NodeResult]  # History of node results
     status: str  # "running", "completed", "failed"
+    execution_path: list[str] = field(default_factory=list)  # Track nodes executed
 
 
 @dataclass
@@ -66,6 +69,7 @@ class WorkflowResult:
         node_results: All node execution results in order
         final_context: Final accumulated context after all nodes
         error: Overall error message if workflow failed (optional)
+        execution_path: List of node IDs in order of execution
     """
 
     workflow_id: str
@@ -74,3 +78,4 @@ class WorkflowResult:
     node_results: list[NodeResult]
     final_context: dict[str, Any]
     error: str | None = None
+    execution_path: list[str] = field(default_factory=list)  # Track nodes executed

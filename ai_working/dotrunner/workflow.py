@@ -32,9 +32,10 @@ class Node:
     prompt: str  # Prompt template with {var} interpolation
 
     # Optional fields with defaults
-    agent: str = "auto"  # Agent to use (or "auto" for generic)
+    agent: str | None = None  # Agent to use (None for AI, name for specific agent)
+    agent_mode: str | None = None  # Optional mode for agent (e.g., "REVIEW", "ANALYZE")
     outputs: list[str] = field(default_factory=list)  # Named outputs to capture
-    next: Union[str, list[dict]] | None = None  # Next node or conditions
+    next: Union[str, dict[str, str]] | None = None  # Next node or conditions
     retry_on_failure: int = 1  # Number of retry attempts
     type: str | None = None  # "terminal" for end nodes
 
@@ -70,12 +71,12 @@ class Workflow:
         """
         return next((n for n in self.nodes if n.id == node_id), None)
 
-    def validate(self) -> None:
+    def validate(self) -> list[str]:
         """
         Validate workflow structure and relationships.
 
-        Raises:
-            ValueError: If workflow is invalid
+        Returns:
+            List of validation errors (empty if valid)
 
         Checks:
         - At least one node exists
@@ -83,32 +84,43 @@ class Workflow:
         - All node references point to valid nodes
         - No circular dependencies exist
         """
+        errors = []
+
         # Check at least one node
         if not self.nodes:
-            raise ValueError("Workflow must have at least one node")
+            errors.append("Workflow must have at least one node")
+            return errors
 
         # Check for duplicate node IDs
         node_ids = [n.id for n in self.nodes]
         duplicates = [nid for nid in node_ids if node_ids.count(nid) > 1]
         if duplicates:
-            raise ValueError(f"Duplicate node ID found: {duplicates[0]}")
+            errors.append(f"Duplicate node ID found: {duplicates[0]}")
 
         # Check all node references are valid
         for node in self.nodes:
             if isinstance(node.next, str):
                 # Simple next reference
                 if not self.get_node(node.next):
-                    raise ValueError(f"Node '{node.id}' references nonexistent node '{node.next}'")
-            elif isinstance(node.next, list):
-                # Conditional next references
-                for condition in node.next:
-                    if "goto" in condition:
-                        target = condition["goto"]
+                    errors.append(f"Node '{node.id}' references nonexistent node '{node.next}'")
+            elif isinstance(node.next, dict):
+                # Dictionary-based conditional routing
+                for condition, target in node.next.items():
+                    if condition != "default":  # Skip default, it's not a node reference
                         if not self.get_node(target):
-                            raise ValueError(f"Node '{node.id}' condition references nonexistent node '{target}'")
+                            errors.append(
+                                f"Node '{node.id}' has invalid routing target '{target}' for condition '{condition}'"
+                            )
+                    elif target and not self.get_node(target):  # Check default target if it exists
+                        errors.append(f"Node '{node.id}' has invalid default routing target '{target}'")
 
         # Check for circular dependencies
-        self._detect_cycles()
+        try:
+            self._detect_cycles()
+        except ValueError as e:
+            errors.append(str(e))
+
+        return errors
 
     def _detect_cycles(self) -> None:
         """
@@ -140,12 +152,17 @@ class Workflow:
                 next_nodes = []
                 if isinstance(node.next, str):
                     next_nodes = [node.next]
+                elif isinstance(node.next, dict):
+                    # Dictionary-based conditional routing
+                    next_nodes = list(node.next.values())
                 elif isinstance(node.next, list):
+                    # Legacy list format (if still supported)
                     next_nodes = [c["goto"] for c in node.next if "goto" in c]
 
                 # Visit each next node
                 for next_id in next_nodes:
-                    visit(next_id, path + [node_id])
+                    if next_id:  # Skip None values
+                        visit(next_id, path + [node_id])
 
             rec_stack.remove(node_id)
 
@@ -211,7 +228,8 @@ class Workflow:
                 id=node_data["id"],
                 name=node_data["name"],
                 prompt=node_data["prompt"],
-                agent=node_data.get("agent", "auto"),
+                agent=node_data.get("agent"),
+                agent_mode=node_data.get("agent_mode"),
                 outputs=node_data.get("outputs", []),
                 next=node_data.get("next"),
                 retry_on_failure=node_data.get("retry_on_failure", 1),
@@ -228,7 +246,9 @@ class Workflow:
         )
 
         # Validate workflow structure
-        workflow.validate()
+        errors = workflow.validate()
+        if errors:
+            raise ValueError(f"Workflow validation failed: {'; '.join(errors)}")
 
         return workflow
 
@@ -245,8 +265,10 @@ class Workflow:
             node_dict = {"id": node.id, "name": node.name, "prompt": node.prompt}
 
             # Only include non-default values
-            if node.agent != "auto":
+            if node.agent is not None:
                 node_dict["agent"] = node.agent
+            if node.agent_mode is not None:
+                node_dict["agent_mode"] = node.agent_mode
             if node.outputs:
                 node_dict["outputs"] = node.outputs
             if node.next is not None:

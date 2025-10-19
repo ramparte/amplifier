@@ -113,12 +113,17 @@ def interpolate(template: str, context: dict[str, Any]) -> str:
         raise ContextError(f"Missing required variables: {missing}", missing_vars=missing, template=template)
 
     # Perform the interpolation
+    # Sort variables by length (longest first) to avoid partial replacements
+    # e.g., {user} before {username}
+    sorted_vars = sorted(context.keys(), key=len, reverse=True)
+
     result = template
-    for var_name, value in context.items():
+    for var_name in sorted_vars:
         # Only replace variables that are actually in the template
         pattern = "{" + var_name + "}"
         if pattern in result:
             # Convert value to string for interpolation
-            result = result.replace(pattern, str(value))
+            # No escaping needed since we're doing direct replacement
+            result = result.replace(pattern, str(context[var_name]))
 
     return result

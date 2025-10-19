@@ -236,7 +236,9 @@ class TestNodeExecutor:
         assert result.status == "success"
         assert "analysis" in result.outputs
         assert "score" in result.outputs
-        assert "recommendations" not in result.outputs  # Missing but doesn't fail
+        # Missing outputs are filled with empty strings (Phase 5 behavior)
+        assert "recommendations" in result.outputs
+        assert result.outputs["recommendations"] == ""
 
     @pytest.mark.asyncio
     async def test_execute_node_no_outputs_requested(self, mock_claude_session):

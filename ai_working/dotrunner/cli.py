@@ -58,12 +58,11 @@ def run(workflow_file: str, context: str | None, no_save: bool):
                 console.print(f"[bold red]Error:[/bold red] Invalid JSON in --context: {e}")
                 sys.exit(1)
 
-        # Validate workflow
-        errors = workflow.validate()
-        if errors:
-            console.print("[bold red]Workflow validation failed:[/bold red]")
-            for error in errors:
-                console.print(f"  • {error}")
+        # Validate workflow (raises ValueError on errors)
+        try:
+            workflow.validate()
+        except ValueError as e:
+            console.print(f"[bold red]Workflow validation failed:[/bold red] {e}")
             sys.exit(1)
 
         # Execute workflow
