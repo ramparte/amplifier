@@ -13,7 +13,7 @@ nodes:
       Check if PR #{pr_number} in {repo} has more than 500 lines changed.
 
       Return JSON with:
-      - is_large: true if > 500 lines, false otherwise
+      - is_large: "large" if > 500 lines, "small" otherwise
       - lines_changed: actual number of lines
       - files_changed: number of files modified
     outputs:
@@ -21,9 +21,8 @@ nodes:
       - lines_changed
       - files_changed
     next:
-      - when: "{is_large} == true"
-        goto: "deep-review"
-      - default: "quick-review"
+      large: "deep-review"
+      default: "quick-review"
 
   - id: "quick-review"
     name: "Quick Review"
@@ -61,19 +60,18 @@ nodes:
       - Migration requirements
 
       Return JSON with:
+      - requires_security_review: "yes" if security review needed, "no" otherwise
       - architecture_concerns: list of concerns
       - design_quality: rating 1-10
-      - requires_security_review: true/false
       - summary: overall assessment
     outputs:
+      - requires_security_review
       - architecture_concerns
       - design_quality
-      - requires_security_review
       - architecture_summary
     next:
-      - when: "{requires_security_review} == true"
-        goto: "security-check"
-      - default: "finalize"
+      "yes": "security-check"
+      default: "finalize"
 
   - id: "security-check"
     name: "Security Review"
