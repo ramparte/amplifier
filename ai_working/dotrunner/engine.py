@@ -22,28 +22,31 @@ logger = logging.getLogger(__name__)
 class WorkflowEngine:
     """Orchestrates linear workflow execution"""
 
-    def __init__(self, session_manager: SessionManager | None = None):
-        """Initialize engine"""
+    def __init__(self, session_manager: SessionManager | None = None, save_checkpoints: bool = True):
+        """Initialize engine with optional checkpoint saving"""
         self.session_mgr = session_manager or SessionManager()
         self.executor = NodeExecutor(session_manager)
         self.logger = logging.getLogger(__name__)
+        self.save_checkpoints = save_checkpoints
+        self.session_id = None
 
-    async def run(self, workflow: Workflow) -> WorkflowResult:
-        """
-        Execute workflow from start to finish.
+    async def run(self, workflow: Workflow, session_id: str | None = None) -> WorkflowResult:
+        """Execute workflow with optional state persistence"""
+        from ai_working.dotrunner.persistence import save_state
+        from ai_working.dotrunner.persistence import save_workflow
 
-        Flow:
-        1. Initialize WorkflowState with workflow context
-        2. Loop: get next node → execute → update state
-        3. Stop on failure or when no more nodes
-        4. Return WorkflowResult
-        """
         start_time = time.time()
 
-        # Initialize state
+        # Initialize or restore state
         state = WorkflowState(
             workflow_id=workflow.name, current_node=None, context=workflow.context.copy(), results=[], status="running"
         )
+
+        # Save initial state if checkpoints enabled
+        if self.save_checkpoints:
+            self.session_id = save_state(state, session_id)
+            save_workflow(workflow, self.session_id)  # Save workflow for resumption
+            self.logger.info(f"Session: {self.session_id}")
 
         self.logger.info(f"Starting workflow: {workflow.name}")
 
@@ -65,6 +68,10 @@ class WorkflowEngine:
                 state.current_node = next_node.id
                 state.context.update(result.outputs)
 
+                # Save checkpoint after each node
+                if self.save_checkpoints:
+                    save_state(state, self.session_id)
+
                 # Check for failure
                 if result.status == "failed":
                     self.logger.error(f"Node {next_node.id} failed: {result.error}")
@@ -74,6 +81,10 @@ class WorkflowEngine:
             # Mark completed if got through all nodes
             if state.status == "running":
                 state.status = "completed"
+
+            # Final save
+            if self.save_checkpoints:
+                save_state(state, self.session_id)
 
             self.logger.info(f"Workflow {workflow.name} {state.status}")
 
@@ -87,6 +98,9 @@ class WorkflowEngine:
             )
 
         except Exception as e:
+            state.status = "failed"
+            if self.save_checkpoints:
+                save_state(state, self.session_id)
             self.logger.exception(f"Workflow execution failed: {e}")
             return WorkflowResult(
                 workflow_id=workflow.name,

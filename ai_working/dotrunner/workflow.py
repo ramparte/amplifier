@@ -231,3 +231,38 @@ class Workflow:
         workflow.validate()
 
         return workflow
+
+    def to_dict(self) -> dict:
+        """
+        Convert workflow to dictionary for YAML serialization.
+
+        Returns:
+            Dictionary representation matching YAML format
+        """
+        # Convert nodes to dict format
+        nodes_data = []
+        for node in self.nodes:
+            node_dict = {"id": node.id, "name": node.name, "prompt": node.prompt}
+
+            # Only include non-default values
+            if node.agent != "auto":
+                node_dict["agent"] = node.agent
+            if node.outputs:
+                node_dict["outputs"] = node.outputs
+            if node.next is not None:
+                node_dict["next"] = node.next
+            if node.retry_on_failure != 1:
+                node_dict["retry_on_failure"] = node.retry_on_failure
+            if node.type is not None:
+                node_dict["type"] = node.type
+
+            nodes_data.append(node_dict)
+
+        # Build complete workflow dict
+        workflow_dict = {"workflow": {"name": self.name, "description": self.description}, "nodes": nodes_data}
+
+        # Add context if not empty
+        if self.context:
+            workflow_dict["workflow"]["context"] = self.context
+
+        return workflow_dict

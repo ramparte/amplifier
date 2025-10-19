@@ -51,7 +51,7 @@ class NodeExecutor:
             prompt = self._interpolate_prompt(node.prompt, context)
 
             # 2. Execute with AI
-            response = await self._execute_generic(prompt)
+            response = await self._execute_generic(prompt, node.outputs)
 
             # Check for empty response (retry_with_feedback returned None)
             if not response:
@@ -97,10 +97,18 @@ class NodeExecutor:
         """Interpolate context variables into prompt"""
         return interpolate(template, context)
 
-    async def _execute_generic(self, prompt: str) -> str:
+    async def _execute_generic(self, prompt: str, output_names: list[str] = None) -> str:
         """Execute prompt using ClaudeSession with retry"""
+        system_prompt = "You are executing a workflow step. Provide clear, structured outputs as requested."
+
+        # Add output format guidance if outputs are expected
+        if output_names:
+            system_prompt += "\n\nIMPORTANT: Your response MUST include these outputs in the format 'output_name: value' on separate lines:\n"
+            for name in output_names:
+                system_prompt += f"- {name}: <your value here>\n"
+
         options = SessionOptions(
-            system_prompt="You are executing a workflow step. Provide clear, structured outputs as requested.",
+            system_prompt=system_prompt,
             timeout_seconds=60,
         )
 

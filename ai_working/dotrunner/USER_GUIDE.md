@@ -1,6 +1,6 @@
 # DotRunner User Guide
 
-**Version**: Phase 2 (Linear Execution)
+**Version**: Phase 4 (CLI + State Persistence)
 **Status**: Production Ready
 **Last Updated**: 2025-10-19
 
@@ -30,6 +30,8 @@ DotRunner is a declarative agentic workflow orchestration system that allows you
 - 📝 **Declarative YAML workflows** - Define complex processes in simple configuration files
 - 🤖 **AI-powered execution** - Nodes execute using Claude AI via ClaudeSession
 - 🔄 **Context flow** - Automatic context accumulation between nodes
+- 💾 **State persistence** - Automatic checkpointing after each node
+- 🎯 **CLI interface** - Run workflows from command line with rich output
 - 🛡️ **Robust error handling** - Clear error messages and graceful degradation
 - ✅ **Well-tested** - 91 comprehensive tests ensuring reliability
 - 🧱 **Modular design** - Clean architecture following "bricks and studs" philosophy
@@ -102,7 +104,30 @@ nodes:
     type: "terminal"
 ```
 
-2. **Run the workflow** (programmatically for now):
+2. **Run the workflow** (via CLI):
+
+```bash
+python -m ai_working.dotrunner run my_workflow.yaml
+```
+
+3. **View results**:
+
+```
+Loading workflow: hello-workflow
+Starting workflow: hello-workflow
+
+✓ Workflow completed successfully
+
+Summary:
+  • Total time: 5.23s
+  • Nodes completed: 1/1
+  • Session ID: hello-workflow_20251019_143022_a3f2
+
+Node Results:
+  ✓ greet (5.23s)
+```
+
+**Or run programmatically**:
 
 ```python
 from ai_working.dotrunner.workflow import Workflow
@@ -111,25 +136,12 @@ from pathlib import Path
 import asyncio
 
 async def run_workflow():
-    # Load workflow
     workflow = Workflow.from_yaml(Path("my_workflow.yaml"))
-
-    # Execute
     engine = WorkflowEngine()
     result = await engine.run(workflow)
-
-    # Check results
-    print(f"Status: {result.status}")
-    print(f"Greeting: {result.final_context.get('greeting')}")
+    print(f"Greeting: {result.final_context['greeting']}")
 
 asyncio.run(run_workflow())
-```
-
-3. **View results**:
-
-```
-Status: completed
-Greeting: Hello Alice! It's wonderful to meet you today.
 ```
 
 ---
@@ -180,9 +192,11 @@ DotRunner follows a layered architecture with clear separation of concerns:
 | **state.py** | State management dataclasses | 76 | 10 |
 | **context.py** | Variable interpolation | 124 | 27 |
 | **executor.py** | Node execution with AI | 156 | 16 |
-| **engine.py** | Workflow orchestration | 119 | 18 |
+| **engine.py** | Workflow orchestration | 147 | 18 |
+| **persistence.py** | State persistence (Phase 3) | 156 | - |
+| **cli.py** | CLI interface (Phase 4) | 237 | - |
 
-**Total**: 708 lines of code, 91 comprehensive tests
+**Total**: ~1100 lines of code, 91 comprehensive tests
 
 ---
 
@@ -299,6 +313,74 @@ AI Response:
 ---
 
 ## Using DotRunner
+
+### Command Line Interface
+
+DotRunner provides a rich CLI for running and managing workflows.
+
+#### Run a Workflow
+
+```bash
+python -m ai_working.dotrunner run workflow.yaml
+```
+
+**With context override**:
+```bash
+python -m ai_working.dotrunner run workflow.yaml --context '{"file": "main.py", "mode": "strict"}'
+```
+
+**Without checkpoint saving** (for testing):
+```bash
+python -m ai_working.dotrunner run workflow.yaml --no-save
+```
+
+#### List Workflow Sessions
+
+View recent workflow executions:
+
+```bash
+python -m ai_working.dotrunner list
+```
+
+Show all sessions including completed:
+
+```bash
+python -m ai_working.dotrunner list --all
+```
+
+Output example:
+```
+Workflow Sessions
+┏━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┓
+┃ Session ID           ┃ Workflow         ┃ Status    ┃ Progress ┃ Updated         ┃
+┡━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━━━━━━━┩
+│ code-review_20...    │ code-review-flow │ completed │ 3/3      │ 2025-10-19T...  │
+│ analysis_202...      │ analysis         │ failed    │ 2/5      │ 2025-10-19T...  │
+└──────────────────────┴──────────────────┴───────────┴──────────┴─────────────────┘
+```
+
+#### Check Session Status
+
+Get detailed information about a specific session:
+
+```bash
+python -m ai_working.dotrunner status code-review_20251019_143022_a3f2
+```
+
+**As JSON** (for scripting):
+```bash
+python -m ai_working.dotrunner status code-review_20251019_143022_a3f2 --json
+```
+
+#### Resume Interrupted Workflow
+
+Resume a workflow from its last checkpoint:
+
+```bash
+python -m ai_working.dotrunner resume code-review_20251019_143022_a3f2
+```
+
+*(Note: Full resume implementation coming soon)*
 
 ### Python API
 
@@ -741,15 +823,17 @@ Comprehensive test coverage in `ai_working/dotrunner/tests/`:
 
 ## Future Phases
 
-### Phase 3: State Persistence (Planned)
-- Save workflow state after each node
-- Resume from checkpoint on failure
-- Persistent session management
+### Phase 3: State Persistence ✅ Complete
+- ✅ Save workflow state after each node
+- ✅ Session management with unique IDs
+- ✅ List and inspect sessions
+- ⏳ Resume from checkpoint (framework ready)
 
-### Phase 4: CLI Interface (Planned)
-- `dotrunner run workflow.yaml`
-- Progress display with live updates
-- Result reporting and export
+### Phase 4: CLI Interface ✅ Complete
+- ✅ `python -m ai_working.dotrunner run workflow.yaml`
+- ✅ Rich terminal output with colors
+- ✅ Session tracking and management
+- ✅ Status inspection with JSON export
 
 ### Phase 5: Agent Integration (Planned)
 - Support for specialized agents
@@ -777,8 +861,8 @@ Comprehensive test coverage in `ai_working/dotrunner/tests/`:
 |---------|------|-------------|
 | Phase 1 | 2025-10-18 | YAML parsing and validation |
 | Phase 2 | 2025-10-19 | Linear execution engine |
-| Phase 3 | TBD | State persistence |
-| Phase 4 | TBD | CLI interface |
+| Phase 3 | 2025-10-19 | State persistence and session management |
+| Phase 4 | 2025-10-19 | CLI interface with rich output |
 
 ---
 
