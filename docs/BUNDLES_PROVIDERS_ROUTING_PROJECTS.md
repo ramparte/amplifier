@@ -10,8 +10,6 @@ audience: user
 a delegated agent are separate decisions.** A conversation can use one provider
 instance while a child agent uses another.
 
-> explain to me how bundles, providers, matrices, and project folders work and intersect in the amplifier system
-
 This page is a map of those decisions. It intentionally leaves configuration
 schemas, command references, and matrix catalogs to the components that own
 them.
